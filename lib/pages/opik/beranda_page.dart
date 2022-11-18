@@ -5,8 +5,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
-import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
+import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/API/object_class/review.dart';
 import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/homepage/integrate.dart';
@@ -20,12 +20,12 @@ import 'package:wave_transition/wave_transition.dart';
 class Beranda extends StatefulWidget {
   Beranda({
     Key? key,
-    required this.getbarang,
-    required this.getkategori,
+    required this.listDataKategori,
+    required this.listProducts,
   }) : super(key: key);
 
-  GetBarang getbarang;
-  GetKategori getkategori;
+  List<DataGetKategoriById> listDataKategori;
+  List<ProductsGetKategoriById> listProducts;
 
   @override
   State<Beranda> createState() => _BerandaState();
@@ -34,8 +34,6 @@ class Beranda extends StatefulWidget {
 class _BerandaState extends State<Beranda> {
   @override
   Widget build(BuildContext context) {
-    List<DataGetBarang> databarang = widget.getbarang.data ?? [];
-    List<DataGetKategori> datakategori = widget.getkategori.data ?? [];
     return RefreshIndicator(
       onRefresh: () {
         return Future.delayed(
@@ -44,11 +42,9 @@ class _BerandaState extends State<Beranda> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                fullscreenDialog: true,
                 builder: (context) => const IntegrateAPI(),
               ),
             );
-            setState(() {});
           },
         );
       },
@@ -111,13 +107,14 @@ class _BerandaState extends State<Beranda> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
-                        children: datakategori.map(
+                        children: widget.listDataKategori.map(
                           (kategori) {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   WaveTransition(
+                                    duration: const Duration(milliseconds: 700),
                                     child: KategoriPage(
                                         id: kategori.id.toString()),
                                     center: const FractionalOffset(0.5, 0),
@@ -131,10 +128,11 @@ class _BerandaState extends State<Beranda> {
                                   children: [
                                     CircleAvatar(
                                       radius: 25,
-                                      backgroundImage: NetworkImage(databarang
-                                              .isNotEmpty
-                                          ? databarang.first.image!
-                                          : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY="),
+                                      backgroundImage: NetworkImage(
+                                        kategori.products!.isNotEmpty
+                                            ? kategori.products!.first.image!
+                                            : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                                      ),
                                     ),
                                     Text(
                                       kategori.name!,
@@ -152,25 +150,20 @@ class _BerandaState extends State<Beranda> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 10 / 16,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 8,
-                ),
-                itemCount: databarang.length,
-                itemBuilder: (context, index) {
-                  return CardGrid(
-                    databarang: databarang,
-                    index: index,
-                  );
-                },
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 10 / 16,
               ),
+              itemCount: widget.listProducts.length,
+              itemBuilder: (context, index) {
+                return CardGrid(
+                  listProducts: widget.listProducts,
+                  index: index,
+                );
+              },
             ),
             const SizedBox(height: 60),
           ],
@@ -183,10 +176,10 @@ class _BerandaState extends State<Beranda> {
 class CardGrid extends StatefulWidget {
   CardGrid({
     super.key,
-    required this.databarang,
+    required this.listProducts,
     required this.index,
   });
-  List<DataGetBarang> databarang;
+  List<ProductsGetKategoriById> listProducts;
   int index;
 
   @override
@@ -201,12 +194,19 @@ class _CardGridState extends State<CardGrid> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const ProdukPage(),
+          WaveTransition(
+            duration: const Duration(milliseconds: 700),
+            child: const ProdukPage(),
+            center: const FractionalOffset(0.5, 0),
           ),
         );
       },
       child: Container(
+        margin: const EdgeInsets.only(
+          bottom: 10,
+          left: 10,
+          right: 10,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
@@ -229,220 +229,262 @@ class _CardGridState extends State<CardGrid> {
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: Image.network(
-                    widget.databarang[widget.index].image!,
+                    widget.listProducts[widget.index].image!,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  top: 5,
-                  bottom: 10,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: AutoSizeText(
-                            widget.databarang[widget.index].name!,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    top: 5,
+                    bottom: 10,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: AutoSizeText(
+                              widget.listProducts[widget.index].name!,
+                              style: Font.style(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 2,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          WishlistAdd(
+                            index: widget.index,
+                            listProducts: widget.listProducts,
+                          ),
+                        ],
+                      ),
+                      ReviewStar(
+                        index: widget.index,
+                        listProducts: widget.listProducts,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AutoSizeText(
+                            rupiah(widget.listProducts[widget.index].harga!),
                             style: Font.style(
-                              fontSize: 12,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
-                            maxLines: 2,
+                            maxLines: 1,
                           ),
-                        ),
-                        const SizedBox(width: 5),
-                        FutureBuilder<GetWishlist>(
-                          future: JsonFuture().getWishlist(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData &&
-                                snapshot.connectionState !=
-                                    ConnectionState.waiting &&
-                                snapshot.data != null) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  if (snapshot.data!.data != null &&
-                                      snapshot.data!.data!
-                                          .map((e) => e.product!.id)
-                                          .contains(widget
-                                              .databarang[widget.index].id)) {
-                                    print("delete wishlist");
-                                    print(snapshot.data!.data!
-                                        .map((e) => e.productId)
-                                        .takeWhile((value) =>
-                                            value ==
-                                            widget.databarang[widget.index].id)
-                                        .toList()
-                                        .toString());
-                                    await JsonFuture().deleteWishlist(
-                                        id: snapshot.data!.data!.first.id
-                                            .toString());
-                                  } else {
-                                    print("create wishlist");
-                                    print(widget.databarang[widget.index].id!
-                                        .toString());
-                                    await JsonFuture().createWishlist(
-                                        productId: widget
-                                            .databarang[widget.index].id!
-                                            .toString());
-                                  }
-                                  setState(() {});
-                                },
-                                child: snapshot.data!.data != null
-                                    ? Assets.navbarIcon(
-                                        snapshot.data!.data!
-                                                .map(
-                                                  (e) => e.product != null
-                                                      ? e.product!.id
-                                                      : {},
-                                                )
-                                                .contains(
-                                                  widget
-                                                      .databarang[widget.index]
-                                                      .id,
-                                                )
-                                            ? 'hearton'
-                                            : 'heart',
-                                      )
-                                    : Text(
-                                        'err',
-                                        style:
-                                            Font.style(color: Warna().shadow),
-                                      ),
-                              );
-                            } else {
-                              return Center(
-                                child: Container(),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                    FutureBuilder(
-                      future: JsonFuture().getReview(
-                          productId:
-                              widget.databarang[widget.index].id!.toString()),
-                      builder: (context, snapshotGetreview) {
-                        if (snapshotGetreview.hasData &&
-                            snapshotGetreview.connectionState ==
-                                ConnectionState.done &&
-                            snapshotGetreview.data != null) {
-                          List<DataGetReview> datareview =
-                              snapshotGetreview.data!.data ?? [];
-                          datareview.map((e) {
-                            num baps = e.star ?? 0;
-                            star = star + baps;
-                          }).toList();
-                          star = star / datareview.length;
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TampilanReviewPage(),
-                                ),
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                RatingBarIndicator(
-                                  rating: star.isNaN ? 0 : star,
-                                  itemSize: 15,
-                                  itemBuilder: (context, index) {
-                                    return const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    );
-                                  },
-                                ),
-                                AutoSizeText(
-                                  datareview.isNotEmpty
-                                      ? "${datareview.length} terjual"
-                                      : '',
-                                  style: Font.style(),
-                                  maxFontSize: 15,
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Text(
-                            'err',
-                            style: Font.style(color: Warna().shadow),
-                          );
-                        }
-                      },
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AutoSizeText(
-                          rupiah(widget.databarang[widget.index].harga!),
-                          style: Font.style(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                          KeranjangAdd(
+                            index: widget.index,
+                            listProducts: widget.listProducts,
                           ),
-                          maxLines: 1,
-                        ),
-                        FutureBuilder(
-                          future: JsonFuture().getKeranjang(),
-                          builder: (context, snapshotGetKeranjang) {
-                            if (snapshotGetKeranjang.hasData &&
-                                snapshotGetKeranjang.connectionState !=
-                                    ConnectionState.waiting &&
-                                snapshotGetKeranjang.connectionState !=
-                                    ConnectionState.none &&
-                                snapshotGetKeranjang.data != null) {
-                              return snapshotGetKeranjang.data!.data != null
-                                  ? snapshotGetKeranjang.data!.data!
-                                              .map((e) => e.productId)
-                                              .contains(widget
-                                                  .databarang[widget.index]
-                                                  .id) !=
-                                          true
-                                      ? GestureDetector(
-                                          onTap: () async {
-                                            await JsonFuture().createKeranjang(
-                                                productId: widget
-                                                    .databarang[widget.index].id
-                                                    .toString(),
-                                                qty: "1");
-                                            setState(() {});
-                                          },
-                                          child: Assets.lainnyaIcon('tambah'),
-                                        )
-                                      : Icon(
-                                          Icons.done_outline_rounded,
-                                          color: Warna().font,
-                                        )
-                                  : Text(
-                                      "err",
-                                      style: Font.style(color: Warna().shadow),
-                                    );
-                            } else {
-                              return Container(
-                                width: 10,
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class WishlistAdd extends StatefulWidget {
+  WishlistAdd({
+    super.key,
+    required this.index,
+    required this.listProducts,
+  });
+  int index;
+  List<ProductsGetKategoriById> listProducts;
+
+  @override
+  State<WishlistAdd> createState() => _WishlistAddState();
+}
+
+class _WishlistAddState extends State<WishlistAdd> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<GetWishlist>(
+      future: JsonFuture().getWishlist(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData &&
+            snapshot.connectionState != ConnectionState.waiting &&
+            snapshot.data != null) {
+          return GestureDetector(
+            onTap: () async {
+              if (snapshot.data!.data!
+                      .map(
+                        (e) => e.product != null ? e.product!.id : {},
+                      )
+                      .contains(
+                        widget.listProducts[widget.index].id,
+                      ) !=
+                  true) {
+                await JsonFuture().createWishlist(
+                    productId:
+                        widget.listProducts[widget.index].id!.toString());
+                setState(() {});
+              }
+            },
+            child: snapshot.data!.data != null
+                ? Assets.navbarIcon(
+                    snapshot.data!.data!
+                            .map(
+                              (e) => e.product != null ? e.product!.id : {},
+                            )
+                            .contains(
+                              widget.listProducts[widget.index].id,
+                            )
+                        ? 'hearton'
+                        : 'heart',
+                  )
+                : Text(
+                    'err',
+                    style: Font.style(color: Warna().shadow),
+                  ),
+          );
+        } else {
+          return Center(
+            child: Container(),
+          );
+        }
+      },
+    );
+  }
+}
+
+class ReviewStar extends StatefulWidget {
+  ReviewStar({
+    super.key,
+    required this.index,
+    required this.listProducts,
+  });
+  int index;
+  List<ProductsGetKategoriById> listProducts;
+
+  @override
+  State<ReviewStar> createState() => _ReviewStarState();
+}
+
+class _ReviewStarState extends State<ReviewStar> {
+  @override
+  Widget build(BuildContext context) {
+    double star = 0.0;
+    return FutureBuilder<GetReview>(
+      future: JsonFuture().getReview(
+          productId: widget.listProducts[widget.index].id!.toString()),
+      builder: (context, snapshotGetreview) {
+        if (snapshotGetreview.hasData &&
+            snapshotGetreview.connectionState == ConnectionState.done &&
+            snapshotGetreview.data != null) {
+          List<DataGetReview> datareview = snapshotGetreview.data!.data ?? [];
+          star = datareview
+              .map((e) => e.star!.toDouble())
+              .fold(0.0, (previousValue, element) => previousValue + element);
+          star = star / datareview.length;
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const TampilanReviewPage(),
+                ),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RatingBarIndicator(
+                  rating: star.isNaN ? 0 : star,
+                  itemSize: 15,
+                  itemBuilder: (context, index) {
+                    return const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    );
+                  },
+                ),
+                AutoSizeText(
+                  datareview.isNotEmpty ? "${datareview.length} terjual" : '',
+                  style: Font.style(),
+                  maxFontSize: 15,
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Text(
+            'err',
+            style: Font.style(color: Warna().shadow),
+          );
+        }
+      },
+    );
+  }
+}
+
+class KeranjangAdd extends StatefulWidget {
+  KeranjangAdd({
+    super.key,
+    required this.index,
+    required this.listProducts,
+  });
+  int index;
+  List<ProductsGetKategoriById> listProducts;
+
+  @override
+  State<KeranjangAdd> createState() => _KeranjangAddState();
+}
+
+class _KeranjangAddState extends State<KeranjangAdd> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<GetKeranjang>(
+      future: JsonFuture().getKeranjang(),
+      builder: (context, snapshotGetKeranjang) {
+        if (snapshotGetKeranjang.hasData &&
+            snapshotGetKeranjang.connectionState != ConnectionState.waiting &&
+            snapshotGetKeranjang.connectionState != ConnectionState.none &&
+            snapshotGetKeranjang.data != null) {
+          return snapshotGetKeranjang.data!.data != null
+              ? snapshotGetKeranjang.data!.data!
+                          .map((e) => e.productId)
+                          .contains(widget.listProducts[widget.index].id) !=
+                      true
+                  ? GestureDetector(
+                      onTap: () async {
+                        await JsonFuture().createKeranjang(
+                            productId:
+                                widget.listProducts[widget.index].id.toString(),
+                            qty: "1");
+                        setState(() {});
+                      },
+                      child: Assets.lainnyaIcon('tambah'),
+                    )
+                  : Icon(
+                      Icons.done_outline_rounded,
+                      color: Warna().font,
+                    )
+              : Text(
+                  "err",
+                  style: Font.style(color: Warna().shadow),
+                );
+        } else {
+          return Container(
+            width: 10,
+          );
+        }
+      },
     );
   }
 }

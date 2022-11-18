@@ -3,7 +3,6 @@
 import 'package:badges/badges.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
-import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/API/object_class/transaksi.dart';
@@ -22,15 +21,15 @@ import 'package:wave_transition/wave_transition.dart';
 class HomePage extends StatefulWidget {
   HomePage({
     super.key,
-    required this.getbarang,
-    required this.getkategori,
+    required this.listProducts,
+    required this.listDataKategori,
     required this.getwishlist,
     required this.getkeranjang,
     required this.gettransaksi,
     required this.selectedIndex,
   });
-  GetBarang getbarang;
-  GetKategori getkategori;
+  List<ProductsGetKategoriById> listProducts;
+  List<DataGetKategoriById> listDataKategori;
   GetWishlist getwishlist;
   GetKeranjang getkeranjang;
   GetTransaksi gettransaksi;
@@ -112,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                             duration: const Duration(milliseconds: 500),
                             settings: const RouteSettings(name: 'djsbhf'),
                             child: HomePage(
-                              getbarang: widget.getbarang,
-                              getkategori: widget.getkategori,
+                              listProducts: widget.listProducts,
+                              listDataKategori: widget.listDataKategori,
                               getwishlist: widget.getwishlist,
                               getkeranjang: widget.getkeranjang,
                               gettransaksi: widget.gettransaksi,
@@ -136,8 +135,8 @@ class _HomePageState extends State<HomePage> {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       Beranda(
-                        getbarang: widget.getbarang,
-                        getkategori: widget.getkategori,
+                        listProducts: widget.listProducts,
+                        listDataKategori: widget.listDataKategori,
                       ),
                       const WishList(),
                       const Pesanan(),
