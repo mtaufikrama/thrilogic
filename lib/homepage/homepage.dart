@@ -29,7 +29,6 @@ class HomePage extends StatefulWidget {
     required this.gettransaksi,
     required this.selectedIndex,
   });
-
   GetBarang getbarang;
   GetKategori getkategori;
   GetWishlist getwishlist;
@@ -79,8 +78,10 @@ class _HomePageState extends State<HomePage> {
                       end: -5,
                     ),
                     badgeContent: Text(
-                      widget.getkeranjang.data!.length.toString(),
-                      style: Font.style(color: Warna().primer),
+                      widget.getkeranjang.data != null
+                          ? widget.getkeranjang.data!.length.toString()
+                          : "0",
+                      style: TextStyle(color: Warna().primer),
                     ),
                     child: GestureDetector(
                       onTap: () {
@@ -126,35 +127,45 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-        body: Column(
+        body: Stack(
           children: [
-            Expanded(
-              child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  Beranda(
-                    getbarang: widget.getbarang,
-                    getkategori: widget.getkategori,
+            Column(
+              children: [
+                Expanded(
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Beranda(
+                        getbarang: widget.getbarang,
+                        getkategori: widget.getkategori,
+                      ),
+                      const WishList(),
+                      const Pesanan(),
+                      const Profile(),
+                    ],
                   ),
-                  const WishList(),
-                  const Pesanan(),
-                  const Profile(),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                bottom: 15,
-                left: 5,
-                right: 5,
-              ),
-              child: Material(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
                 ),
-                elevation: 15,
-                color: Warna().primer,
-                child: SizedBox(
+                const SizedBox(
+                  height: 43,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Expanded(child: Container()),
+                Container(
+                  margin:
+                      const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Warna().primerCard,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 7,
+                          color: Warna().shadow,
+                          offset: const Offset(2, 4))
+                    ],
+                  ),
                   height: 75,
                   child: TabBar(
                     onTap: (value) {
@@ -177,8 +188,10 @@ class _HomePageState extends State<HomePage> {
                           badgeColor: Warna().font,
                           position: BadgePosition.topEnd(),
                           badgeContent: Text(
-                            widget.getwishlist.data!.length.toString(),
-                            style: Font.style(color: Warna().primer),
+                            widget.getwishlist.data != null
+                                ? widget.getwishlist.data!.length.toString()
+                                : "0",
+                            style: TextStyle(color: Warna().primer),
                           ),
                           child: Tooltip(
                             message: 'Wishlist',
@@ -193,8 +206,10 @@ class _HomePageState extends State<HomePage> {
                           badgeColor: Warna().font,
                           position: BadgePosition.topEnd(),
                           badgeContent: Text(
-                            widget.gettransaksi.data!.length.toString(),
-                            style: Font.style(color: Warna().primer),
+                            widget.gettransaksi.data != null
+                                ? widget.gettransaksi.data!.length.toString()
+                                : "0",
+                            style: TextStyle(color: Warna().primer),
                           ),
                           child: Tooltip(
                             message: 'Transaksi',
@@ -213,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
@@ -16,14 +15,6 @@ class IntegrateAPI extends StatefulWidget {
 }
 
 class _IntegrateAPIState extends State<IntegrateAPI> {
-  @override
-  void initState() {
-    Future.delayed(const Duration(minutes: 1)).then((value) {
-      setState(() {});
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +37,25 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                               snapshotGetBarang.hasData &&
                               snapshotGetKategori.hasData &&
                               snapshotGetKeranjang.hasData &&
-                              snapshotGetTransaksi.hasData) {
+                              snapshotGetTransaksi.hasData &&
+                              snapshotGetWishlist.connectionState !=
+                                  ConnectionState.waiting &&
+                              snapshotGetBarang.connectionState !=
+                                  ConnectionState.waiting &&
+                              snapshotGetKategori.connectionState !=
+                                  ConnectionState.waiting &&
+                              snapshotGetKeranjang.connectionState !=
+                                  ConnectionState.waiting &&
+                              snapshotGetTransaksi.connectionState !=
+                                  ConnectionState.waiting &&
+                              snapshotGetWishlist.data != null &&
+                              snapshotGetBarang.data != null &&
+                              snapshotGetKategori.data != null &&
+                              snapshotGetKeranjang.data != null &&
+                              snapshotGetTransaksi.data != null) {
+                            print(snapshotGetBarang.hasData);
+                            print(snapshotGetBarang.data!.toJson().values);
+                            print(snapshotGetBarang.connectionState);
                             return HomePage(
                               getbarang: snapshotGetBarang.data!,
                               getkategori: snapshotGetKategori.data!,
@@ -56,65 +65,8 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                               selectedIndex: 0,
                             );
                           } else {
-                            return Center(
-                              child: Shimmer.fromColors(
-                                baseColor:
-                                    const Color.fromARGB(255, 114, 114, 114),
-                                highlightColor: Colors.grey,
-                                enabled: true,
-                                child: ListView.builder(
-                                  itemCount: 6,
-                                  itemBuilder: (_, __) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 48.0,
-                                          height: 48.0,
-                                          color: Colors.white,
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Container(
-                                                width: double.infinity,
-                                                height: 8.0,
-                                                color: Colors.white,
-                                              ),
-                                              const Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 2.0),
-                                              ),
-                                              Container(
-                                                width: double.infinity,
-                                                height: 8.0,
-                                                color: Colors.white,
-                                              ),
-                                              const Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 2.0),
-                                              ),
-                                              Container(
-                                                width: 40.0,
-                                                height: 8.0,
-                                                color: Colors.white,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            return const Center(
+                              child: CircularProgressIndicator(),
                             );
                           }
                         },

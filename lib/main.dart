@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/homepage/integrate.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
+import 'package:thrilogic_shop/services/provider_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (context) => Provide(),
+      )
+    ], child: const MyApp()));
   });
 }
 

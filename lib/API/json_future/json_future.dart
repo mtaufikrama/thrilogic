@@ -13,7 +13,7 @@ class JsonFuture {
   String baseUrl = 'https://api1.sib3.nurulfikri.com';
   String token = Storages.getToken().isNotEmpty
       ? Storages.getToken()
-      : '103|8D4nu4078lyL3QDZQsa9gyaL0KWq0OC21BZiOYuY';
+      : '697|Z6ACYeukGQ24snxrujh0Ymz7YtgwmL5u90xe276Y';
 
   Future<Login> login({
     required String email,
@@ -179,7 +179,8 @@ class JsonFuture {
   }
 
   Future<GetKategoriById> getKategoriById({required String id}) async {
-    final response = await http.get(Uri.parse('$baseUrl/api/barang'), headers: {
+    final response =
+        await http.get(Uri.parse('$baseUrl/api/category/$id'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',

@@ -5,18 +5,24 @@ import 'package:thrilogic_shop/services/local_storages.dart';
 
 class Warna {
   bool nightmode = Storages.getNightMode();
-  Color get first => const Color.fromARGB(255, 91, 66, 66);
+  Color get first => const Color.fromRGBO(166, 87, 55, 1);
   Color get second => const Color.fromARGB(255, 147, 128, 128);
   Color get third => const Color.fromARGB(255, 203, 191, 191);
   Color get primer => nightmode == false
       ? const Color.fromARGB(255, 255, 255, 255)
-      : Colors.black;
+      : const Color.fromRGBO(30, 30, 30, 1);
   Color get primerCard => nightmode == false
       ? const Color.fromARGB(255, 255, 255, 255)
-      : const Color.fromARGB(255, 91, 66, 66);
+      : const Color.fromRGBO(30, 30, 30, 1);
   Color get font => nightmode == false
-      ? Colors.black
+      ? const Color.fromRGBO(30, 30, 30, 1)
+      : const Color.fromARGB(255, 180, 180, 180);
+  Color get icon => nightmode == false
+      ? const Color.fromRGBO(166, 87, 55, 1)
       : const Color.fromARGB(255, 147, 128, 128);
+  Color get shadow => nightmode == false
+      ? const Color.fromARGB(255, 206, 206, 206)
+      : const Color.fromARGB(255, 68, 68, 68);
 }
 
 class Font {

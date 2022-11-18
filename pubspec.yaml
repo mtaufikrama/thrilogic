@@ -40,9 +40,7 @@ dependencies:
   animated_flip_counter: ^0.2.5 # untuk menggerakkan angka
   add_to_cart_animation: ^1.0.1 # untuk membuat animasi pada cart
   badges: ^2.0.3                # untuk membuat notifikasi pada icon
-  shimmer: ^2.0.0               # tampilan loading
   intl: ^0.17.0                 # untuk angka currency atau pun jam
-  intro_slider: ^4.2.0          # on boarding
   flutter_rating_bar: ^4.0.1    # untuk membuat rating
   localstorage: ^4.0.0+1        # untuk menyimpan data ke local
   http: ^0.13.5                 # untuk mengkoneksi API
@@ -56,6 +54,12 @@ dependencies:
   awesome_dialog: ^3.0.2        # untuk munculin dialog agar keren
   day_night_switcher: ^0.2.0+1  # switch mode night
   image_picker: ^0.8.6          # untuk mengambil gambar, video
+  intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
+  cached_network_image: ^3.2.2
+  dio: ^4.0.6
+  provider: ^6.0.4
+  # intro_slider: ^4.2.0          # on boarding
+  # shimmer: ^2.0.0               # tampilan loading
 
 
 dev_dependencies:
