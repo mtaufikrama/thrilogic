@@ -128,6 +128,7 @@ class _BerandaState extends State<Beranda> {
                                   children: [
                                     CircleAvatar(
                                       radius: 25,
+                                      backgroundColor: Warna().primer,
                                       backgroundImage: NetworkImage(
                                         kategori.products!.isNotEmpty
                                             ? kategori.products!.first.image!

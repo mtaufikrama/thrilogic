@@ -32,24 +32,21 @@ class KategoriPage extends StatelessWidget {
               snapshotGetKategori.connectionState != ConnectionState.waiting &&
               snapshotGetKategori.data != null) {
             if (snapshotGetKategori.data!.data != null) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: ListView(
-                  children: [
-                    SizedBox(
-                      height: 100,
-                      child: Center(
-                        child: Text(
-                          snapshotGetKategori.data!.data!.name!.toUpperCase(),
-                          style: Font.style(fontSize: 20),
-                        ),
+              return ListView(
+                children: [
+                  SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Text(
+                        snapshotGetKategori.data!.data!.name!.toUpperCase(),
+                        style: Font.style(fontSize: 20),
                       ),
                     ),
-                    snapshotGetKategori.data!.data!.products!.isNotEmpty
-                        ? Expanded(
-                            child: GridKategori(
-                              getkategoribyid: snapshotGetKategori.data!,
-                            ),
+                  ),
+                  Expanded(
+                    child: snapshotGetKategori.data!.data!.products!.isNotEmpty
+                        ? GridKategori(
+                            getkategoribyid: snapshotGetKategori.data!,
                           )
                         : Center(
                             child: Text(
@@ -57,8 +54,8 @@ class KategoriPage extends StatelessWidget {
                               style: Font.style(),
                             ),
                           ),
-                  ],
-                ),
+                  ),
+                ],
               );
             } else {
               return Center(

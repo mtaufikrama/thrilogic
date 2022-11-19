@@ -24,11 +24,10 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
   ];
   List<DataGetKategoriById> listDataKategori = [];
   List<ProductsGetKategoriById> listProducts = [];
-  List check = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Warna().primer,
+      backgroundColor: Warna().second,
       body: FutureBuilder<GetKeranjang>(
         future: JsonFuture().getKeranjang(),
         builder: (context, snapshotGetKeranjang) {
@@ -50,96 +49,91 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                       snapshotGetWishlist.data != null &&
                       snapshotGetKeranjang.data != null &&
                       snapshotGetTransaksi.data != null) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: listIdKategori.map((e) {
-                        return FutureBuilder(
-                          future: JsonFuture().getKategoriById(id: e),
-                          builder: (context, snapshotGetKategoriById) {
-                            if (snapshotGetKategoriById.hasData &&
-                                snapshotGetKategoriById.connectionState !=
-                                    ConnectionState.waiting &&
-                                snapshotGetKategoriById.data != null &&
-                                snapshotGetKategoriById.data!.data != null) {
-                              listDataKategori
-                                  .add(snapshotGetKategoriById.data!.data!);
-                              listProducts.addAll(snapshotGetKategoriById
-                                  .data!.data!.products!);
-                              check.add(e);
-                              print(check);
-                              if (check.length == listIdKategori.length) {
-                                listProducts.shuffle();
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomePage(
-                                          listProducts: listProducts,
-                                          listDataKategori: listDataKategori,
-                                          getkeranjang:
-                                              snapshotGetKeranjang.data!,
-                                          gettransaksi:
-                                              snapshotGetTransaksi.data!,
-                                          getwishlist:
-                                              snapshotGetWishlist.data!,
-                                          selectedIndex: 0,
+                    if (listDataKategori.isEmpty) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: listIdKategori.map((e) {
+                          return FutureBuilder(
+                            future: JsonFuture().getKategoriById(id: e),
+                            builder: (context, snapshotGetKategoriById) {
+                              if (snapshotGetKategoriById.hasData &&
+                                  snapshotGetKategoriById.connectionState !=
+                                      ConnectionState.waiting &&
+                                  snapshotGetKategoriById.data != null &&
+                                  snapshotGetKategoriById.data!.data != null) {
+                                listDataKategori
+                                    .add(snapshotGetKategoriById.data!.data!);
+                                listProducts.addAll(snapshotGetKategoriById
+                                    .data!.data!.products!);
+                                print(listDataKategori.length);
+                                if (listDataKategori.length ==
+                                    listIdKategori.length) {
+                                  listProducts.shuffle();
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HomePage(
+                                            listProducts: listProducts,
+                                            listDataKategori: listDataKategori,
+                                            getkeranjang:
+                                                snapshotGetKeranjang.data!,
+                                            gettransaksi:
+                                                snapshotGetTransaksi.data!,
+                                            getwishlist:
+                                                snapshotGetWishlist.data!,
+                                            selectedIndex: 0,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: MediaQuery.of(context).size.width,
+                                      color: Warna().third,
+                                      child: Center(
+                                        child: Text(
+                                          'TAP SCREEN',
+                                          style: Font.style(),
                                         ),
                                       ),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height,
-                                    width: MediaQuery.of(context).size.width,
-                                    color: Warna().second,
-                                    child: Center(
-                                      child: Text(
-                                        'TAP SCREEN',
-                                        style: Font.style(),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              } else if (check == []) {
-                                return Center(
-                                  child: Text(
-                                    'DATA GAGAL DI PROSES',
-                                    style: Font.style(color: Colors.red),
-                                  ),
-                                );
-                              } else if (check.length < listIdKategori.length) {
-                                return Container();
-                              } else {
-                                return Center(
-                                  child: Text(
-                                    'DUPLICATE DATA',
-                                    style: Font.style(),
-                                  ),
-                                );
-                              }
-                            } else {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const IntegrateAPI(),
                                     ),
                                   );
-                                },
-                                child: Center(
-                                  child: Text(
-                                    'DATA GAGAL DI PROSES',
-                                    style: Font.style(),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      }).toList(),
-                    );
+                                } else {
+                                  return Container();
+                                }
+                              } else {
+                                return Container();
+                              }
+                            },
+                          );
+                        }).toList(),
+                      );
+                    } else {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const IntegrateAPI(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          color: Warna().third,
+                          child: Center(
+                            child: Text(
+                              'DATA GAGAL DI PROSES',
+                              style: Font.style(),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(),

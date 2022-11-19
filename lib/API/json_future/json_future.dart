@@ -32,7 +32,13 @@ class JsonFuture {
         },
       ),
     );
-    return Login.fromJson(jsonDecode(response.body));
+    var data = Login.fromJson(jsonDecode(response.body));
+    if (data.code! == '00' && data.data != null) {
+      await Storages().setNoTelp(nomorTelepon: data.data!.user!.handphone!);
+      await Storages().setName(name: data.data!.user!.name ?? '');
+      await Storages().setToken(token: data.data!.token!);
+    }
+    return data;
   }
 
   Future<Register> register({
@@ -68,6 +74,7 @@ class JsonFuture {
         'Authorization': 'Bearer $token',
       },
     );
+    await Storages().logout();
     return Logout.fromJson(jsonDecode(response.body));
   }
 
