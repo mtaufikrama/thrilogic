@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -50,7 +48,7 @@ class _WishListState extends State<WishList> {
                   ),
                   GridView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: dataWishlist.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -70,7 +68,7 @@ class _WishListState extends State<WishList> {
                             );
                           },
                           child: Container(
-                            margin: EdgeInsets.only(
+                            margin: const EdgeInsets.only(
                               bottom: 10,
                               left: 10,
                               right: 10,
@@ -125,7 +123,7 @@ class _WishListState extends State<WishList> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Expanded(
-                                                child: AutoSizeText(
+                                                child: Text(
                                                   dataWishlist[index].product !=
                                                           null
                                                       ? dataWishlist[index]
@@ -133,9 +131,11 @@ class _WishListState extends State<WishList> {
                                                           .name!
                                                       : 'null',
                                                   style: Font.style(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                 ),
                                               ),
@@ -144,13 +144,15 @@ class _WishListState extends State<WishList> {
                                                 onTap: () async {
                                                   await JsonFuture()
                                                       .deleteWishlist(
-                                                          id: dataWishlist[index]
+                                                          id: dataWishlist[
+                                                                  index]
                                                               .id
                                                               .toString());
                                                   setState(() {});
                                                 },
                                                 child: dataWishlist.isNotEmpty
-                                                    ? Assets.navbarIcon('hearton')
+                                                    ? Assets.navbarIcon(
+                                                        'hearton')
                                                     : Text(
                                                         'err',
                                                         style: Font.style(
@@ -178,8 +180,8 @@ class _WishListState extends State<WishList> {
                                                             .data!.data ??
                                                         [];
                                                 star = datareview
-                                                    .map(
-                                                        (e) => e.star!.toDouble())
+                                                    .map((e) =>
+                                                        e.star!.toDouble())
                                                     .fold(
                                                         0.0,
                                                         (previousValue,
@@ -187,7 +189,8 @@ class _WishListState extends State<WishList> {
                                                             previousValue +
                                                             element);
                                                 star = star /
-                                                    datareview.length.toDouble();
+                                                    datareview.length
+                                                        .toDouble();
                                                 print(star);
                                                 return GestureDetector(
                                                   onTap: () {
@@ -204,9 +207,12 @@ class _WishListState extends State<WishList> {
                                                             .spaceBetween,
                                                     children: [
                                                       RatingBarIndicator(
-                                                        rating:
-                                                            star.isNaN ? 0 : star,
+                                                        rating: star.isNaN
+                                                            ? 0
+                                                            : star,
                                                         itemSize: 15,
+                                                        unratedColor:
+                                                            Colors.grey,
                                                         itemBuilder:
                                                             (context, index) {
                                                           return const Icon(
@@ -219,7 +225,8 @@ class _WishListState extends State<WishList> {
                                                         datareview.isNotEmpty
                                                             ? "${datareview.length} terjual"
                                                             : '',
-                                                        style: Font.style(),
+                                                        style: Font.style(
+                                                            fontSize: 12),
                                                       ),
                                                     ],
                                                   ),
@@ -238,13 +245,13 @@ class _WishListState extends State<WishList> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               AutoSizeText(
-                                                rupiah(
-                                                    dataWishlist[index].product !=
-                                                            null
-                                                        ? dataWishlist[index]
-                                                            .product!
-                                                            .harga!
-                                                        : 0),
+                                                rupiah(dataWishlist[index]
+                                                            .product !=
+                                                        null
+                                                    ? dataWishlist[index]
+                                                        .product!
+                                                        .harga!
+                                                    : 0),
                                                 style: Font.style(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
@@ -264,8 +271,10 @@ class _WishListState extends State<WishList> {
                                                               .waiting &&
                                                       snapshotGetKeranjang
                                                               .connectionState !=
-                                                          ConnectionState.none &&
-                                                      snapshotGetKeranjang.data !=
+                                                          ConnectionState
+                                                              .none &&
+                                                      snapshotGetKeranjang
+                                                              .data !=
                                                           null) {
                                                     return snapshotGetKeranjang
                                                                 .data!.data !=
@@ -279,14 +288,16 @@ class _WishListState extends State<WishList> {
                                                                         .productId) !=
                                                                 true
                                                             ? GestureDetector(
-                                                                onTap: () async {
+                                                                onTap:
+                                                                    () async {
                                                                   await JsonFuture().createKeranjang(
                                                                       productId: dataWishlist[
                                                                               index]
                                                                           .productId!
                                                                           .toString(),
                                                                       qty: "1");
-                                                                  setState(() {});
+                                                                  setState(
+                                                                      () {});
                                                                 },
                                                                 child: Assets
                                                                     .lainnyaIcon(
@@ -295,8 +306,8 @@ class _WishListState extends State<WishList> {
                                                             : Icon(
                                                                 Icons
                                                                     .done_outline_rounded,
-                                                                color:
-                                                                    Warna().font,
+                                                                color: Warna()
+                                                                    .font,
                                                               )
                                                         : Text(
                                                             "err",

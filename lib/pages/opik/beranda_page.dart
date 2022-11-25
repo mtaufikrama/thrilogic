@@ -14,6 +14,7 @@ import 'package:thrilogic_shop/pages/delvy/produk_page.dart';
 import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
 import 'package:thrilogic_shop/pages/opik/kategori_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 import 'package:wave_transition/wave_transition.dart';
 
@@ -90,10 +91,7 @@ class _BerandaState extends State<Beranda> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
-                    ),
+                    padding: const EdgeInsets.only(left: 10),
                     child: Text(
                       'Kategori',
                       style: Font.style(
@@ -102,6 +100,7 @@ class _BerandaState extends State<Beranda> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
@@ -135,6 +134,9 @@ class _BerandaState extends State<Beranda> {
                                             : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
                                       ),
                                     ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
                                       kategori.name!,
                                       style: Font.style(fontSize: 10),
@@ -149,6 +151,16 @@ class _BerandaState extends State<Beranda> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, bottom: 10),
+              child: Text(
+                'Kategori',
+                style: Font.style(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             GridView.builder(
@@ -188,6 +200,7 @@ class CardGrid extends StatefulWidget {
 }
 
 class _CardGridState extends State<CardGrid> {
+  bool nightmode = Storages.getNightMode();
   double star = 0;
   @override
   Widget build(BuildContext context) {
@@ -204,18 +217,20 @@ class _CardGridState extends State<CardGrid> {
       },
       child: Container(
         margin: const EdgeInsets.only(
-          bottom: 10,
+          bottom: 20,
           left: 10,
           right: 10,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
-            BoxShadow(
-              blurRadius: 8,
-              color: Warna().shadow,
-              offset: const Offset(2, 4),
-            ),
+            nightmode == false
+                ? BoxShadow(
+                    blurRadius: 4,
+                    color: Warna().shadow,
+                    offset: const Offset(2, 4),
+                  )
+                : const BoxShadow(),
           ],
         ),
         child: Container(
@@ -251,12 +266,13 @@ class _CardGridState extends State<CardGrid> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: AutoSizeText(
+                            child: Text(
                               widget.listProducts[widget.index].name!,
                               style: Font.style(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
                               ),
+                              overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
                           ),
@@ -408,6 +424,7 @@ class _ReviewStarState extends State<ReviewStar> {
                 RatingBarIndicator(
                   rating: star.isNaN ? 0 : star,
                   itemSize: 15,
+                  unratedColor: Colors.grey,
                   itemBuilder: (context, index) {
                     return const Icon(
                       Icons.star,

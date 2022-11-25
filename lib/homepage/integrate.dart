@@ -16,11 +16,21 @@ class IntegrateAPI extends StatefulWidget {
 
 class _IntegrateAPIState extends State<IntegrateAPI> {
   List<String> listIdKategori = [
-    '22',
-    '23',
-    '24',
-    '25',
-    '26',
+    '34',
+    '36',
+    '37',
+    '38',
+    '39',
+    '40',
+    '41',
+    '42',
+    '43',
+    '44',
+    '45',
+    '46',
+    '47',
+    '48',
+    '49',
   ];
   List<DataGetKategoriById> listDataKategori = [];
   List<ProductsGetKategoriById> listProducts = [];
@@ -54,7 +64,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: listIdKategori.map((e) {
-                          return FutureBuilder(
+                          return FutureBuilder<GetKategoriById>(
                             future: JsonFuture().getKategoriById(id: e),
                             builder: (context, snapshotGetKategoriById) {
                               if (snapshotGetKategoriById.hasData &&

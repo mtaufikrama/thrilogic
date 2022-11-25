@@ -40,6 +40,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool nightmode = Storages.getNightMode();
   @override
   Widget build(BuildContext context) {
     bool setnightmode = Storages.getNightMode();
@@ -159,10 +160,12 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(50),
                     color: Warna().primerCard,
                     boxShadow: [
-                      BoxShadow(
-                          blurRadius: 7,
-                          color: Warna().shadow,
-                          offset: const Offset(2, 4))
+                      nightmode == false
+                          ? BoxShadow(
+                              blurRadius: 7,
+                              color: Warna().shadow,
+                              offset: const Offset(2, 4))
+                          : BoxShadow(),
                     ],
                   ),
                   height: 75,

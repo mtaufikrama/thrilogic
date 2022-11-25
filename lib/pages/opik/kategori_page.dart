@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,9 @@ class KategoriPage extends StatelessWidget {
                     child: Center(
                       child: Text(
                         snapshotGetKategori.data!.data!.name!.toUpperCase(),
-                        style: Font.style(fontSize: 20),
+                        style: Font.style(
+                          fontSize: 25,
+                        ),
                       ),
                     ),
                   ),
@@ -179,12 +181,13 @@ class _CardKategoriByIdState extends State<CardKategoriById> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: AutoSizeText(
+                            child: Text(
                               widget.kategoriProducts[widget.index].name!,
                               style: Font.style(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                               ),
+                              overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
                           ),
@@ -261,9 +264,14 @@ class _WishlistAddKategoriState extends State<WishlistAddKategori> {
                         widget.kategoriProducts[widget.index].id,
                       ) !=
                   true) {
-                await JsonFuture().createWishlist(
+                var wishlist = await JsonFuture().createWishlist(
                     productId:
                         widget.kategoriProducts[widget.index].id!.toString());
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(wishlist.info ?? 'ERROR'),
+                  ),
+                );
                 setState(() {});
               }
             },
@@ -337,6 +345,7 @@ class _ReviewAddKategoriState extends State<ReviewAddKategori> {
                 RatingBarIndicator(
                   rating: star.isNaN ? 0 : star,
                   itemSize: 15,
+                  unratedColor: Colors.grey,
                   itemBuilder: (context, index) {
                     return const Icon(
                       Icons.star,
@@ -392,10 +401,15 @@ class _KeranjangAddKategoriState extends State<KeranjangAddKategori> {
                       true
                   ? GestureDetector(
                       onTap: () async {
-                        await JsonFuture().createKeranjang(
+                        var keranjang = await JsonFuture().createKeranjang(
                             productId: widget.kategoriProducts[widget.index].id
                                 .toString(),
                             qty: "1");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(keranjang.info!),
+                          ),
+                        );
                         setState(() {});
                       },
                       child: Assets.lainnyaIcon('tambah'),
