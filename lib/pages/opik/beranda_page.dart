@@ -123,25 +123,33 @@ class _BerandaState extends State<Beranda> {
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
-                                child: Column(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: Warna().primer,
-                                      backgroundImage: NetworkImage(
-                                        kategori.products!.isNotEmpty
-                                            ? kategori.products!.first.image!
-                                            : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                                child: SizedBox(
+                                  height: 90,
+                                  width: 70,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Warna().primer,
+                                        backgroundImage: NetworkImage(
+                                          kategori.products!.isNotEmpty
+                                              ? kategori.products!.first.image!
+                                              : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      kategori.name!,
-                                      style: Font.style(fontSize: 10),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        kategori.name!,
+                                        textAlign: TextAlign.center,
+                                        style: Font.style(fontSize: 10),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -156,7 +164,7 @@ class _BerandaState extends State<Beranda> {
             Padding(
               padding: const EdgeInsets.only(left: 10, bottom: 10),
               child: Text(
-                'Kategori',
+                'List Produk',
                 style: Font.style(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -485,6 +493,7 @@ class _KeranjangAddState extends State<KeranjangAdd> {
                             productId:
                                 widget.listProducts[widget.index].id.toString(),
                             qty: "1");
+                        await Storages().setAddCart();
                         setState(() {});
                       },
                       child: Assets.lainnyaIcon('tambah'),

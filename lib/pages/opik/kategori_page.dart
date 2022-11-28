@@ -11,6 +11,7 @@ import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/pages/delvy/produk_page.dart';
 import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 
 class KategoriPage extends StatelessWidget {
@@ -45,17 +46,18 @@ class KategoriPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: snapshotGetKategori.data!.data!.products!.isNotEmpty
-                        ? GridKategori(
-                            getkategoribyid: snapshotGetKategori.data!,
-                          )
-                        : Center(
-                            child: Text(
-                              'NO DATA',
-                              style: Font.style(),
-                            ),
+                  snapshotGetKategori.data!.data!.products!.isNotEmpty
+                      ? GridKategori(
+                          getkategoribyid: snapshotGetKategori.data!,
+                        )
+                      : Center(
+                          child: Text(
+                            'NO DATA',
+                            style: Font.style(),
                           ),
+                        ),
+                  const SizedBox(
+                    height: 50,
                   ),
                 ],
               );
@@ -405,6 +407,7 @@ class _KeranjangAddKategoriState extends State<KeranjangAddKategori> {
                             productId: widget.kategoriProducts[widget.index].id
                                 .toString(),
                             qty: "1");
+                        await Storages().setAddCart();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(keranjang.info!),

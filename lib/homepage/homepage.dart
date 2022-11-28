@@ -78,9 +78,7 @@ class _HomePageState extends State<HomePage> {
                       end: -5,
                     ),
                     badgeContent: Text(
-                      widget.getkeranjang.data != null
-                          ? widget.getkeranjang.data!.length.toString()
-                          : "0",
+                      Storages.getLengthCart().toString(),
                       style: TextStyle(color: Warna().primer),
                     ),
                     child: GestureDetector(
@@ -110,7 +108,6 @@ class _HomePageState extends State<HomePage> {
                           context,
                           WaveTransition(
                             duration: const Duration(milliseconds: 500),
-                            settings: const RouteSettings(name: 'djsbhf'),
                             child: HomePage(
                               listProducts: widget.listProducts,
                               listDataKategori: widget.listDataKategori,

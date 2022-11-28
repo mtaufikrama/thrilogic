@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
@@ -5,6 +9,7 @@ import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/API/object_class/transaksi.dart';
 import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/homepage/homepage.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 
 class IntegrateAPI extends StatefulWidget {
@@ -34,6 +39,8 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
   ];
   List<DataGetKategoriById> listDataKategori = [];
   List<ProductsGetKategoriById> listProducts = [];
+  Future<void>? addcart;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +88,10 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                                     listIdKategori.length) {
                                   listProducts.shuffle();
                                   return GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
+                                      await Storages().setLengthCart(
+                                          jumlah: snapshotGetKeranjang
+                                              .data!.data!.length);
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -107,7 +117,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                                       child: Center(
                                         child: Text(
                                           'TAP SCREEN',
-                                          style: Font.style(),
+                                          style: Font.style(color: Colors.black),
                                         ),
                                       ),
                                     ),
