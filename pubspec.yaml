@@ -55,6 +55,9 @@ dependencies:
   day_night_switcher: ^0.2.0+1  # switch mode night
   image_picker: ^0.8.6          # untuk mengambil gambar, video
   intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
+  pull_to_refresh: ^2.0.0
+  animated_splash_screen: ^1.3.0
+  flutter_onboarding_slider: ^1.0.8
   # intro_slider: ^4.2.0          # on boarding
   # shimmer: ^2.0.0               # tampilan loading
 

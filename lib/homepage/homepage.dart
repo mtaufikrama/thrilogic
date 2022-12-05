@@ -3,6 +3,7 @@
 import 'package:badges/badges.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/API/object_class/transaksi.dart';
@@ -82,11 +83,19 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(color: Warna().primer),
                     ),
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        int panjangkeranjanglama =
+                            widget.getkeranjang.data!.length;
+                        int panjangkeranjangbaru =
+                            (await JsonFuture().getKeranjang()).data!.length;
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const Keranjang(),
+                            builder: (context) => Keranjang(
+                              panjangkeranjanglama: panjangkeranjanglama,
+                              panjangkeranjangbaru: panjangkeranjangbaru,
+                              keranjang: widget.getkeranjang,
+                            ),
                           ),
                         );
                       },

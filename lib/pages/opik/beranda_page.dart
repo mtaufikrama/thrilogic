@@ -3,36 +3,26 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
-import 'package:thrilogic_shop/API/object_class/keranjang.dart';
-import 'package:thrilogic_shop/API/object_class/review.dart';
-import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/homepage/integrate.dart';
 import 'package:thrilogic_shop/pages/delvy/produk_page.dart';
-import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
 import 'package:thrilogic_shop/pages/opik/kategori_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 import 'package:wave_transition/wave_transition.dart';
 
-class Beranda extends StatefulWidget {
+class Beranda extends StatelessWidget {
   Beranda({
-    Key? key,
+    super.key,
     required this.listDataKategori,
     required this.listProducts,
-  }) : super(key: key);
+  });
 
   List<DataGetKategoriById> listDataKategori;
   List<ProductsGetKategoriById> listProducts;
+  bool nightmode = Storages.getNightMode();
 
-  @override
-  State<Beranda> createState() => _BerandaState();
-}
-
-class _BerandaState extends State<Beranda> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -106,7 +96,7 @@ class _BerandaState extends State<Beranda> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
-                        children: widget.listDataKategori.map(
+                        children: listDataKategori.map(
                           (kategori) {
                             return GestureDetector(
                               onTap: () {
@@ -178,11 +168,103 @@ class _BerandaState extends State<Beranda> {
                 crossAxisCount: 2,
                 childAspectRatio: 10 / 16,
               ),
-              itemCount: widget.listProducts.length,
+              itemCount: listProducts.length,
               itemBuilder: (context, index) {
-                return CardGrid(
-                  listProducts: widget.listProducts,
-                  index: index,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      WaveTransition(
+                        duration: const Duration(milliseconds: 700),
+                        child:
+                            ProdukPage(productsKategori: listProducts[index]),
+                        center: const FractionalOffset(0.5, 0),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      bottom: 20,
+                      left: 10,
+                      right: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        nightmode == false
+                            ? BoxShadow(
+                                blurRadius: 4,
+                                color: Warna().shadow,
+                                offset: const Offset(2, 4),
+                              )
+                            : const BoxShadow(),
+                      ],
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Warna().primerCard,
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Image.network(
+                                listProducts[index].image!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                top: 5,
+                                bottom: 10,
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          listProducts[index].name!,
+                                          style: Font.style(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                    ],
+                                  ),
+                                  AutoSizeText(
+                                    rupiah(listProducts[index].harga!),
+                                    style: Font.style(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
@@ -190,328 +272,6 @@ class _BerandaState extends State<Beranda> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CardGrid extends StatefulWidget {
-  CardGrid({
-    super.key,
-    required this.listProducts,
-    required this.index,
-  });
-  List<ProductsGetKategoriById> listProducts;
-  int index;
-
-  @override
-  State<CardGrid> createState() => _CardGridState();
-}
-
-class _CardGridState extends State<CardGrid> {
-  bool nightmode = Storages.getNightMode();
-  double star = 0;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          WaveTransition(
-            duration: const Duration(milliseconds: 700),
-            child: const ProdukPage(),
-            center: const FractionalOffset(0.5, 0),
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(
-          bottom: 20,
-          left: 10,
-          right: 10,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            nightmode == false
-                ? BoxShadow(
-                    blurRadius: 4,
-                    color: Warna().shadow,
-                    offset: const Offset(2, 4),
-                  )
-                : const BoxShadow(),
-          ],
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Warna().primerCard,
-          ),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.network(
-                    widget.listProducts[widget.index].image!,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                    top: 5,
-                    bottom: 10,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              widget.listProducts[widget.index].name!,
-                              style: Font.style(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          WishlistAdd(
-                            index: widget.index,
-                            listProducts: widget.listProducts,
-                          ),
-                        ],
-                      ),
-                      ReviewStar(
-                        index: widget.index,
-                        listProducts: widget.listProducts,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AutoSizeText(
-                            rupiah(widget.listProducts[widget.index].harga!),
-                            style: Font.style(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                          ),
-                          KeranjangAdd(
-                            index: widget.index,
-                            listProducts: widget.listProducts,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class WishlistAdd extends StatefulWidget {
-  WishlistAdd({
-    super.key,
-    required this.index,
-    required this.listProducts,
-  });
-  int index;
-  List<ProductsGetKategoriById> listProducts;
-
-  @override
-  State<WishlistAdd> createState() => _WishlistAddState();
-}
-
-class _WishlistAddState extends State<WishlistAdd> {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<GetWishlist>(
-      future: JsonFuture().getWishlist(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData &&
-            snapshot.connectionState != ConnectionState.waiting &&
-            snapshot.data != null) {
-          return GestureDetector(
-            onTap: () async {
-              if (snapshot.data!.data!
-                      .map(
-                        (e) => e.product != null ? e.product!.id : {},
-                      )
-                      .contains(
-                        widget.listProducts[widget.index].id,
-                      ) !=
-                  true) {
-                await JsonFuture().createWishlist(
-                    productId:
-                        widget.listProducts[widget.index].id!.toString());
-                setState(() {});
-              }
-            },
-            child: snapshot.data!.data != null
-                ? Assets.navbarIcon(
-                    snapshot.data!.data!
-                            .map(
-                              (e) => e.product != null ? e.product!.id : {},
-                            )
-                            .contains(
-                              widget.listProducts[widget.index].id,
-                            )
-                        ? 'hearton'
-                        : 'heart',
-                  )
-                : Text(
-                    'err',
-                    style: Font.style(color: Warna().shadow),
-                  ),
-          );
-        } else {
-          return Center(
-            child: Container(),
-          );
-        }
-      },
-    );
-  }
-}
-
-class ReviewStar extends StatefulWidget {
-  ReviewStar({
-    super.key,
-    required this.index,
-    required this.listProducts,
-  });
-  int index;
-  List<ProductsGetKategoriById> listProducts;
-
-  @override
-  State<ReviewStar> createState() => _ReviewStarState();
-}
-
-class _ReviewStarState extends State<ReviewStar> {
-  @override
-  Widget build(BuildContext context) {
-    double star = 0.0;
-    return FutureBuilder<GetReview>(
-      future: JsonFuture().getReview(
-          productId: widget.listProducts[widget.index].id!.toString()),
-      builder: (context, snapshotGetreview) {
-        if (snapshotGetreview.hasData &&
-            snapshotGetreview.connectionState == ConnectionState.done &&
-            snapshotGetreview.data != null) {
-          List<DataGetReview> datareview = snapshotGetreview.data!.data ?? [];
-          star = datareview
-              .map((e) => e.star!.toDouble())
-              .fold(0.0, (previousValue, element) => previousValue + element);
-          star = star / datareview.length;
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const TampilanReviewPage(),
-                ),
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RatingBarIndicator(
-                  rating: star.isNaN ? 0 : star,
-                  itemSize: 15,
-                  unratedColor: Colors.grey,
-                  itemBuilder: (context, index) {
-                    return const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    );
-                  },
-                ),
-                AutoSizeText(
-                  datareview.isNotEmpty ? "${datareview.length} terjual" : '',
-                  style: Font.style(),
-                  maxFontSize: 15,
-                ),
-              ],
-            ),
-          );
-        } else {
-          return Text(
-            'err',
-            style: Font.style(color: Warna().shadow),
-          );
-        }
-      },
-    );
-  }
-}
-
-class KeranjangAdd extends StatefulWidget {
-  KeranjangAdd({
-    super.key,
-    required this.index,
-    required this.listProducts,
-  });
-  int index;
-  List<ProductsGetKategoriById> listProducts;
-
-  @override
-  State<KeranjangAdd> createState() => _KeranjangAddState();
-}
-
-class _KeranjangAddState extends State<KeranjangAdd> {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<GetKeranjang>(
-      future: JsonFuture().getKeranjang(),
-      builder: (context, snapshotGetKeranjang) {
-        if (snapshotGetKeranjang.hasData &&
-            snapshotGetKeranjang.connectionState != ConnectionState.waiting &&
-            snapshotGetKeranjang.connectionState != ConnectionState.none &&
-            snapshotGetKeranjang.data != null) {
-          return snapshotGetKeranjang.data!.data != null
-              ? snapshotGetKeranjang.data!.data!
-                          .map((e) => e.productId)
-                          .contains(widget.listProducts[widget.index].id) !=
-                      true
-                  ? GestureDetector(
-                      onTap: () async {
-                        await JsonFuture().createKeranjang(
-                            productId:
-                                widget.listProducts[widget.index].id.toString(),
-                            qty: "1");
-                        await Storages().setAddCart();
-                        setState(() {});
-                      },
-                      child: Assets.lainnyaIcon('tambah'),
-                    )
-                  : Icon(
-                      Icons.done_outline_rounded,
-                      color: Warna().font,
-                    )
-              : Text(
-                  "err",
-                  style: Font.style(color: Warna().shadow),
-                );
-        } else {
-          return Container(
-            width: 10,
-          );
-        }
-      },
     );
   }
 }

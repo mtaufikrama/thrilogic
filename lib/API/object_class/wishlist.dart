@@ -124,13 +124,15 @@ class ProductGetWishlist {
 class CreateWishlist {
   String? code;
   String? info;
+  String? message;
   DataCreateWishlist? data;
 
-  CreateWishlist({this.code, this.info, this.data});
+  CreateWishlist({this.code, this.info, this.data, this.message});
 
   CreateWishlist.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     info = json['info'];
+    message = json['message'];
     data =
         json['data'] != null ? DataCreateWishlist.fromJson(json['data']) : null;
   }
@@ -139,6 +141,7 @@ class CreateWishlist {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
     data['info'] = info;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }

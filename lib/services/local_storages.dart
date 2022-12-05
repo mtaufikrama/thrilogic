@@ -57,11 +57,11 @@ class Storages {
   Future<void> setListAlamat({
     required String jalan,
     required String kelurahan,
-    required String kota,
-    required String kode,
+    required String provinsi,
+    required String detailLainnya,
   }) async {
-    List<String> alamat = Storages.getListAlamat();
-    alamat.add('$jalan, $kelurahan, $kota, $kode');
+    List<dynamic> alamat = Storages.getListAlamat();
+    alamat.add('$jalan \n$kelurahan, $provinsi, ( $detailLainnya )');
     await storages.deleteItem('listAlamat');
     await storages.setItem('listAlamat', alamat);
   }
@@ -78,7 +78,7 @@ class Storages {
   static String getToken() => storages.getItem('token') ?? '';
   static String getNoTelp() => storages.getItem('nomorTelepon') ?? '';
   static String getName() => storages.getItem('name') ?? '';
-  static List<String> getListAlamat() => storages.getItem('listAlamat') ?? [];
+  static List<dynamic> getListAlamat() => storages.getItem('listAlamat') ?? [];
   static String getAlamat() => storages.getItem('alamat') ?? '';
   static bool getNightMode() => storages.getItem('nightMode') ?? false;
   static int getLengthCart() => storages.getItem('addCart') ?? 0;

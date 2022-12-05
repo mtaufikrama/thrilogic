@@ -133,13 +133,15 @@ class UserGetReview {
 class CreateReview {
   String? code;
   String? info;
+  String? message;
   DataCreateReview? data;
 
-  CreateReview({this.code, this.info, this.data});
+  CreateReview({this.code, this.info, this.data, this.message});
 
   CreateReview.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     info = json['info'];
+    message = json['message'];
     data =
         json['data'] != null ? DataCreateReview.fromJson(json['data']) : null;
   }
@@ -148,6 +150,7 @@ class CreateReview {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
     data['info'] = info;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thrilogic_shop/homepage/integrate.dart';
+import 'package:thrilogic_shop/pages/roni/splashscreen.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 
 void main() async {
@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
         builder:
             (BuildContext context, AsyncSnapshot<bool> snapshotLocalStorage) {
           if (snapshotLocalStorage.data == true) {
-            return const IntegrateAPI();
+            return const SplashScreen();
           } else {
             return const Center(child: CircularProgressIndicator());
           }

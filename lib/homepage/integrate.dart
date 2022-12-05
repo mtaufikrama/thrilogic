@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
@@ -148,7 +146,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                           child: Center(
                             child: Text(
                               'DATA GAGAL DI PROSES',
-                              style: Font.style(),
+                              style: Font.style(color: Colors.black),
                             ),
                           ),
                         ),

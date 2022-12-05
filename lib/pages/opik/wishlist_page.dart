@@ -4,11 +4,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
+import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/API/object_class/review.dart';
 import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/pages/delvy/produk_page.dart';
 import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 
 class WishList extends StatefulWidget {
@@ -22,6 +24,7 @@ class WishList extends StatefulWidget {
 
 class _WishListState extends State<WishList> {
   double star = 0;
+  bool nightmode = Storages.getNightMode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,308 +38,349 @@ class _WishListState extends State<WishList> {
             if (snapshotGetWishlist.data!.data != null) {
               List<DataGetWishlist> dataWishlist =
                   snapshotGetWishlist.data!.data ?? [];
-              return ListView(
-                children: [
-                  SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: Text(
-                        "WISHLIST",
-                        style: Font.style(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                  GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: dataWishlist.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 10 / 16,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 8,
-                      ),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProdukPage(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                              bottom: 10,
-                              left: 10,
-                              right: 10,
+              return dataWishlist.isNotEmpty
+                  ? ListView(
+                      children: [
+                        SizedBox(
+                          height: 100,
+                          child: Center(
+                            child: Text(
+                              "WISHLIST",
+                              style: Font.style(fontSize: 20),
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 8,
-                                  color: Warna().shadow,
-                                  offset: const Offset(2, 4),
-                                ),
-                              ],
+                          ),
+                        ),
+                        GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: dataWishlist.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 10 / 16,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 8,
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Warna().primerCard,
-                              ),
-                              child: Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: Image.network(
-                                        dataWishlist[index].product != null
-                                            ? dataWishlist[index]
-                                                .product!
-                                                .image!
-                                            : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
-                                        fit: BoxFit.cover,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProdukPage(
+                                        productsWishlist:
+                                            dataWishlist[index].product!,
                                       ),
                                     ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    bottom: 10,
+                                    left: 10,
+                                    right: 10,
                                   ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        right: 10,
-                                        top: 5,
-                                        bottom: 10,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  dataWishlist[index].product !=
-                                                          null
-                                                      ? dataWishlist[index]
-                                                          .product!
-                                                          .name!
-                                                      : 'null',
-                                                  style: Font.style(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      nightmode == false
+                                          ? BoxShadow(
+                                              blurRadius: 4,
+                                              color: Warna().shadow,
+                                              offset: const Offset(2, 4),
+                                            )
+                                          : const BoxShadow(),
+                                    ],
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Warna().primerCard,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: AspectRatio(
+                                            aspectRatio: 1,
+                                            child: Image.network(
+                                              dataWishlist[index].product !=
+                                                      null
+                                                  ? dataWishlist[index]
+                                                      .product!
+                                                      .image!
+                                                  : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 5,
+                                              bottom: 10,
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text(
+                                                        dataWishlist[index]
+                                                                    .product !=
+                                                                null
+                                                            ? dataWishlist[
+                                                                    index]
+                                                                .product!
+                                                                .name!
+                                                            : 'null',
+                                                        style: Font.style(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        DeleteWishlist delete =
+                                                            await JsonFuture()
+                                                                .deleteWishlist(
+                                                                    id: dataWishlist[
+                                                                            index]
+                                                                        .id
+                                                                        .toString());
+                                                        snackBar(context,
+                                                            text: delete.info ??
+                                                                'TERJADI KESALAHAN');
+                                                        setState(() {});
+                                                      },
+                                                      child: dataWishlist
+                                                              .isNotEmpty
+                                                          ? Assets.navbarIcon(
+                                                              'hearton')
+                                                          : Text(
+                                                              'err',
+                                                              style: Font.style(
+                                                                  color: Warna()
+                                                                      .shadow),
+                                                            ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                              const SizedBox(width: 5),
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  await JsonFuture()
-                                                      .deleteWishlist(
-                                                          id: dataWishlist[
-                                                                  index]
-                                                              .id
-                                                              .toString());
-                                                  setState(() {});
-                                                },
-                                                child: dataWishlist.isNotEmpty
-                                                    ? Assets.navbarIcon(
-                                                        'hearton')
-                                                    : Text(
+                                                FutureBuilder(
+                                                  future: JsonFuture()
+                                                      .getReview(
+                                                          productId:
+                                                              dataWishlist[
+                                                                      index]
+                                                                  .productId!
+                                                                  .toString()),
+                                                  builder: (context,
+                                                      snapshotGetreview) {
+                                                    if (snapshotGetreview
+                                                            .hasData &&
+                                                        snapshotGetreview
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .done &&
+                                                        snapshotGetreview
+                                                                .data !=
+                                                            null) {
+                                                      List<DataGetReview>
+                                                          datareview =
+                                                          snapshotGetreview
+                                                                  .data!.data ??
+                                                              [];
+                                                      star = datareview
+                                                          .map((e) => e.star!
+                                                              .toDouble())
+                                                          .fold(
+                                                              0.0,
+                                                              (previousValue,
+                                                                      element) =>
+                                                                  previousValue +
+                                                                  element);
+                                                      star = star /
+                                                          datareview.length
+                                                              .toDouble();
+                                                      print(star);
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.of(context)
+                                                              .push(
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const TampilanReviewPage(),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            RatingBarIndicator(
+                                                              rating: star.isNaN
+                                                                  ? 0
+                                                                  : star,
+                                                              itemSize: 15,
+                                                              unratedColor:
+                                                                  Colors.grey,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                return const Icon(
+                                                                  Icons.star,
+                                                                  color: Colors
+                                                                      .amber,
+                                                                );
+                                                              },
+                                                            ),
+                                                            AutoSizeText(
+                                                              datareview
+                                                                      .isNotEmpty
+                                                                  ? "${datareview.length} terjual"
+                                                                  : '',
+                                                              style: Font.style(
+                                                                  fontSize: 12),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      return Text(
                                                         'err',
                                                         style: Font.style(
                                                             color:
                                                                 Warna().shadow),
-                                                      ),
-                                              ),
-                                            ],
-                                          ),
-                                          FutureBuilder(
-                                            future: JsonFuture().getReview(
-                                                productId: dataWishlist[index]
-                                                    .productId!
-                                                    .toString()),
-                                            builder:
-                                                (context, snapshotGetreview) {
-                                              if (snapshotGetreview.hasData &&
-                                                  snapshotGetreview
-                                                          .connectionState ==
-                                                      ConnectionState.done &&
-                                                  snapshotGetreview.data !=
-                                                      null) {
-                                                List<DataGetReview> datareview =
-                                                    snapshotGetreview
-                                                            .data!.data ??
-                                                        [];
-                                                star = datareview
-                                                    .map((e) =>
-                                                        e.star!.toDouble())
-                                                    .fold(
-                                                        0.0,
-                                                        (previousValue,
-                                                                element) =>
-                                                            previousValue +
-                                                            element);
-                                                star = star /
-                                                    datareview.length
-                                                        .toDouble();
-                                                print(star);
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const TampilanReviewPage(),
-                                                      ),
-                                                    );
+                                                      );
+                                                    }
                                                   },
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      RatingBarIndicator(
-                                                        rating: star.isNaN
-                                                            ? 0
-                                                            : star,
-                                                        itemSize: 15,
-                                                        unratedColor:
-                                                            Colors.grey,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          return const Icon(
-                                                            Icons.star,
-                                                            color: Colors.amber,
-                                                          );
-                                                        },
-                                                      ),
-                                                      AutoSizeText(
-                                                        datareview.isNotEmpty
-                                                            ? "${datareview.length} terjual"
-                                                            : '',
-                                                        style: Font.style(
-                                                            fontSize: 12),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              } else {
-                                                return Text(
-                                                  'err',
-                                                  style: Font.style(
-                                                      color: Warna().shadow),
-                                                );
-                                              }
-                                            },
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              AutoSizeText(
-                                                rupiah(dataWishlist[index]
-                                                            .product !=
-                                                        null
-                                                    ? dataWishlist[index]
-                                                        .product!
-                                                        .harga!
-                                                    : 0),
-                                                style: Font.style(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                                maxLines: 1,
-                                              ),
-                                              FutureBuilder(
-                                                future:
-                                                    JsonFuture().getKeranjang(),
-                                                builder: (context,
-                                                    snapshotGetKeranjang) {
-                                                  if (snapshotGetKeranjang
-                                                          .hasData &&
-                                                      snapshotGetKeranjang
-                                                              .connectionState !=
-                                                          ConnectionState
-                                                              .waiting &&
-                                                      snapshotGetKeranjang
-                                                              .connectionState !=
-                                                          ConnectionState
-                                                              .none &&
-                                                      snapshotGetKeranjang
-                                                              .data !=
-                                                          null) {
-                                                    return snapshotGetKeranjang
-                                                                .data!.data !=
-                                                            null
-                                                        ? snapshotGetKeranjang
-                                                                    .data!.data!
-                                                                    .map((e) => e
-                                                                        .productId)
-                                                                    .contains(dataWishlist[
-                                                                            index]
-                                                                        .productId) !=
-                                                                true
-                                                            ? GestureDetector(
-                                                                onTap:
-                                                                    () async {
-                                                                  await JsonFuture().createKeranjang(
-                                                                      productId: dataWishlist[
-                                                                              index]
-                                                                          .productId!
-                                                                          .toString(),
-                                                                      qty: "1");
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                                child: Assets
-                                                                    .lainnyaIcon(
-                                                                        'tambah'),
-                                                              )
-                                                            : Icon(
-                                                                Icons
-                                                                    .done_outline_rounded,
-                                                                color: Warna()
-                                                                    .font,
-                                                              )
-                                                        : Text(
-                                                            "err",
-                                                            style: Font.style(
-                                                                color: Warna()
-                                                                    .shadow),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    AutoSizeText(
+                                                      rupiah(dataWishlist[index]
+                                                                  .product !=
+                                                              null
+                                                          ? dataWishlist[index]
+                                                              .product!
+                                                              .harga!
+                                                          : 0),
+                                                      style: Font.style(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      maxLines: 1,
+                                                    ),
+                                                    FutureBuilder(
+                                                      future: JsonFuture()
+                                                          .getKeranjang(),
+                                                      builder: (context,
+                                                          snapshotGetKeranjang) {
+                                                        if (snapshotGetKeranjang
+                                                                .hasData &&
+                                                            snapshotGetKeranjang
+                                                                    .connectionState !=
+                                                                ConnectionState
+                                                                    .waiting &&
+                                                            snapshotGetKeranjang
+                                                                    .connectionState !=
+                                                                ConnectionState
+                                                                    .none &&
+                                                            snapshotGetKeranjang
+                                                                    .data !=
+                                                                null) {
+                                                          return snapshotGetKeranjang
+                                                                      .data!
+                                                                      .data !=
+                                                                  null
+                                                              ? snapshotGetKeranjang
+                                                                          .data!
+                                                                          .data!
+                                                                          .map((e) => e
+                                                                              .productId)
+                                                                          .contains(
+                                                                              dataWishlist[index].productId) !=
+                                                                      true
+                                                                  ? GestureDetector(
+                                                                      onTap:
+                                                                          () async {
+                                                                        CreateKeranjang
+                                                                            keranjang =
+                                                                            await JsonFuture().createKeranjang(
+                                                                                productId: dataWishlist[index].productId!.toString(),
+                                                                                qty: "1");
+                                                                        snackBar(
+                                                                            context,
+                                                                            text:
+                                                                                keranjang.info ?? 'GAGAL');
+                                                                        setState(
+                                                                            () {});
+                                                                      },
+                                                                      child: Assets
+                                                                          .lainnyaIcon(
+                                                                              'tambah'),
+                                                                    )
+                                                                  : Icon(
+                                                                      Icons
+                                                                          .done_outline_rounded,
+                                                                      color: Warna()
+                                                                          .font,
+                                                                    )
+                                                              : Text(
+                                                                  "err",
+                                                                  style: Font.style(
+                                                                      color: Warna()
+                                                                          .shadow),
+                                                                );
+                                                        } else {
+                                                          return Container(
+                                                            width: 10,
                                                           );
-                                                  } else {
-                                                    return Container(
-                                                      width: 10,
-                                                    );
-                                                  }
-                                                },
-                                              ),
-                                            ],
+                                                        }
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                  const SizedBox(height: 60),
-                ],
-              );
+                                ),
+                              );
+                            }),
+                        const SizedBox(height: 60),
+                      ],
+                    )
+                  : Center(
+                      child: Text(
+                        'NO DATA',
+                        style: Font.style(),
+                      ),
+                    );
             } else {
               return Center(
                 child: Text(
