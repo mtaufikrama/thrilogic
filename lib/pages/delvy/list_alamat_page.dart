@@ -13,9 +13,11 @@ class ListAlamatPage extends StatelessWidget {
   ListAlamatPage({
     Key? key,
     required this.dataKeranjang,
+    required this.total,
   }) : super(key: key);
 
   GetKeranjang dataKeranjang;
+  int total;
 
   List<dynamic> listalamat = Storages.getListAlamat();
 
@@ -28,105 +30,97 @@ class ListAlamatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Warna().primer,
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text("Alamat"),
-        backgroundColor: Warna().first,
-        foregroundColor: Warna().primer,
-        centerTitle: false,
-        actions: [
-          TextButton(
-            onPressed: () async {
-              Navigator.push(
-                context,
-                WaveTransition(
-                  duration: const Duration(milliseconds: 700),
-                  child: CreateAlamat(dataKeranjang: dataKeranjang),
-                  center: const FractionalOffset(0.5, 0),
-                ),
-              );
-            },
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              backgroundColor: MaterialStateProperty.all<Color>(Warna().first),
-            ),
-            child: Text(
-              "Tambahkan Alamat",
-              style: Font.style(
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          ListView(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(15),
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(vertical: 15.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 230, 168, 126),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      blurRadius: (10),
-                      offset: const Offset(2.0, 5.0),
+        backgroundColor: Warna().primer,
+        appBar: AppBar(
+          elevation: 0,
+          title: const Text("Alamat"),
+          backgroundColor: Warna().first,
+          centerTitle: false,
+          actions: [
+            listalamat.isNotEmpty
+                ? IconButton(
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        WaveTransition(
+                          duration: const Duration(milliseconds: 700),
+                          child: CreateAlamat(
+                            dataKeranjang: dataKeranjang,
+                            total: total,
+                          ),
+                          center: const FractionalOffset(0.5, 0),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Default",
-                      style: Font.style(
-                        fontWeight: FontWeight.bold,
-                        color: Warna().font,
-                        fontSize: 15,
-                      ),
-                    ),
-                    Text(
-                      nama,
-                      style: Font.style(
-                        // fontWeight: FontWeight.bold,
-                        color: Warna().font,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      "($notelp)",
-                      style: Font.style(
-                        // fontWeight: FontWeight.bold,
-                        color: Warna().font,
-                        fontSize: 13,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      alamat,
-                      style: Font.style(
-                          // fontWeight: FontWeight.bold,
-                          color: Warna().font,
-                          fontSize: 13),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                child: SizedBox(
-                  width: double.maxFinite,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
+                    tooltip: 'Tambah Alamat',
+                  )
+                : Container(),
+          ],
+        ),
+        body: listalamat.isNotEmpty
+            ? ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  alamat.isNotEmpty
+                      ? Container(
+                          padding: const EdgeInsets.all(15),
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Warna().terang,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Warna().shadow,
+                                blurRadius: (10),
+                                offset: const Offset(2.0, 5.0),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Default",
+                                style: Font.style(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              Text(
+                                nama,
+                                style: Font.style(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                "($notelp)",
+                                style: Font.style(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                alamat,
+                                style: Font.style(
+                                    color: Colors.white, fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(
+                          height: 15,
+                        ),
+                  ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: listalamat.length,
@@ -138,26 +132,24 @@ class ListAlamatPage extends StatelessWidget {
                             context,
                             WaveTransition(
                               duration: const Duration(milliseconds: 700),
-                              child:
-                                  PembayaranPage(dataKeranjang: dataKeranjang),
+                              child: PembayaranPage(
+                                dataKeranjang: dataKeranjang,
+                                total: total,
+                              ),
                               center: const FractionalOffset(0.5, 0),
                             ),
                           );
                         },
                         child: Container(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 20),
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(vertical: 15.0),
+                          padding: const EdgeInsets.all(15),
+                          margin: const EdgeInsets.only(
+                              left: 15, right: 15, bottom: 15),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                            border: Border.all(
-                                color:
-                                    const Color.fromARGB(255, 230, 168, 126)),
+                            color: Warna().primerCard,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Warna().shadow,
                                 blurRadius: (10),
                                 offset: const Offset(2.0, 5.0),
                               ),
@@ -173,7 +165,7 @@ class ListAlamatPage extends StatelessWidget {
                                     color: Warna().font,
                                     fontSize: 15),
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: 5),
                               Text(
                                 "($notelp)",
                                 style: Font.style(
@@ -181,7 +173,7 @@ class ListAlamatPage extends StatelessWidget {
                                     color: Warna().font,
                                     fontSize: 13),
                               ),
-                              const SizedBox(height: 2),
+                              const SizedBox(height: 5),
                               Text(
                                 listalamat[index],
                                 style: Font.style(
@@ -195,50 +187,47 @@ class ListAlamatPage extends StatelessWidget {
                       );
                     },
                   ),
-                ),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Expanded(child: Container()),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Warna().first),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        side: BorderSide(
-                          color: Warna().first,
+                ],
+              )
+            : Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        WaveTransition(
+                          duration: const Duration(milliseconds: 700),
+                          child: CreateAlamat(
+                            dataKeranjang: dataKeranjang,
+                            total: total,
+                          ),
+                          center: const FractionalOffset(0.5, 0),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Warna().icon),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        "TAMBAH ALAMAT",
+                        style: Font.style(
+                          fontSize: 20,
+                          color: Warna().primer,
                         ),
                       ),
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(
-                      "PILIH ALAMAT",
-                      style: Font.style(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ));
   }
 }

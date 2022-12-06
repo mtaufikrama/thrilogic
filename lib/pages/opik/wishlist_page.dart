@@ -4,14 +4,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
-import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/API/object_class/review.dart';
 import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/pages/delvy/produk_page.dart';
 import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
+import 'package:thrilogic_shop/pages/opik/keranjang_add.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
+import 'package:wave_transition/wave_transition.dart';
 
 class WishList extends StatefulWidget {
   const WishList({
@@ -25,6 +26,7 @@ class WishList extends StatefulWidget {
 class _WishListState extends State<WishList> {
   double star = 0;
   bool nightmode = Storages.getNightMode();
+  String nama = Storages.getName();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +42,7 @@ class _WishListState extends State<WishList> {
                   snapshotGetWishlist.data!.data ?? [];
               return dataWishlist.isNotEmpty
                   ? ListView(
+                      physics: const BouncingScrollPhysics(),
                       children: [
                         SizedBox(
                           height: 100,
@@ -66,11 +69,13 @@ class _WishListState extends State<WishList> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProdukPage(
-                                        productsWishlist:
-                                            dataWishlist[index].product!,
+                                    WaveTransition(
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                      child: ProdukPage(
+                                        id: dataWishlist[index].product!.id!,
                                       ),
+                                      center: const FractionalOffset(0.5, 0),
                                     ),
                                   );
                                 },
@@ -218,14 +223,22 @@ class _WishListState extends State<WishList> {
                                                       star = star /
                                                           datareview.length
                                                               .toDouble();
-                                                      print(star);
                                                       return GestureDetector(
                                                         onTap: () {
-                                                          Navigator.of(context)
-                                                              .push(
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  const TampilanReviewPage(),
+                                                          Navigator.push(
+                                                            context,
+                                                            WaveTransition(
+                                                              duration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          700),
+                                                              child: TampilanReviewPage(
+                                                                  id: dataWishlist[
+                                                                          index]
+                                                                      .productId!),
+                                                              center:
+                                                                  const FractionalOffset(
+                                                                      0.5, 0),
                                                             ),
                                                           );
                                                         },
@@ -292,73 +305,10 @@ class _WishListState extends State<WishList> {
                                                       ),
                                                       maxLines: 1,
                                                     ),
-                                                    FutureBuilder(
-                                                      future: JsonFuture()
-                                                          .getKeranjang(),
-                                                      builder: (context,
-                                                          snapshotGetKeranjang) {
-                                                        if (snapshotGetKeranjang
-                                                                .hasData &&
-                                                            snapshotGetKeranjang
-                                                                    .connectionState !=
-                                                                ConnectionState
-                                                                    .waiting &&
-                                                            snapshotGetKeranjang
-                                                                    .connectionState !=
-                                                                ConnectionState
-                                                                    .none &&
-                                                            snapshotGetKeranjang
-                                                                    .data !=
-                                                                null) {
-                                                          return snapshotGetKeranjang
-                                                                      .data!
-                                                                      .data !=
-                                                                  null
-                                                              ? snapshotGetKeranjang
-                                                                          .data!
-                                                                          .data!
-                                                                          .map((e) => e
-                                                                              .productId)
-                                                                          .contains(
-                                                                              dataWishlist[index].productId) !=
-                                                                      true
-                                                                  ? GestureDetector(
-                                                                      onTap:
-                                                                          () async {
-                                                                        CreateKeranjang
-                                                                            keranjang =
-                                                                            await JsonFuture().createKeranjang(
-                                                                                productId: dataWishlist[index].productId!.toString(),
-                                                                                qty: "1");
-                                                                        snackBar(
-                                                                            context,
-                                                                            text:
-                                                                                keranjang.info ?? 'GAGAL');
-                                                                        setState(
-                                                                            () {});
-                                                                      },
-                                                                      child: Assets
-                                                                          .lainnyaIcon(
-                                                                              'tambah'),
-                                                                    )
-                                                                  : Icon(
-                                                                      Icons
-                                                                          .done_outline_rounded,
-                                                                      color: Warna()
-                                                                          .font,
-                                                                    )
-                                                              : Text(
-                                                                  "err",
-                                                                  style: Font.style(
-                                                                      color: Warna()
-                                                                          .shadow),
-                                                                );
-                                                        } else {
-                                                          return Container(
-                                                            width: 10,
-                                                          );
-                                                        }
-                                                      },
+                                                    KeranjangAdd(
+                                                      id: dataWishlist[index]
+                                                          .product!
+                                                          .id!,
                                                     ),
                                                   ],
                                                 ),

@@ -4,23 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/pages/delvy/pembayaran_page.dart';
+import 'package:thrilogic_shop/pages/delvy/produk_page.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 import 'package:wave_transition/wave_transition.dart';
 
 import '../../API/object_class/keranjang.dart';
 
 class Keranjang extends StatefulWidget {
-  Keranjang({
-    required this.panjangkeranjangbaru,
-    required this.panjangkeranjanglama,
-    required this.keranjang,
-    // required this.kategori,
+  const Keranjang({
     Key? key,
   }) : super(key: key);
-
-  int panjangkeranjangbaru;
-  int panjangkeranjanglama;
-  GetKeranjang keranjang;
 
   @override
   State<Keranjang> createState() => _KeranjangState();
@@ -31,453 +24,321 @@ class _KeranjangState extends State<Keranjang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Warna().primer,
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text("Keranjang"),
-        backgroundColor: Warna().first,
-        foregroundColor: Warna().primer,
-        centerTitle: false,
-      ),
-      body: widget.panjangkeranjangbaru > widget.panjangkeranjanglama
-          ? FutureBuilder<GetKeranjang>(
-              future: JsonFuture().getKeranjang(),
-              builder: (context, snapshotGetKeranjang) {
-                if (snapshotGetKeranjang.hasData &&
-                    snapshotGetKeranjang.connectionState !=
-                        ConnectionState.waiting &&
-                    snapshotGetKeranjang.data != null) {
-                  return Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Total Keranjang ( ${widget.keranjang.data == null ? 0 : widget.keranjang.data!.length} )",
-                          // "Total Keranjang (5)",
-                          style: Font.style(
-                              fontWeight: FontWeight.bold,
-                              color: Warna().font,
-                              fontSize: 20),
-                          textAlign: TextAlign.left,
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: widget.keranjang.data == null
-                                ? 0
-                                : widget.keranjang.data!.length,
-                            itemBuilder: (context, index) => Card(
-                              // color: Color.fromARGB(0, 255, 15, 15),
-                              child: ListTile(
-                                tileColor: Warna().primerCard,
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    image: NetworkImage(snapshotGetKeranjang
-                                        .data!.data![index].product!.image!),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                title: Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          snapshotGetKeranjang.data!
-                                              .data![index].product!.name!,
-                                          style: Font.style(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            FutureBuilder(
-                                              future: JsonFuture()
-                                                  .getKategoriById(
-                                                      id: snapshotGetKeranjang
-                                                          .data!
-                                                          .data![index]
-                                                          .product!
-                                                          .categoryId
-                                                          .toString()),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData &&
-                                                    snapshot.connectionState !=
-                                                        ConnectionState
-                                                            .waiting &&
-                                                    snapshot.data != null &&
-                                                    snapshot.data!.data !=
-                                                        null) {
-                                                  return Text(
-                                                    snapshot.data!.data!.name ??
-                                                        'No Kategori',
-                                                    style: Font.style(
-                                                      fontSize: 12,
-                                                    ),
-                                                  );
-                                                } else {
-                                                  return Text(
-                                                    'waiting..',
-                                                    style: Font.style(),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                            Text(
-                                              "${snapshotGetKeranjang.data!.data![index].qty!} pcs",
-                                              style: Font.style(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          rupiah(
-                                            snapshotGetKeranjang.data!
-                                                .data![index].product!.harga!,
-                                          ),
-                                          style: Font.style(
-                                            color: Warna().font,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                trailing: IconButton(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.grey,
-                                    size: 25,
-                                  ),
-                                  onPressed: () async {
-                                    DeleteKeranjang deleteKeranjang =
-                                        await JsonFuture().deleteKeranjang(
-                                            id: snapshotGetKeranjang
-                                                .data!.data![index].id!
-                                                .toString());
-                                    snackBar(
-                                      context,
-                                      text: deleteKeranjang.info ??
-                                          "TERJADI KESALAHAN",
-                                    );
-                                    setState(() {});
-                                  },
-                                ),
+        backgroundColor: Warna().primer,
+        appBar: AppBar(
+          leading: const BackButton(
+            color: Colors.white,
+          ),
+          elevation: 0,
+          title: Text(
+            "Keranjang",
+            style: Font.style(color: Colors.white),
+          ),
+          backgroundColor: Warna().first,
+          foregroundColor: Warna().primer,
+          centerTitle: false,
+        ),
+        body: FutureBuilder<GetKeranjang>(
+            future: JsonFuture().getKeranjang(),
+            builder: (context, snapshotGetKeranjang) {
+              if (snapshotGetKeranjang.hasData &&
+                  snapshotGetKeranjang.connectionState !=
+                      ConnectionState.waiting &&
+                  snapshotGetKeranjang.data != null &&
+                  snapshotGetKeranjang.data!.data != null) {
+                List<DataGetKeranjang> datakeranjang =
+                    snapshotGetKeranjang.data!.data!;
+                int total = 0;
+                datakeranjang.map(
+                  (e) {
+                    int harga = e.product!.harga!;
+                    int quantity = e.qty!;
+                    int totalsementara = harga * quantity;
+                    total += totalsementara;
+                    return total;
+                  },
+                ).toList();
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Total Keranjang ( ${datakeranjang.length} )",
+                                style: Font.style(
+                                    fontWeight: FontWeight.bold,
+                                    color: Warna().font,
+                                    fontSize: 20),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: datakeranjang.length,
+                              itemBuilder: (context, index) {
+                                DataGetKeranjang keranjang =
+                                    datakeranjang[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      WaveTransition(
+                                        duration:
+                                            const Duration(milliseconds: 700),
+                                        child: ProdukPage(
+                                            id: datakeranjang[index]
+                                                .product!
+                                                .id!),
+                                        center: const FractionalOffset(0.5, 0),
+                                      ),
+                                    );
+                                  },
+                                  child: Card(
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 2,
+                                    ),
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    color: Warna().primerCard,
+                                    shadowColor: Warna().shadow,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 20,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Center(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image(
+                                                width: 60,
+                                                height: 60,
+                                                image: NetworkImage(
+                                                    keranjang.product!.image!),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    keranjang.product!.name!,
+                                                    style: Font.style(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      FutureBuilder<
+                                                          GetKategoriById>(
+                                                        future: JsonFuture()
+                                                            .getKategoriById(
+                                                          id: keranjang.product!
+                                                              .categoryId
+                                                              .toString(),
+                                                        ),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                                  .hasData &&
+                                                              snapshot.connectionState !=
+                                                                  ConnectionState
+                                                                      .waiting &&
+                                                              snapshot.data !=
+                                                                  null &&
+                                                              snapshot.data!
+                                                                      .data !=
+                                                                  null) {
+                                                            return Text(
+                                                              snapshot
+                                                                      .data!
+                                                                      .data!
+                                                                      .name ??
+                                                                  'No Kategori',
+                                                              style: Font.style(
+                                                                fontSize: 12,
+                                                              ),
+                                                            );
+                                                          } else {
+                                                            return Text(
+                                                              'waiting..',
+                                                              style:
+                                                                  Font.style(),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                      Text(
+                                                        "${keranjang.qty!} pcs",
+                                                        style: Font.style(
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    rupiah(
+                                                      keranjang.product!.harga!,
+                                                    ),
+                                                    style: Font.style(
+                                                        color: Warna().font,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 17),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.grey,
+                                              size: 25,
+                                            ),
+                                            onPressed: () async {
+                                              DeleteKeranjang deleteKeranjang =
+                                                  await JsonFuture()
+                                                      .deleteKeranjang(
+                                                          id: keranjang.id!
+                                                              .toString());
+                                              snackBar(
+                                                context,
+                                                text: deleteKeranjang.info ??
+                                                    "TERJADI KESALAHAN",
+                                              );
+                                              setState(() {});
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Total ",
-                                        style: Font.style(
-                                            fontWeight: FontWeight.bold,
-                                            color: Warna().font,
-                                            fontSize: 17),
-                                      ),
-                                      Text(
-                                        "( ${widget.keranjang.data == null ? 0 : widget.keranjang.data!.length} Produk )",
-                                        style: Font.style(
-                                          // fontWeight: FontWeight.bold,
-                                          color: Warna().font,
-                                          fontSize: 17,
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    "Total ",
+                                    style: Font.style(
+                                        fontWeight: FontWeight.bold,
+                                        color: Warna().font,
+                                        fontSize: 17),
                                   ),
                                   Text(
-                                    "Rp 301.321",
-                                    // rupiah(keranjang.data![index].product!.harga!),
+                                    "( ${datakeranjang.length} Produk )",
                                     style: Font.style(
-                                      fontWeight: FontWeight.bold,
+                                      // fontWeight: FontWeight.bold,
                                       color: Warna().font,
                                       fontSize: 17,
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      WaveTransition(
-                                        duration:
-                                            const Duration(milliseconds: 700),
-                                        child: PembayaranPage(
-                                            dataKeranjang: widget.keranjang),
-                                        center: const FractionalOffset(0.5, 0),
-                                      ),
-                                    );
-                                  },
-                                  style: ButtonStyle(
-                                    padding:
-                                        MaterialStateProperty.all<EdgeInsets>(
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 50, vertical: 15)),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.white),
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Warna().first),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        side: BorderSide(
-                                          color: Warna().first,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "Beli Semua",
-                                    style: Font.style(
-                                      fontSize: 18,
-                                    ),
-                                  ),
+                              Text(
+                                rupiah(total),
+                                style: Font.style(
+                                  fontWeight: FontWeight.bold,
+                                  color: Warna().font,
+                                  fontSize: 17,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              })
-          : Container(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text(
-                    "Total Keranjang ( ${widget.keranjang.data == null ? 0 : widget.keranjang.data!.length} )",
-                    // "Total Keranjang (5)",
-                    style: Font.style(
-                        fontWeight: FontWeight.bold,
-                        color: Warna().font,
-                        fontSize: 20),
-                    textAlign: TextAlign.left,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: widget.keranjang.data == null
-                            ? 0
-                            : widget.keranjang.data!.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              tileColor: Warna().primerCard,
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image(
-                                  image: NetworkImage(widget
-                                      .keranjang.data![index].product!.image!),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              title: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          widget.keranjang.data![index].product!
-                                              .name!,
-                                          style: Font.style(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            FutureBuilder<GetKategoriById>(
-                                              future:
-                                                  JsonFuture().getKategoriById(
-                                                id: widget
-                                                    .keranjang
-                                                    .data![index]
-                                                    .product!
-                                                    .categoryId
-                                                    .toString(),
-                                              ),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData &&
-                                                    snapshot.connectionState !=
-                                                        ConnectionState
-                                                            .waiting &&
-                                                    snapshot.data != null &&
-                                                    snapshot.data!.data !=
-                                                        null) {
-                                                  return Text(
-                                                    snapshot.data!.data!.name ??
-                                                        'No Kategori',
-                                                    style: Font.style(
-                                                      fontSize: 12,
-                                                    ),
-                                                  );
-                                                } else {
-                                                  return Text(
-                                                    'waiting..',
-                                                    style: Font.style(),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                            Text(
-                                              "${widget.keranjang.data![index].qty!} pcs",
-                                              style: Font.style(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          rupiah(
-                                            widget.keranjang.data![index]
-                                                .product!.harga!,
-                                          ),
-                                          style: Font.style(
-                                            color: Warna().font,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  WaveTransition(
+                                    duration: const Duration(milliseconds: 700),
+                                    child: PembayaranPage(
+                                        dataKeranjang:
+                                            snapshotGetKeranjang.data!,
+                                        total: total),
+                                    center: const FractionalOffset(0.5, 0),
                                   ),
-                                ],
-                              ),
-                              trailing: IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.grey,
-                                  size: 25,
-                                ),
-                                onPressed: () async {
-                                  DeleteKeranjang deleteKeranjang =
-                                      await JsonFuture().deleteKeranjang(
-                                          id: widget.keranjang.data![index].id!
-                                              .toString());
-                                  snackBar(
-                                    context,
-                                    text: deleteKeranjang.info ??
-                                        "TERJADI KESALAHAN",
-                                  );
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Total ",
-                                  style: Font.style(
-                                      fontWeight: FontWeight.bold,
-                                      color: Warna().font,
-                                      fontSize: 17),
-                                ),
-                                Text(
-                                  "( ${widget.keranjang.data == null ? 0 : widget.keranjang.data!.length} Produk )",
-                                  style: Font.style(
-                                    // fontWeight: FontWeight.bold,
-                                    color: Warna().font,
-                                    fontSize: 17,
+                                );
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                    const EdgeInsets.symmetric(vertical: 15)),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Warna().icon),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
                                   ),
                                 ),
-                              ],
-                            ),
-                            Text(
-                              "Rp 301.321",
-                              // rupiah(keranjang.data![index].product!.harga!),
-                              style: Font.style(
-                                fontWeight: FontWeight.bold,
-                                color: Warna().font,
-                                fontSize: 17,
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                WaveTransition(
-                                  duration: const Duration(milliseconds: 700),
-                                  child: PembayaranPage(
-                                      dataKeranjang: widget.keranjang),
-                                  center: const FractionalOffset(0.5, 0),
-                                ),
-                              );
-                            },
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.symmetric(vertical: 15)),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Warna().terang),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
+                              child: Text(
+                                "Beli Semua",
+                                style: Font.style(
+                                    fontSize: 18, color: Colors.white),
                               ),
-                            ),
-                            child: Text(
-                              "Beli Semua",
-                              style:
-                                  Font.style(fontSize: 18, color: Colors.white),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-    );
+                  ],
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }));
   }
 }

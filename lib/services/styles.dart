@@ -28,7 +28,7 @@ class Warna {
 
   Color get shadow => nightmode == false
       ? const Color.fromARGB(255, 206, 206, 206)
-      : const Color.fromARGB(255, 68, 68, 68);
+      : Colors.transparent;
 }
 
 class Font {
@@ -36,12 +36,14 @@ class Font {
     double? fontSize,
     FontWeight? fontWeight,
     Color? color,
+    FontStyle? fontStyle,
   }) =>
       GoogleFonts.poppins(
         fontSize: fontSize,
         color: color ?? Warna().font,
         wordSpacing: 2,
         fontWeight: fontWeight,
+        fontStyle: fontStyle,
       );
 }
 
@@ -58,13 +60,20 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar(
     SnackBar(
       content: Text(
         text,
-        style: Font.style(),
+        style: Font.style(color: Colors.white),
         textAlign: TextAlign.center,
       ),
-      backgroundColor: Warna().terang,
+      padding: const EdgeInsets.symmetric(vertical: 25),
+      backgroundColor: Warna().first,
       duration: const Duration(seconds: 3),
       elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(30),
+        ),
+      ),
     ),
   );
 }
+
+const double defaultPadding = 16.0;

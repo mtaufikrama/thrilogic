@@ -30,7 +30,7 @@ class CardGrid extends StatelessWidget {
           context,
           WaveTransition(
             duration: const Duration(milliseconds: 700),
-            child: ProdukPage(productsKategori: listProducts[index]),
+            child: ProdukPage(id: listProducts[index].id!),
             center: const FractionalOffset(0.5, 0),
           ),
         );
@@ -98,14 +98,12 @@ class CardGrid extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           WishlistAdd(
-                            index: index,
-                            listProducts: listProducts,
+                            id: listProducts[index].id!,
                           ),
                         ],
                       ),
                       ReviewStar(
-                        index: index,
-                        listProducts: listProducts,
+                        id: listProducts[index].id!,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,9 +116,7 @@ class CardGrid extends StatelessWidget {
                             ),
                             maxLines: 1,
                           ),
-                          KeranjangAdd(
-                            index: index,
-                            listProducts: listProducts,
+                          KeranjangAdd(id: listProducts[index].id!,
                           ),
                         ],
                       ),

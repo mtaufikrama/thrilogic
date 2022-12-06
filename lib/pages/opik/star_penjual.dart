@@ -7,24 +7,25 @@ import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/review.dart';
 import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
+import 'package:thrilogic_shop/pages/opik/splash_login.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
+import 'package:wave_transition/wave_transition.dart';
 
 class ReviewStar extends StatelessWidget {
   ReviewStar({
     super.key,
-    required this.index,
-    required this.listProducts,
+    required this.id,
   });
 
-  int index;
-  List<ProductsGetKategoriById> listProducts;
+  final int id;
+  final String nama = Storages.getName();
 
   @override
   Widget build(BuildContext context) {
     double star = 0.0;
     return FutureBuilder<GetReview>(
-      future:
-          JsonFuture().getReview(productId: listProducts[index].id!.toString()),
+      future: JsonFuture().getReview(productId: id.toString()),
       builder: (context, snapshotGetreview) {
         if (snapshotGetreview.hasData &&
             snapshotGetreview.connectionState == ConnectionState.done &&
@@ -36,11 +37,25 @@ class ReviewStar extends StatelessWidget {
           star = star / datareview.length;
           return GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const TampilanReviewPage(),
-                ),
-              );
+              if (nama.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  WaveTransition(
+                    duration: const Duration(milliseconds: 700),
+                    child: TampilanReviewPage(id: id),
+                    center: const FractionalOffset(0.5, 0),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  WaveTransition(
+                    duration: const Duration(milliseconds: 700),
+                    child: const SplashLogin(),
+                    center: const FractionalOffset(0.5, 0),
+                  ),
+                );
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

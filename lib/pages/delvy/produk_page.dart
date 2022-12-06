@@ -1,27 +1,24 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
-import 'package:thrilogic_shop/API/object_class/category.dart';
+import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
-import 'package:thrilogic_shop/API/object_class/review.dart';
-import 'package:thrilogic_shop/API/object_class/wishlist.dart';
-import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
-import 'package:thrilogic_shop/services/icon_assets.dart';
+import 'package:thrilogic_shop/pages/delvy/create_produk_page.dart';
+import 'package:thrilogic_shop/pages/opik/star_penjual.dart';
+import 'package:thrilogic_shop/pages/opik/wishlist_add.dart';
+import 'package:thrilogic_shop/pages/yozi/login_page.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
+import 'package:wave_transition/wave_transition.dart';
 
 class ProdukPage extends StatefulWidget {
   ProdukPage({
-    this.productsKategori,
-    this.productsWishlist,
+    required this.id,
     Key? key,
   }) : super(key: key);
 
-  ProductsGetKategoriById? productsKategori;
-  ProductGetWishlist? productsWishlist;
+  int id;
 
   @override
   State<ProdukPage> createState() => _ProdukPage();
@@ -29,452 +26,446 @@ class ProdukPage extends StatefulWidget {
 
 class _ProdukPage extends State<ProdukPage> {
   String nama = Storages.getName();
-  // int gottenStars = 4;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Warna().primer,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: const BackButton(color: Colors.black),
-      ),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              // ClipRRect(
-              //   borderRadius: BorderRadius.only(
-              //     bottomLeft: Radius.circular(20),
-              //     bottomRight: Radius.circular(20),
-              //   ),
-              //   child: Image(
-              //     image: NetworkImage(
-              //       widget.productsKategori != null
-              //           ? widget.productsKategori!.image!
-              //           : widget.productsWishlist != null
-              //               ? widget.productsWishlist!.image!
-              //               : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
-              //     ),
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
-              Expanded(
-                child: ListView(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Warna().primer,
+        extendBodyBehindAppBar: true,
+        body: FutureBuilder<GetBarangById>(
+            future: JsonFuture().getBarangById(id: widget.id.toString()),
+            builder: (context, snapshotBarang) {
+              if (snapshotBarang.hasData &&
+                  snapshotBarang.connectionState != ConnectionState.waiting &&
+                  snapshotBarang.data != null &&
+                  snapshotBarang.data!.data != null) {
+                DataGetBarangById databarang = snapshotBarang.data!.data!;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    Expanded(
+                      child: ListView(
+                        shrinkWrap: true,
                         children: [
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Stack(
                             children: [
-                              Expanded(
-                                child: Text(
-                                  widget.productsKategori != null
-                                      ? widget.productsKategori!.name!
-                                      : widget.productsWishlist != null
-                                          ? widget.productsWishlist!.name!
-                                          : "err",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Image(
+                                          image:
+                                              NetworkImage(databarang.image!),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    bottom: Radius.circular(25),
+                                  ),
+                                  child: AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Image(
+                                      image: NetworkImage(databarang.image!),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              AspectRatio(
+                                aspectRatio: 1,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    BackButton(
+                                      color: Warna().icon,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(),
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: WishlistAdd(
+                                            id: widget.id,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        databarang.name!,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: Font.style(
+                                            fontWeight: FontWeight.bold,
+                                            color: Warna().font,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                    Text(
+                                      rupiah(databarang.harga!),
+                                      style: Font.style(
+                                          fontWeight: FontWeight.bold,
+                                          color: Warna().font,
+                                          fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                ReviewStar(
+                                  id: widget.id,
+                                ),
+                                const SizedBox(height: 30),
+                                Text(
+                                  "Detail Produk",
                                   style: Font.style(
                                       fontWeight: FontWeight.bold,
                                       color: Warna().font,
-                                      fontSize: 20),
+                                      fontSize: 18),
                                 ),
-                              ),
-                              Text(
-                                rupiah(widget.productsKategori != null
-                                    ? widget.productsKategori!.harga!
-                                    : widget.productsWishlist != null
-                                        ? widget.productsWishlist!.harga!
-                                        : 0),
-                                style: Font.style(
-                                    fontWeight: FontWeight.bold,
-                                    color: Warna().font,
-                                    fontSize: 20),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ReviewStarP(
-                                productsKategori: widget.productsKategori,
-                                productsWishlist: widget.productsWishlist,
-                              ),
-                              WishlistAddProduk(
-                                productsKategori: widget.productsKategori,
-                                productsWishlist: widget.productsWishlist,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Text(
-                            "Deskripsi",
-                            style: Font.style(
-                                fontWeight: FontWeight.bold,
-                                color: Warna().font,
-                                fontSize: 18),
-                          ),
-                          Text(
-                            widget.productsKategori != null
-                                ? widget.productsKategori!.deskripsi!
-                                : widget.productsWishlist != null
-                                    ? widget.productsWishlist!.deskripsi!
-                                    : "err",
-                            textAlign: TextAlign.justify,
-                            maxLines: 7,
-                            style: Font.style(color: Warna().font, fontSize: 15),
-                          ),
-                          TextButton(
-                            onPressed: () => showModalBottomSheet(
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (context) => buildSheet()),
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                const EdgeInsets.symmetric(horizontal: 0),
-                              ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Stok",
+                                          textAlign: TextAlign.justify,
+                                          maxLines: 5,
+                                          style: Font.style(
+                                              color: Warna().font,
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                          "Kategori",
+                                          textAlign: TextAlign.justify,
+                                          maxLines: 5,
+                                          style: Font.style(
+                                              color: Warna().font,
+                                              fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(width: 15),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          ": ${databarang.stock!}",
+                                          textAlign: TextAlign.justify,
+                                          maxLines: 5,
+                                          style: Font.style(
+                                              color: Warna().font,
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                          ": ${databarang.category!.name!}",
+                                          textAlign: TextAlign.justify,
+                                          maxLines: 5,
+                                          style: Font.style(
+                                              color: Warna().font,
+                                              fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 30),
+                                Text(
+                                  "Deskripsi Produk",
+                                  style: Font.style(
+                                      fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  databarang.deskripsi!,
+                                  textAlign: TextAlign.justify,
+                                  maxLines: 5,
+                                  overflow: TextOverflow.fade,
+                                  style: Font.style(
+                                      color: Warna().font, fontSize: 15),
+                                ),
+                                GestureDetector(
+                                  onTap: () => showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (context) => makeDismisibble(
+                                      child: DraggableScrollableSheet(
+                                        initialChildSize: 0.6,
+                                        minChildSize: 0.3,
+                                        maxChildSize: 0.6,
+                                        builder: (_, contoller) => Container(
+                                          decoration: BoxDecoration(
+                                              color: Warna().primerCard,
+                                              borderRadius:
+                                                  const BorderRadius.vertical(
+                                                      top:
+                                                          Radius.circular(20))),
+                                          padding: const EdgeInsets.only(
+                                              left: 15, right: 15, top: 15),
+                                          child: ListView(
+                                            controller: contoller,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      databarang.name!,
+                                                      style: Font.style(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 30),
+                                                  Text(
+                                                    "Deskripsi",
+                                                    style: Font.style(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18),
+                                                  ),
+                                                  Text(
+                                                    databarang.deskripsi!,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: Font.style(
+                                                        fontSize: 15),
+                                                  ),
+                                                  const SizedBox(height: 15)
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Baca selengkapnya...",
+                                    style: Font.style(
+                                      fontSize: 12,
+                                      color: Warna().icon,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 25),
+                              ],
                             ),
-                            child: Text("Baca selengkapnya...",
-                                style: Font.style(
-                                    fontSize: 12, color: Warna().font)),
                           ),
                         ],
                       ),
                     ),
+                    nama == 'admin'
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 10),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        WaveTransition(
+                                          duration:
+                                              const Duration(milliseconds: 700),
+                                          child: CreateUpdateProdukPage(
+                                              id: databarang.id!),
+                                          center:
+                                              const FractionalOffset(0.5, 0),
+                                        ),
+                                      );
+                                    },
+                                    style: ButtonStyle(
+                                      padding:
+                                          MaterialStateProperty.all<EdgeInsets>(
+                                        const EdgeInsets.symmetric(
+                                          vertical: 15,
+                                        ),
+                                      ),
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Warna().icon),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              const BorderRadius.horizontal(
+                                            left: Radius.circular(50),
+                                          ),
+                                          side: BorderSide(color: Warna().icon),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Perbarui",
+                                      style: Font.style(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      await JsonFuture().deleteBarang(
+                                          id: widget.id.toString());
+                                    },
+                                    style: ButtonStyle(
+                                      padding:
+                                          MaterialStateProperty.all<EdgeInsets>(
+                                        const EdgeInsets.symmetric(
+                                          vertical: 15,
+                                        ),
+                                      ),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Warna().icon),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.horizontal(
+                                            right: Radius.circular(50),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Hapus",
+                                      style: Font.style(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: TextButton(
+                              onPressed: () async {
+                                if (nama.isEmpty) {
+                                  Navigator.push(
+                                    context,
+                                    WaveTransition(
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                      child: const LoginScreen(),
+                                      center: const FractionalOffset(0.5, 0),
+                                    ),
+                                  );
+                                } else {
+                                  CreateKeranjang keranjang =
+                                      await JsonFuture().createKeranjang(
+                                    productId: widget.id.toString(),
+                                    qty: "1",
+                                  );
+                                  await Storages().setAddCart();
+                                  snackBar(
+                                    context,
+                                    text: keranjang.info ??
+                                        keranjang.message ??
+                                        'TERJADI KESALAHAN',
+                                  );
+                                }
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                  const EdgeInsets.symmetric(
+                                    vertical: 15,
+                                  ),
+                                ),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Warna().icon),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                    side: BorderSide(
+                                      color: Warna().icon,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                "Tambahkan Keranjang",
+                                style: Font.style(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
                   ],
-                ),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Expanded(child: Container()),
-              nama == 'admin'
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 55, vertical: 15)),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Warna().first),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      side: BorderSide(color: Warna().first)),
-                                ),
-                              ),
-                              child: Text("Perbarui",
-                                  style: Font.style(fontSize: 18)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 60, vertical: 15)),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Warna().first),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      side: BorderSide(color: Warna().first)),
-                                ),
-                              ),
-                              child: Text("Hapus",
-                                  style: Font.style(fontSize: 18)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: TextButton(
-                        onPressed: () async {
-                          CreateKeranjang keranjang =
-                              await JsonFuture().createKeranjang(
-                            productId: (widget.productsKategori != null
-                                    ? widget.productsKategori!.id!
-                                    : widget.productsWishlist != null
-                                        ? widget.productsWishlist!.id!
-                                        : 0)
-                                .toString(),
-                            qty: "1",
-                          );
-                          snackBar(
-                            context,
-                            text: keranjang.info ?? 'TERJADI KESALAHAN',
-                          );
-                        },
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Warna().first),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: BorderSide(
-                                color: Warna().first,
-                              ),
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          "Tambahkan Keranjang",
-                          style: Font.style(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ],
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
       ),
     );
   }
-
-  Widget buildSheet() => makeDismisibble(
-        child: DraggableScrollableSheet(
-          initialChildSize: 0.6,
-          minChildSize: 0.3,
-          maxChildSize: 0.6,
-          builder: (_, contoller) => Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-            padding: const EdgeInsets.all(18),
-            child: ListView(
-              controller: contoller,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        widget.productsKategori != null
-                            ? widget.productsKategori!.name!
-                            : widget.productsWishlist != null
-                                ? widget.productsWishlist!.name!
-                                : "err",
-                        style: Font.style(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Text(
-                      "Deskripsi",
-                      style:
-                          Font.style(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    Text(
-                      textAlign: TextAlign.justify,
-                      widget.productsKategori != null
-                          ? widget.productsKategori!.deskripsi!
-                          : widget.productsWishlist != null
-                              ? widget.productsWishlist!.deskripsi!
-                              : "err",
-                      style: Font.style(fontSize: 15),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
 
   Widget makeDismisibble({required Widget child}) => GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => Navigator.of(context).pop(),
         child: GestureDetector(onTap: () {}, child: child),
       );
-}
-
-class ReviewStarP extends StatefulWidget {
-  ReviewStarP({
-    super.key,
-    this.productsKategori,
-    this.productsWishlist,
-  });
-  ProductsGetKategoriById? productsKategori;
-  ProductGetWishlist? productsWishlist;
-
-  @override
-  State<ReviewStarP> createState() => _ReviewStarPState();
-}
-
-class _ReviewStarPState extends State<ReviewStarP> {
-  @override
-  Widget build(BuildContext context) {
-    double star = 0.0;
-    return FutureBuilder<GetReview>(
-      future: JsonFuture().getReview(
-        productId:
-            (widget.productsKategori!.id ?? widget.productsWishlist!.id ?? 0)
-                .toString(),
-      ),
-      builder: (context, snapshotGetreview) {
-        if (snapshotGetreview.hasData &&
-            snapshotGetreview.connectionState == ConnectionState.done &&
-            snapshotGetreview.data != null) {
-          List<DataGetReview> datareview = snapshotGetreview.data!.data ?? [];
-          star = datareview
-              .map((e) => e.star!.toDouble())
-              .fold(0.0, (previousValue, element) => previousValue + element);
-          star = star / datareview.length;
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const TampilanReviewPage(),
-                ),
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RatingBarIndicator(
-                  rating: star.isNaN ? 0 : star,
-                  itemSize: 15,
-                  unratedColor: Colors.grey,
-                  itemBuilder: (context, index) {
-                    return const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    );
-                  },
-                ),
-                const SizedBox(width: 10),
-                AutoSizeText(
-                  star.isNaN ? "( 0 )" : "( $star )",
-                  style: Font.style(),
-                  maxFontSize: 15,
-                ),
-              ],
-            ),
-          );
-        } else {
-          return Text(
-            'err',
-            style: Font.style(color: Warna().shadow),
-          );
-        }
-      },
-    );
-  }
-}
-
-class WishlistAddProduk extends StatefulWidget {
-  WishlistAddProduk({
-    super.key,
-    this.productsKategori,
-    this.productsWishlist,
-  });
-  ProductsGetKategoriById? productsKategori;
-  ProductGetWishlist? productsWishlist;
-
-  @override
-  State<WishlistAddProduk> createState() => _WishlistAddProdukState();
-}
-
-class _WishlistAddProdukState extends State<WishlistAddProduk> {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<GetWishlist>(
-      future: JsonFuture().getWishlist(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData &&
-            snapshot.connectionState != ConnectionState.waiting &&
-            snapshot.data != null) {
-          return GestureDetector(
-            onTap: () async {
-              if (snapshot.data!.data!
-                      .map(
-                        (e) => e.product != null ? e.product!.id : {},
-                      )
-                      .contains(
-                        widget.productsKategori!.id ??
-                            widget.productsWishlist!.id ??
-                            0,
-                      ) !=
-                  true) {
-                await JsonFuture().createWishlist(
-                    productId: (widget.productsKategori!.id ??
-                            widget.productsWishlist!.id ??
-                            0)
-                        .toString());
-                setState(() {});
-              }
-            },
-            child: snapshot.data!.data != null
-                ? Assets.navbarIcon(
-                    snapshot.data!.data!
-                            .map(
-                              (e) => e.product != null ? e.product!.id : {},
-                            )
-                            .contains(
-                              widget.productsKategori!.id ??
-                                  widget.productsWishlist!.id ??
-                                  0,
-                            )
-                        ? 'hearton'
-                        : 'heart',
-                  )
-                : Text(
-                    'err',
-                    style: Font.style(color: Warna().shadow),
-                  ),
-          );
-        } else {
-          return Center(
-            child: Container(),
-          );
-        }
-      },
-    );
-  }
 }

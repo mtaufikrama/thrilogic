@@ -61,7 +61,8 @@ class Storages {
     required String detailLainnya,
   }) async {
     List<dynamic> alamat = Storages.getListAlamat();
-    alamat.add('$jalan \n$kelurahan, $provinsi, ( $detailLainnya )');
+    alamat.add(
+        '$jalan \n$kelurahan, $provinsi${detailLainnya.isNotEmpty ? ", (Catatan : $detailLainnya)" : ''}');
     await storages.deleteItem('listAlamat');
     await storages.setItem('listAlamat', alamat);
   }

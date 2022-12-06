@@ -26,6 +26,7 @@ class KategoriPage extends StatelessWidget {
               snapshotGetKategori.data != null) {
             if (snapshotGetKategori.data!.data != null) {
               return ListView(
+                physics: const BouncingScrollPhysics(),
                 children: [
                   SizedBox(
                     height: 100,
@@ -99,4 +100,3 @@ class GridKategori extends StatelessWidget {
         });
   }
 }
-

@@ -58,6 +58,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   animated_splash_screen: ^1.3.0
   flutter_onboarding_slider: ^1.0.8
+  lottie: ^2.0.0
   # intro_slider: ^4.2.0          # on boarding
   # shimmer: ^2.0.0               # tampilan loading
 
@@ -92,6 +93,7 @@ flutter:
     - assets/icon_register/
     - assets/logo/
     - assets/onboarding/
+    - assets/lottie/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

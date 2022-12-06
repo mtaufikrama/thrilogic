@@ -6,17 +6,15 @@ class Assets {
     return Image.asset(
       'assets/icon_navbar/$namaicon.png',
       color: Warna().icon,
-      cacheHeight: 25,
       height: 25,
     );
   }
 
-  static Image lainnyaIcon(String namaicon, {Color? color}) {
+  static Image lainnyaIcon(String namaicon, {Color? color, double? height}) {
     return Image.asset(
       'assets/icon_lainnya/$namaicon.png',
       color: color,
-      cacheHeight: 20,
-      height: 20,
+      height: height ?? 20,
     );
   }
 
@@ -31,7 +29,6 @@ class Assets {
     return Image.asset(
       'assets/icon_appbar/$namaicon.png',
       width: width,
-      cacheHeight: 25,
       height: 25,
     );
   }
@@ -41,14 +38,14 @@ class Assets {
       'assets/icon_register/$namaicon.png',
       width: width,
       color: Warna().font,
-      cacheHeight: 20,
       height: 20,
     );
   }
 
-  static Image onboarding(String image) {
+  static Image onboarding(String image, {double? height}) {
     return Image.asset(
       'assets/onboarding/$image.png',
+      height: height,
     );
   }
 }

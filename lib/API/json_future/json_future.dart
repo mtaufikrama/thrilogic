@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:thrilogic_shop/API/object_class/auth.dart';
 import 'package:thrilogic_shop/API/object_class/barang.dart';
@@ -91,7 +92,7 @@ class JsonFuture {
       {String? search, String? sortBy, String? sortOrder}) async {
     final response = await http.get(
         Uri.parse(
-            '$baseUrl/api/barang/?search=$search&sortBy=$sortBy&sortOrder=$sortOrder'),
+            '$baseUrl/api/barang/?search=${search ?? ''}&sortBy=${sortBy ?? 'name'}&sortOrder=${sortOrder ?? 'DESC'}'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -113,7 +114,7 @@ class JsonFuture {
   Future<CreateBarang> createBarang({
     required String name,
     required String categoryId,
-    required String image,
+    required File image,
     required String stock,
     required String deskripsi,
     required String harga,
@@ -143,7 +144,7 @@ class JsonFuture {
     required String id,
     required String name,
     required String categoryId,
-    required String image,
+    required File image,
     required String stock,
     required String deskripsi,
     required String harga,
@@ -254,7 +255,7 @@ class JsonFuture {
     required String id,
     required String star,
     required String review,
-    required String image,
+    required File image,
   }) async {
     final response = await http.post(
       Uri.parse('$baseUrl/api/review/$id'),

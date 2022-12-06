@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
+import 'package:thrilogic_shop/API/object_class/transaksi.dart';
 import 'package:thrilogic_shop/pages/delvy/list_alamat_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
+import 'package:thrilogic_shop/services/styles.dart';
 import 'package:wave_transition/wave_transition.dart';
-import '../../services/local_storages.dart';
-import '../../services/styles.dart';
-import 'create_alamat_page.dart';
 
 class PembayaranPage extends StatefulWidget {
   PembayaranPage({
     required this.dataKeranjang,
+    required this.total,
     Key? key,
   }) : super(key: key);
 
   GetKeranjang dataKeranjang;
+  int total;
 
   @override
   State<PembayaranPage> createState() => _PembayaranPageState();
@@ -28,9 +30,11 @@ class _PembayaranPageState extends State<PembayaranPage> {
       backgroundColor: Warna().primer,
       appBar: AppBar(
         elevation: 0,
-        title: const Text("Pembayaran"),
+        title: Text(
+          "Pembayaran",
+          style: Font.style(color: Colors.white),
+        ),
         backgroundColor: Warna().first,
-        foregroundColor: Warna().primer,
         centerTitle: false,
       ),
       body: Stack(
@@ -39,6 +43,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
             children: [
               Expanded(
                 child: ListView(
+                  physics: const BouncingScrollPhysics(),
                   children: [
                     const SizedBox(
                       height: 15,
@@ -97,13 +102,14 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                           snapshot.data!.data != null) {
                                         return Text(
                                           snapshot.data!.data!.name!,
-                                          style: Font.style(
-                                            fontSize: 12,
-                                          ),
+                                          style: Font.style(fontSize: 12),
                                         );
                                       } else {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
+                                        return Center(
+                                          child: Text(
+                                            "waiting..",
+                                            style: Font.style(fontSize: 12),
+                                          ),
                                         );
                                       }
                                     },
@@ -157,7 +163,8 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                       duration:
                                           const Duration(milliseconds: 700),
                                       child: ListAlamatPage(
-                                          dataKeranjang: widget.dataKeranjang),
+                                          dataKeranjang: widget.dataKeranjang,
+                                          total: widget.total),
                                       center: const FractionalOffset(0.5, 0),
                                     ),
                                   );
@@ -179,7 +186,8 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                       duration:
                                           const Duration(milliseconds: 700),
                                       child: ListAlamatPage(
-                                          dataKeranjang: widget.dataKeranjang),
+                                          dataKeranjang: widget.dataKeranjang,
+                                          total: widget.total),
                                       center: const FractionalOffset(0.5, 0),
                                     ),
                                   );
@@ -195,16 +203,21 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                   duration: const Duration(milliseconds: 700),
                                   child: ListAlamatPage(
                                     dataKeranjang: widget.dataKeranjang,
+                                    total: widget.total,
                                   ),
                                   center: const FractionalOffset(0.5, 0),
                                 ),
                               );
                             },
                             child: Text(
-                              Storages.getAlamat(),
+                              Storages.getAlamat().isNotEmpty
+                                  ? Storages.getAlamat()
+                                  : "Pilih Alamat",
                               style: Font.style(
                                   // fontWeight: FontWeight.bold,
-                                  color: Warna().font,
+                                  color: Storages.getAlamat().isNotEmpty
+                                      ? Warna().font
+                                      : Warna().terang,
                                   fontSize: 15),
                             ),
                           ),
@@ -285,7 +298,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                         fontSize: 15),
                                   ),
                                   Text(
-                                    "Rp 300.000",
+                                    rupiah(widget.total),
                                     style: Font.style(
                                         fontWeight: FontWeight.bold,
                                         color: Warna().font,
@@ -306,7 +319,28 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                         fontSize: 15),
                                   ),
                                   Text(
-                                    "Rp 0",
+                                    "Rp9.000",
+                                    style: Font.style(
+                                        fontWeight: FontWeight.bold,
+                                        color: Warna().font,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Potongan Ongkir",
+                                    style: Font.style(
+                                        // fontWeight: FontWeight.bold,
+                                        color: Warna().font,
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                    "-Rp9.000",
                                     style: Font.style(
                                         fontWeight: FontWeight.bold,
                                         color: Warna().font,
@@ -327,7 +361,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                         fontSize: 15),
                                   ),
                                   Text(
-                                    "Rp 300.000",
+                                    rupiah(widget.total),
                                     style: Font.style(
                                         fontWeight: FontWeight.bold,
                                         color: Warna().font,
@@ -358,18 +392,20 @@ class _PembayaranPageState extends State<PembayaranPage> {
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (Storages.getAlamat().isNotEmpty) {
+                      CreateTransaksi transaksi = await JsonFuture()
+                          .createTransaksi(alamat: Storages.getAlamat());
+                    } else {
+                      snackBar(context, text: "Pilih Alamat");
+                    }
+                  },
                   style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Warna().first),
+                        MaterialStateProperty.all<Color>(Warna().icon),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
-                        side: BorderSide(
-                          color: Warna().first,
-                        ),
                       ),
                     ),
                   ),
@@ -377,9 +413,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Text(
                       "BAYAR",
-                      style: Font.style(
-                        fontSize: 20,
-                      ),
+                      style: Font.style(fontSize: 20, color: Colors.white),
                     ),
                   ),
                 ),

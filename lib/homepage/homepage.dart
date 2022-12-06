@@ -3,13 +3,11 @@
 import 'package:badges/badges.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
-import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
-import 'package:thrilogic_shop/API/object_class/transaksi.dart';
-import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/pages/delvy/keranjang_page.dart';
 import 'package:thrilogic_shop/pages/opik/beranda_page.dart';
+import 'package:thrilogic_shop/pages/opik/splash_login.dart';
 import 'package:thrilogic_shop/pages/opik/wishlist_page.dart';
 import 'package:thrilogic_shop/pages/yozi/pesanan_page.dart';
 import 'package:thrilogic_shop/pages/yozi/profile_page.dart';
@@ -24,16 +22,12 @@ class HomePage extends StatefulWidget {
     super.key,
     required this.listProducts,
     required this.listDataKategori,
-    required this.getwishlist,
     required this.getkeranjang,
-    required this.gettransaksi,
     required this.selectedIndex,
   });
   List<ProductsGetKategoriById> listProducts;
   List<DataGetKategoriById> listDataKategori;
-  GetWishlist getwishlist;
   GetKeranjang getkeranjang;
-  GetTransaksi gettransaksi;
   int selectedIndex;
 
   @override
@@ -42,9 +36,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool nightmode = Storages.getNightMode();
+  String nama = Storages.getName();
   @override
   Widget build(BuildContext context) {
-    bool setnightmode = Storages.getNightMode();
     return DefaultTabController(
       initialIndex: widget.selectedIndex,
       length: 4,
@@ -59,59 +53,71 @@ class _HomePageState extends State<HomePage> {
                 title: Assets.logo(width: 130),
                 actions: [
                   GestureDetector(
-                    onTap: () async {
-                      await Storages().setNightMode(
-                        nightMode: setnightmode == false ? true : false,
-                      );
+                    onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const SearchPage(),
+                        WaveTransition(
+                          duration: const Duration(milliseconds: 700),
+                          center: const FractionalOffset(0.9, 0.0),
+                          child: SearchPage(
+                            listProducts: widget.listProducts,
+                          ),
                         ),
                       );
                     },
-                    child: Assets.appbarIcon('search'),
+                    child: Assets.appbarIcon('search', width: 25),
                   ),
-                  Badge(
-                    badgeColor: Warna().font,
-                    position: BadgePosition.topEnd(
-                      top: 5,
-                      end: -5,
-                    ),
-                    badgeContent: Text(
-                      Storages.getLengthCart().toString(),
-                      style: TextStyle(color: Warna().primer),
-                    ),
-                    child: GestureDetector(
-                      onTap: () async {
-                        int panjangkeranjanglama =
-                            widget.getkeranjang.data!.length;
-                        int panjangkeranjangbaru =
-                            (await JsonFuture().getKeranjang()).data!.length;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Keranjang(
-                              panjangkeranjanglama: panjangkeranjanglama,
-                              panjangkeranjangbaru: panjangkeranjangbaru,
-                              keranjang: widget.getkeranjang,
-                            ),
+                  const SizedBox(
+                    width: 17,
+                  ),
+                  nama.isNotEmpty && Storages.getLengthCart() != 0
+                      ? Badge(
+                          badgeColor: Warna().font,
+                          position: BadgePosition.topEnd(
+                            top: 5,
+                            end: -5,
                           ),
-                        );
-                      },
-                      child: Assets.appbarIcon('cart'),
-                    ),
-                  ),
+                          badgeContent: Text(
+                            Storages.getLengthCart().toString(),
+                            style: Font.style(color: Warna().primer),
+                          ),
+                          child: GestureDetector(
+                            onTap: () async {
+                              Navigator.push(
+                                context,
+                                WaveTransition(
+                                  duration: const Duration(milliseconds: 700),
+                                  child: const Keranjang(),
+                                  center: const FractionalOffset(0.9, 0.0),
+                                ),
+                              );
+                            },
+                            child: Assets.appbarIcon('cart'),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () async {
+                            Navigator.push(
+                              context,
+                              WaveTransition(
+                                duration: const Duration(milliseconds: 700),
+                                child: const Keranjang(),
+                                center: const FractionalOffset(0.9, 0.0),
+                              ),
+                            );
+                          },
+                          child: Assets.appbarIcon('cart', width: 25),
+                        ),
                   const SizedBox(
                     width: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: DayNightSwitcherIcon(
-                      isDarkModeEnabled: setnightmode,
+                      isDarkModeEnabled: nightmode,
                       onStateChanged: (isDarkModeEnabled) async {
                         await Storages().setNightMode(
-                          nightMode: setnightmode == false ? true : false,
+                          nightMode: nightmode == false ? true : false,
                         );
                         Navigator.pushReplacement(
                           context,
@@ -120,9 +126,7 @@ class _HomePageState extends State<HomePage> {
                             child: HomePage(
                               listProducts: widget.listProducts,
                               listDataKategori: widget.listDataKategori,
-                              getwishlist: widget.getwishlist,
                               getkeranjang: widget.getkeranjang,
-                              gettransaksi: widget.gettransaksi,
                               selectedIndex: widget.selectedIndex,
                             ),
                             center: const FractionalOffset(0.9, 0.0),
@@ -145,9 +149,15 @@ class _HomePageState extends State<HomePage> {
                         listProducts: widget.listProducts,
                         listDataKategori: widget.listDataKategori,
                       ),
-                      const WishList(),
-                      const Pesanan(),
-                      const Profile(),
+                      nama.isNotEmpty
+                          ? const WishList()
+                          : const SplashLogin(navbar: true),
+                      nama.isNotEmpty
+                          ? const Pesanan()
+                          : const SplashLogin(navbar: true),
+                      nama.isNotEmpty
+                          ? const Profile()
+                          : const SplashLogin(navbar: true),
                     ],
                   ),
                 ),
@@ -171,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                               blurRadius: 7,
                               color: Warna().shadow,
                               offset: const Offset(2, 4))
-                          : BoxShadow(),
+                          : const BoxShadow(),
                     ],
                   ),
                   height: 75,
@@ -192,38 +202,17 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Tab(
-                        icon: Badge(
-                          badgeColor: Warna().font,
-                          position: BadgePosition.topEnd(),
-                          badgeContent: Text(
-                            widget.getwishlist.data != null
-                                ? widget.getwishlist.data!.length.toString()
-                                : "0",
-                            style: TextStyle(color: Warna().primer),
-                          ),
-                          child: Tooltip(
-                            message: 'Wishlist',
-                            child: Assets.navbarIcon(widget.selectedIndex != 1
-                                ? 'heart'
-                                : 'hearton'),
-                          ),
+                        icon: Tooltip(
+                          message: 'Wishlist',
+                          child: Assets.navbarIcon(
+                              widget.selectedIndex != 1 ? 'heart' : 'hearton'),
                         ),
                       ),
                       Tab(
-                        icon: Badge(
-                          badgeColor: Warna().font,
-                          position: BadgePosition.topEnd(),
-                          badgeContent: Text(
-                            widget.gettransaksi.data != null
-                                ? widget.gettransaksi.data!.length.toString()
-                                : "0",
-                            style: TextStyle(color: Warna().primer),
-                          ),
-                          child: Tooltip(
-                            message: 'Transaksi',
-                            child: Assets.navbarIcon(
-                                widget.selectedIndex != 2 ? 'note' : 'noteon'),
-                          ),
+                        icon: Tooltip(
+                          message: 'Transaksi',
+                          child: Assets.navbarIcon(
+                              widget.selectedIndex != 2 ? 'note' : 'noteon'),
                         ),
                       ),
                       Tab(

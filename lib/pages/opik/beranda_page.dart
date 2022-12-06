@@ -32,8 +32,10 @@ class Beranda extends StatelessWidget {
           () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) => const IntegrateAPI(),
+              WaveTransition(
+                duration: const Duration(milliseconds: 700),
+                child: const IntegrateAPI(),
+                center: const FractionalOffset(0.5, 0),
               ),
             );
           },
@@ -42,7 +44,7 @@ class Beranda extends StatelessWidget {
       child: Container(
         color: Warna().primer,
         child: ListView(
-          scrollDirection: Axis.vertical,
+          physics: const BouncingScrollPhysics(),
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -90,8 +92,9 @@ class Beranda extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -128,7 +131,7 @@ class Beranda extends StatelessWidget {
                                               : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Text(
@@ -166,7 +169,7 @@ class Beranda extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 10 / 16,
+                childAspectRatio: 10 / 15,
               ),
               itemCount: listProducts.length,
               itemBuilder: (context, index) {
@@ -176,8 +179,7 @@ class Beranda extends StatelessWidget {
                       context,
                       WaveTransition(
                         duration: const Duration(milliseconds: 700),
-                        child:
-                            ProdukPage(productsKategori: listProducts[index]),
+                        child: ProdukPage(id: listProducts[index].id!),
                         center: const FractionalOffset(0.5, 0),
                       ),
                     );
@@ -227,27 +229,16 @@ class Beranda extends StatelessWidget {
                               ),
                               child: Column(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          listProducts[index].name!,
-                                          style: Font.style(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5),
-                                    ],
+                                  Text(
+                                    listProducts[index].name!,
+                                    style: Font.style(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
                                   ),
                                   AutoSizeText(
                                     rupiah(listProducts[index].harga!),

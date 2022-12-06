@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thrilogic_shop/pages/roni/splashscreen.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
+import 'package:thrilogic_shop/services/styles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +33,12 @@ class _MyAppState extends State<MyApp> {
         builder:
             (BuildContext context, AsyncSnapshot<bool> snapshotLocalStorage) {
           if (snapshotLocalStorage.data == true) {
+            print(Storages.getToken());
             return const SplashScreen();
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return Container(
+              color: Warna().first,
+            );
           }
         },
       ),
