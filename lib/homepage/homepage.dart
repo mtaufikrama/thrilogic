@@ -9,9 +9,9 @@ import 'package:thrilogic_shop/pages/delvy/keranjang_page.dart';
 import 'package:thrilogic_shop/pages/opik/beranda_page.dart';
 import 'package:thrilogic_shop/pages/opik/splash_login.dart';
 import 'package:thrilogic_shop/pages/opik/wishlist_page.dart';
-import 'package:thrilogic_shop/pages/yozi/pesanan_page.dart';
+import 'package:thrilogic_shop/pages/delvy/pesanan_page.dart';
 import 'package:thrilogic_shop/pages/yozi/profile_page.dart';
-import 'package:thrilogic_shop/pages/yozi/search_page.dart';
+import 'package:thrilogic_shop/pages/opik/search_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
         appBar: widget.selectedIndex == 3
             ? null
             : AppBar(
+                automaticallyImplyLeading: false,
                 toolbarHeight: 70,
                 elevation: 0,
                 backgroundColor: Warna().first,
@@ -101,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                               context,
                               WaveTransition(
                                 duration: const Duration(milliseconds: 700),
-                                child: const Keranjang(),
+                                child: SplashLogin(navigate: true),
                                 center: const FractionalOffset(0.9, 0.0),
                               ),
                             );
@@ -151,13 +152,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                       nama.isNotEmpty
                           ? const WishList()
-                          : const SplashLogin(navbar: true),
+                          : SplashLogin(navigate: false),
                       nama.isNotEmpty
                           ? const Pesanan()
-                          : const SplashLogin(navbar: true),
+                          : SplashLogin(navigate: false),
                       nama.isNotEmpty
                           ? const Profile()
-                          : const SplashLogin(navbar: true),
+                          : SplashLogin(navigate: false),
                     ],
                   ),
                 ),

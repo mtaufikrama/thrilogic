@@ -9,16 +9,29 @@ import 'package:thrilogic_shop/services/styles.dart';
 import 'package:thrilogic_shop/pages/yozi/login_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
 
-class SignUpForm extends StatelessWidget {
+class SignUpForm extends StatefulWidget {
   SignUpForm({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<SignUpForm> createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<SignUpForm> {
   TextEditingController nama = TextEditingController();
+
   TextEditingController email = TextEditingController();
+
   TextEditingController notelp = TextEditingController();
+
   TextEditingController password = TextEditingController();
+
   TextEditingController konfirmasi = TextEditingController();
+
+  bool boolpassword = true;
+
+  bool boolkonfirmasi = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +43,7 @@ class SignUpForm extends StatelessWidget {
             keyboardType: TextInputType.name,
             textInputAction: TextInputAction.next,
             cursorColor: Warna().font,
+            style: Font.style(),
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -46,6 +60,7 @@ class SignUpForm extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
               controller: email,
+              style: Font.style(),
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               cursorColor: Warna().font,
@@ -64,6 +79,7 @@ class SignUpForm extends StatelessWidget {
           ),
           TextFormField(
             controller: notelp,
+            style: Font.style(),
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
             cursorColor: Warna().font,
@@ -82,10 +98,11 @@ class SignUpForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              style: Font.style(),
               controller: password,
               textInputAction: TextInputAction.done,
-              obscureText: true,
-              cursorColor: Warna().first,
+              obscureText: boolpassword,
+              cursorColor: Warna().font,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -96,14 +113,27 @@ class SignUpForm extends StatelessWidget {
                   padding: const EdgeInsets.all(defaultPadding),
                   child: Assets.registerIcon('lock'),
                 ),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      boolpassword = !boolpassword;
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(defaultPadding),
+                    child:
+                        Assets.registerIcon(!boolpassword ? 'eye' : 'eyeoff'),
+                  ),
+                ),
               ),
             ),
           ),
           TextFormField(
+            style: Font.style(),
             controller: konfirmasi,
             textInputAction: TextInputAction.done,
-            obscureText: true,
-            cursorColor: Warna().first,
+            obscureText: boolkonfirmasi,
+            cursorColor: Warna().font,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -113,6 +143,18 @@ class SignUpForm extends StatelessWidget {
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Assets.registerIcon('lock'),
+              ),
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    boolkonfirmasi = !boolkonfirmasi;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(defaultPadding),
+                  child:
+                      Assets.registerIcon(!boolkonfirmasi ? 'eye' : 'eyeoff'),
+                ),
               ),
             ),
           ),
@@ -141,13 +183,13 @@ class SignUpForm extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
-              backgroundColor: Warna().first,
+              backgroundColor: Warna().icon,
               fixedSize: const Size(500, 50),
             ),
             child: Text(
               "Sign Up".toUpperCase(),
-              style: const TextStyle(
-                fontSize: 20,
+              style: Font.style(
+                fontSize: 15,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

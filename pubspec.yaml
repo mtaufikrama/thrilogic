@@ -37,28 +37,28 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1          # untuk font
-  animated_flip_counter: ^0.2.5 # untuk menggerakkan angka
-  add_to_cart_animation: ^1.0.1 # untuk membuat animasi pada cart
   badges: ^2.0.3                # untuk membuat notifikasi pada icon
   intl: ^0.17.0                 # untuk angka currency atau pun jam
   flutter_rating_bar: ^4.0.1    # untuk membuat rating
   localstorage: ^4.0.0+1        # untuk menyimpan data ke local
   http: ^0.13.5                 # untuk mengkoneksi API
-  readmore: ^2.2.0              # untuk membuat readmore ataupun baca selengkapnya
   carousel_slider: ^4.1.1       # untuk membuat tabbar dengan animasi
   wave_transition: ^0.0.6       # untuk transisi seperti bergelombang
   auto_size_text: ^3.0.0        # untuk menghindari overflow
   modal_bottom_sheet: ^2.1.2    # untuk menculin layar setengah
   dropdown_search: ^5.0.3       # untuk list produk saat pencarian
-  page_transition: ^2.0.9       # untuk transisi halaman
-  awesome_dialog: ^3.0.2        # untuk munculin dialog agar keren
   day_night_switcher: ^0.2.0+1  # switch mode night
   image_picker: ^0.8.6          # untuk mengambil gambar, video
   intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
-  pull_to_refresh: ^2.0.0
-  animated_splash_screen: ^1.3.0
   flutter_onboarding_slider: ^1.0.8
   lottie: ^2.0.0
+  # awesome_dialog: ^3.0.2        # untuk munculin dialog agar keren
+  # animated_splash_screen: ^1.3.0
+  # pull_to_refresh: ^2.0.0
+  # animated_flip_counter: ^0.2.5 # untuk menggerakkan angka
+  # add_to_cart_animation: ^1.0.1 # untuk membuat animasi pada cart
+  # readmore: ^2.2.0              # untuk membuat readmore ataupun baca selengkapnya
+  # page_transition: ^2.0.9       # untuk transisi halaman
   # intro_slider: ^4.2.0          # on boarding
   # shimmer: ^2.0.0               # tampilan loading
 
@@ -66,6 +66,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.11.0"
+  flutter_app_name: ^0.1.0
+
+flutter_app_name:
+  name: "ThriLogic"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo/logo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -94,6 +104,7 @@ flutter:
     - assets/logo/
     - assets/onboarding/
     - assets/lottie/
+    - assets/img/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

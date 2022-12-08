@@ -9,16 +9,21 @@ import 'package:wave_transition/wave_transition.dart';
 
 import '../../services/styles.dart';
 
-class ListAlamatPage extends StatelessWidget {
+class ListAlamatPage extends StatefulWidget {
   ListAlamatPage({
     Key? key,
-    required this.dataKeranjang,
-    required this.total,
+    this.dataKeranjang,
+    this.total,
   }) : super(key: key);
 
-  GetKeranjang dataKeranjang;
-  int total;
+  GetKeranjang? dataKeranjang;
+  int? total;
 
+  @override
+  State<ListAlamatPage> createState() => _ListAlamatPageState();
+}
+
+class _ListAlamatPageState extends State<ListAlamatPage> {
   List<dynamic> listalamat = Storages.getListAlamat();
 
   String alamat = Storages.getAlamat();
@@ -45,8 +50,8 @@ class ListAlamatPage extends StatelessWidget {
                         WaveTransition(
                           duration: const Duration(milliseconds: 700),
                           child: CreateAlamat(
-                            dataKeranjang: dataKeranjang,
-                            total: total,
+                            dataKeranjang: widget.dataKeranjang,
+                            total: widget.total,
                           ),
                           center: const FractionalOffset(0.5, 0),
                         ),
@@ -128,17 +133,21 @@ class ListAlamatPage extends StatelessWidget {
                       return GestureDetector(
                         onTap: () async {
                           await Storages().setAlamat(alamat: listalamat[index]);
-                          Navigator.pushReplacement(
-                            context,
-                            WaveTransition(
-                              duration: const Duration(milliseconds: 700),
-                              child: PembayaranPage(
-                                dataKeranjang: dataKeranjang,
-                                total: total,
+                          if (widget.dataKeranjang != null) {
+                            Navigator.pushReplacement(
+                              context,
+                              WaveTransition(
+                                duration: const Duration(milliseconds: 700),
+                                child: PembayaranPage(
+                                  dataKeranjang: widget.dataKeranjang!,
+                                  total: widget.total!,
+                                ),
+                                center: const FractionalOffset(0.5, 0),
                               ),
-                              center: const FractionalOffset(0.5, 0),
-                            ),
-                          );
+                            );
+                          } else {
+                            setState(() {});
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(15),
@@ -200,8 +209,8 @@ class ListAlamatPage extends StatelessWidget {
                         WaveTransition(
                           duration: const Duration(milliseconds: 700),
                           child: CreateAlamat(
-                            dataKeranjang: dataKeranjang,
-                            total: total,
+                            dataKeranjang: widget.dataKeranjang,
+                            total: widget.total,
                           ),
                           center: const FractionalOffset(0.5, 0),
                         ),

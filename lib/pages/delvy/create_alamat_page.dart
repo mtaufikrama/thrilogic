@@ -10,12 +10,12 @@ import '../../API/object_class/keranjang.dart';
 
 class CreateAlamat extends StatefulWidget {
   CreateAlamat({
-    required this.dataKeranjang,
-    required this.total,
+    this.dataKeranjang,
+    this.total,
     Key? key,
   }) : super(key: key);
-  GetKeranjang dataKeranjang;
-  int total;
+  GetKeranjang? dataKeranjang;
+  int? total;
 
   @override
   State<CreateAlamat> createState() => _CreateAlamatState();
@@ -26,6 +26,14 @@ class _CreateAlamatState extends State<CreateAlamat> {
   TextEditingController kelurahan = TextEditingController();
   TextEditingController provinsi = TextEditingController();
   TextEditingController detailLainnya = TextEditingController();
+  @override
+  void dispose() {
+    jalan.dispose();
+    kelurahan.dispose();
+    provinsi.dispose();
+    detailLainnya.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

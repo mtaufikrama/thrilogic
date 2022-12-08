@@ -50,6 +50,11 @@ class Storages {
     await storages.setItem('alamat', alamat);
   }
 
+  Future<void> setEmail({required String email}) async {
+    await storages.deleteItem('email');
+    await storages.setItem('email', email);
+  }
+
   Future<void> setIntroSlider() async {
     await storages.setItem('introSlider', true);
   }
@@ -73,12 +78,14 @@ class Storages {
     await storages.deleteItem('nomorTelepon');
     await storages.deleteItem('listAlamat');
     await storages.deleteItem('alamat');
+    await storages.deleteItem('email');
     await storages.deleteItem('nightMode');
   }
 
   static String getToken() => storages.getItem('token') ?? '';
   static String getNoTelp() => storages.getItem('nomorTelepon') ?? '';
   static String getName() => storages.getItem('name') ?? '';
+  static String getEmail() => storages.getItem('email') ?? '';
   static List<dynamic> getListAlamat() => storages.getItem('listAlamat') ?? [];
   static String getAlamat() => storages.getItem('alamat') ?? '';
   static bool getNightMode() => storages.getItem('nightMode') ?? false;

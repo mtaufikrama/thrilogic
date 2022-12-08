@@ -29,7 +29,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
   TextEditingController stok = TextEditingController();
   TextEditingController deskripsi = TextEditingController();
   TextEditingController harga = TextEditingController();
-  File? file;
+  String? file;
   String categoryId = "34";
   List<List<String>> listkategori = [
     ["Kemeja Wanita", "34"],
@@ -48,6 +48,15 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
     ["Joger Pants Pria", "48"],
     ["Sweater Pria", "49"],
   ];
+
+  @override
+  void dispose() {
+    nama.dispose();
+    stok.dispose();
+    deskripsi.dispose();
+    harga.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,14 +216,14 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                                 XFile? image = await ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
                                 if (image != null) {
-                                  file = File(image.path);
+                                  file = image.path;
                                   setState(() {});
                                 }
                               },
                               child: file == null
                                   ? Assets.lainnyaIcon('add_image', height: 100)
                                   : Image.file(
-                                      file!,
+                                      File(file!),
                                       height: 100,
                                     ),
                             ),
@@ -247,7 +256,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                               ),
                             );
                           } else {
-                            snackBar(context, text: 'Data harus diisi semua');
+                            snackBar(context, text: 'Data harus diisi');
                           }
                         },
                         style: ButtonStyle(
@@ -275,8 +284,10 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                     ],
                   );
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Warna().terang,
+                    ),
                   );
                 }
               })
@@ -409,14 +420,14 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                           XFile? image = await ImagePicker()
                               .pickImage(source: ImageSource.gallery);
                           if (image != null) {
-                            file = File(image.path);
+                            file = image.path;
                             setState(() {});
                           }
                         },
                         child: file == null
                             ? Assets.lainnyaIcon('add_image', height: 100)
                             : Image.file(
-                                file!,
+                                File(file!),
                                 height: 20,
                               ),
                       ),
@@ -448,26 +459,29 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                         ),
                       );
                     } else {
-                      snackBar(context, text: 'Data harus diisi semua');
+                      snackBar(context, text: 'Data harus diisi');
                     }
                   },
                   style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(
-                            horizontal: 113, vertical: 15)),
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      EdgeInsets.symmetric(vertical: 15),
+                    ),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Warna().first),
+                        MaterialStateProperty.all<Color>(Warna().icon),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          side: BorderSide(color: Warna().icon)),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                     ),
                   ),
                   child: Text(
                     'TAMBAH PRODUK',
-                    style: Font.style(fontSize: 18),
+                    style: Font.style(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

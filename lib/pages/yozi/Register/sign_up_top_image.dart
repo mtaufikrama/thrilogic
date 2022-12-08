@@ -12,14 +12,8 @@ class SignUpScreenTopImage extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: defaultPadding * 2),
-        Row(
-          children: [
-            Expanded(
-              child: Assets.logo(
-                width: MediaQuery.of(context).size.width / 2,
-              ),
-            ),
-          ],
+        Assets.logo(
+          width: MediaQuery.of(context).size.width / 2,
         ),
         const SizedBox(height: defaultPadding),
         Padding(

@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
-import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/review.dart';
 import 'package:thrilogic_shop/pages/delvy/tampilan_review_page.dart';
 import 'package:thrilogic_shop/pages/opik/splash_login.dart';
@@ -51,7 +50,9 @@ class ReviewStar extends StatelessWidget {
                   context,
                   WaveTransition(
                     duration: const Duration(milliseconds: 700),
-                    child: const SplashLogin(),
+                    child: SplashLogin(
+                      navigate: true,
+                    ),
                     center: const FractionalOffset(0.5, 0),
                   ),
                 );

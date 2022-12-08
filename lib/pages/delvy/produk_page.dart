@@ -5,6 +5,7 @@ import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/pages/delvy/create_produk_page.dart';
+import 'package:thrilogic_shop/pages/opik/splash_login.dart';
 import 'package:thrilogic_shop/pages/opik/star_penjual.dart';
 import 'package:thrilogic_shop/pages/opik/wishlist_add.dart';
 import 'package:thrilogic_shop/pages/yozi/login_page.dart';
@@ -305,8 +306,7 @@ class _ProdukPage extends State<ProdukPage> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
+                                  padding: const EdgeInsets.only(left: 15),
                                   child: TextButton(
                                     onPressed: () {
                                       Navigator.push(
@@ -346,7 +346,7 @@ class _ProdukPage extends State<ProdukPage> {
                                       ),
                                     ),
                                     child: Text(
-                                      "Perbarui",
+                                      "PERBARUI",
                                       style: Font.style(
                                           fontSize: 18, color: Colors.white),
                                     ),
@@ -355,8 +355,7 @@ class _ProdukPage extends State<ProdukPage> {
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
+                                  padding: const EdgeInsets.only(right: 15),
                                   child: TextButton(
                                     onPressed: () async {
                                       await JsonFuture().deleteBarang(
@@ -369,12 +368,11 @@ class _ProdukPage extends State<ProdukPage> {
                                           vertical: 15,
                                         ),
                                       ),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Warna().icon),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
-                                        const RoundedRectangleBorder(
+                                        RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              width: 3, color: Warna().icon),
                                           borderRadius: BorderRadius.horizontal(
                                             right: Radius.circular(50),
                                           ),
@@ -382,10 +380,10 @@ class _ProdukPage extends State<ProdukPage> {
                                       ),
                                     ),
                                     child: Text(
-                                      "Hapus",
+                                      "HAPUS",
                                       style: Font.style(
                                         fontSize: 18,
-                                        color: Colors.white,
+                                        color: Warna().icon,
                                       ),
                                     ),
                                   ),
@@ -404,7 +402,7 @@ class _ProdukPage extends State<ProdukPage> {
                                     WaveTransition(
                                       duration:
                                           const Duration(milliseconds: 700),
-                                      child: const LoginScreen(),
+                                      child: const SplashLogin(navigate: true),
                                       center: const FractionalOffset(0.5, 0),
                                     ),
                                   );
@@ -451,11 +449,16 @@ class _ProdukPage extends State<ProdukPage> {
                               ),
                             ),
                           ),
+                    const SizedBox(
+                      height: 15,
+                    )
                   ],
                 );
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Warna().terang,
+                  ),
                 );
               }
             }),

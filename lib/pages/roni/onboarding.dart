@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:lottie/lottie.dart';
@@ -45,23 +44,23 @@ class OnBoarding extends StatelessWidget {
       controllerColor: Colors.white,
       finishButtonColor: Colors.white54,
       totalPage: 3,
-      headerBackgroundColor: Warna().terang,
-      pageBackgroundColor: Warna().terang,
+      headerBackgroundColor: Warna().first,
+      pageBackgroundColor: Warna().first,
       background: [
         Container(
           margin: const EdgeInsets.only(top: 130),
-          child: Lottie.asset('assets/lottie/onboard1.json',
-              width: MediaQuery.of(context).size.width),
+          child:
+              lottieAsset('onboard1', width: MediaQuery.of(context).size.width),
         ),
         Container(
           margin: const EdgeInsets.only(top: 60),
-          child: Lottie.asset('assets/lottie/onboard2.json',
+          child: lottieAsset('onboard2',
               width: MediaQuery.of(context).size.width * 0.9),
         ),
         Container(
           margin: const EdgeInsets.only(top: 40),
-          child: Lottie.asset('assets/lottie/onboard3.json',
-              width: MediaQuery.of(context).size.width),
+          child:
+              lottieAsset('onboard3', width: MediaQuery.of(context).size.width),
         ),
       ],
       speed: 3,
@@ -87,7 +86,7 @@ class OnBoarding extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
                       color: Colors.white)),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],
@@ -116,7 +115,7 @@ class OnBoarding extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
                       color: Colors.white)),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],
@@ -145,7 +144,7 @@ class OnBoarding extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
                       color: Colors.white)),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],

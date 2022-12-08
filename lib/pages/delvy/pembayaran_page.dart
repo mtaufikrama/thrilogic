@@ -69,12 +69,17 @@ class _PembayaranPageState extends State<PembayaranPage> {
                             ? 0
                             : widget.dataKeranjang.data!.length,
                         itemBuilder: (context, index) => ListTile(
-                          leading: ClipRRect(
+                          leading: AspectRatio(
+                            aspectRatio: 1,
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image(
-                                  image: NetworkImage(widget.dataKeranjang
-                                      .data![index].product!.image!),
-                                  fit: BoxFit.cover)),
+                                image: NetworkImage(widget.dataKeranjang
+                                    .data![index].product!.image!),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -129,8 +134,9 @@ class _PembayaranPageState extends State<PembayaranPage> {
                             rupiah(widget
                                 .dataKeranjang.data![index].product!.harga!),
                             style: Font.style(
-                                color: Warna().font,
-                                fontWeight: FontWeight.bold),
+                              color: Warna().font,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -145,8 +151,9 @@ class _PembayaranPageState extends State<PembayaranPage> {
                         color: Warna().primerCard,
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withAlpha(50),
-                              blurRadius: 2.0),
+                            color: Colors.black.withAlpha(50),
+                            blurRadius: 2.0,
+                          ),
                         ],
                       ),
                       child: Column(
@@ -172,9 +179,10 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                 child: Text(
                                   "Alamat",
                                   style: Font.style(
-                                      fontWeight: FontWeight.bold,
-                                      color: Warna().font,
-                                      fontSize: 20),
+                                    fontWeight: FontWeight.bold,
+                                    color: Warna().font,
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ),
                               GestureDetector(
@@ -214,42 +222,47 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                   ? Storages.getAlamat()
                                   : "Pilih Alamat",
                               style: Font.style(
-                                  // fontWeight: FontWeight.bold,
-                                  color: Storages.getAlamat().isNotEmpty
-                                      ? Warna().font
-                                      : Warna().terang,
-                                  fontSize: 15),
+                                // fontWeight: FontWeight.bold,
+                                color: Storages.getAlamat().isNotEmpty
+                                    ? Warna().font
+                                    : Warna().terang,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),
                           Text(
                             "Pengiriman",
                             style: Font.style(
-                                fontWeight: FontWeight.bold,
-                                color: Warna().font,
-                                fontSize: 20),
+                              fontWeight: FontWeight.bold,
+                              color: Warna().font,
+                              fontSize: 20,
+                            ),
                           ),
                           Text(
-                            "Reguler - Sikencang",
+                            "Reguler - MeTiR Fast",
                             style: Font.style(
-                                // fontWeight: FontWeight.bold,
-                                color: Warna().font,
-                                fontSize: 15),
+                              // fontWeight: FontWeight.bold,
+                              color: Warna().font,
+                              fontSize: 15,
+                            ),
                           ),
                           const SizedBox(height: 20),
                           Text(
                             "Pembayaran",
                             style: Font.style(
-                                fontWeight: FontWeight.bold,
-                                color: Warna().font,
-                                fontSize: 20),
+                              fontWeight: FontWeight.bold,
+                              color: Warna().font,
+                              fontSize: 20,
+                            ),
                           ),
                           Text(
                             "Bank Negara Indonesia - BNI",
                             style: Font.style(
-                                // fontWeight: FontWeight.bold,
-                                color: Warna().font,
-                                fontSize: 15),
+                              // fontWeight: FontWeight.bold,
+                              color: Warna().font,
+                              fontSize: 15,
+                            ),
                           ),
                         ],
                       ),
@@ -264,8 +277,9 @@ class _PembayaranPageState extends State<PembayaranPage> {
                         color: Warna().primerCard,
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withAlpha(50),
-                              blurRadius: 2.0),
+                            color: Colors.black.withAlpha(50),
+                            blurRadius: 2.0,
+                          ),
                         ],
                       ),
                       child: Column(
@@ -277,9 +291,10 @@ class _PembayaranPageState extends State<PembayaranPage> {
                               Text(
                                 "Info Order",
                                 style: Font.style(
-                                    fontWeight: FontWeight.bold,
-                                    color: Warna().font,
-                                    fontSize: 20),
+                                  fontWeight: FontWeight.bold,
+                                  color: Warna().font,
+                                  fontSize: 20,
+                                ),
                               ),
                             ],
                           ),
@@ -293,16 +308,18 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                   Text(
                                     "Subtotal",
                                     style: Font.style(
-                                        // fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      // fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                   Text(
                                     rupiah(widget.total),
                                     style: Font.style(
-                                        fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -314,16 +331,18 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                   Text(
                                     "Biaya Pengiriman",
                                     style: Font.style(
-                                        // fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      // fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                   Text(
                                     "Rp9.000",
                                     style: Font.style(
-                                        fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -335,16 +354,18 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                   Text(
                                     "Potongan Ongkir",
                                     style: Font.style(
-                                        // fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      // fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                   Text(
                                     "-Rp9.000",
                                     style: Font.style(
-                                        fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -356,16 +377,18 @@ class _PembayaranPageState extends State<PembayaranPage> {
                                   Text(
                                     "Total",
                                     style: Font.style(
-                                        // fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      // fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                   Text(
                                     rupiah(widget.total),
                                     style: Font.style(
-                                        fontWeight: FontWeight.bold,
-                                        color: Warna().font,
-                                        fontSize: 15),
+                                      fontWeight: FontWeight.bold,
+                                      color: Warna().font,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -396,6 +419,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                     if (Storages.getAlamat().isNotEmpty) {
                       CreateTransaksi transaksi = await JsonFuture()
                           .createTransaksi(alamat: Storages.getAlamat());
+                      snackBar(context, text: transaksi.info ?? 'GAGAL');
                     } else {
                       snackBar(context, text: "Pilih Alamat");
                     }

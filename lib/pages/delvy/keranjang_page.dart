@@ -195,9 +195,9 @@ class _KeranjangState extends State<Keranjang> {
                                                             );
                                                           } else {
                                                             return Text(
-                                                              'waiting..',
-                                                              style:
-                                                                  Font.style(),
+                                                              'Waiting..',
+                                                              style: Font.style(
+                                                                  fontSize: 12),
                                                             );
                                                           }
                                                         },
@@ -335,8 +335,10 @@ class _KeranjangState extends State<Keranjang> {
                   ],
                 );
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Warna().terang,
+                  ),
                 );
               }
             }));

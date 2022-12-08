@@ -16,58 +16,61 @@ class KategoriPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Warna().primer,
-      body: FutureBuilder<GetKategoriById>(
-        future: JsonFuture().getKategoriById(id: id),
-        builder: (context, snapshotGetKategori) {
-          if (snapshotGetKategori.hasData &&
-              snapshotGetKategori.connectionState != ConnectionState.waiting &&
-              snapshotGetKategori.data != null) {
-            if (snapshotGetKategori.data!.data != null) {
-              return ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: Text(
-                        snapshotGetKategori.data!.data!.name!.toUpperCase(),
-                        style: Font.style(
-                          fontSize: 25,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Warna().primer,
+        body: FutureBuilder<GetKategoriById>(
+          future: JsonFuture().getKategoriById(id: id),
+          builder: (context, snapshotGetKategori) {
+            if (snapshotGetKategori.hasData &&
+                snapshotGetKategori.connectionState != ConnectionState.waiting &&
+                snapshotGetKategori.data != null) {
+              if (snapshotGetKategori.data!.data != null) {
+                return ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: 100,
+                      child: Center(
+                        child: Text(
+                          snapshotGetKategori.data!.data!.name!.toUpperCase(),
+                          style: Font.style(
+                              fontSize: 22, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
-                  ),
-                  snapshotGetKategori.data!.data!.products!.isNotEmpty
-                      ? GridKategori(
-                          getkategoribyid: snapshotGetKategori.data!,
-                        )
-                      : Center(
-                          child: Text(
-                            'NO DATA',
-                            style: Font.style(),
+                    snapshotGetKategori.data!.data!.products!.isNotEmpty
+                        ? GridKategori(
+                            getkategoribyid: snapshotGetKategori.data!,
+                          )
+                        : Center(
+                            child: lottieAsset(
+                              'error',
+                              width: MediaQuery.of(context).size.width * 0.8,
+                            ),
                           ),
-                        ),
-                  const SizedBox(
-                    height: 50,
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                );
+              } else {
+                return Center(
+                  child: lottieAsset(
+                    'error',
+                    width: MediaQuery.of(context).size.width * 0.8,
                   ),
-                ],
-              );
+                );
+              }
             } else {
               return Center(
-                child: Text(
-                  "NO DATA",
-                  style: Font.style(),
+                child: CircularProgressIndicator(
+                  color: Warna().terang,
                 ),
               );
             }
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+          },
+        ),
       ),
     );
   }

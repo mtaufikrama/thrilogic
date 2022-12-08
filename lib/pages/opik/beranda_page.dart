@@ -50,6 +50,7 @@ class Beranda extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10),
               child: CarouselSlider(
                 options: CarouselOptions(
+                  viewportFraction: 0.9,
                   aspectRatio: 3,
                   initialPage: 0,
                   enableInfiniteScroll: true,
@@ -58,21 +59,19 @@ class Beranda extends StatelessWidget {
                   autoPlayInterval: const Duration(seconds: 5),
                   autoPlayAnimationDuration: const Duration(seconds: 1),
                   autoPlayCurve: Curves.decelerate,
-                  enlargeCenterPage: true,
+                  enlargeCenterPage: false,
                   scrollDirection: Axis.horizontal,
                 ),
-                items: ['1', '2', '3'].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                            color: Warna().icon,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Assets.onboarding('gambar$i'),
-                      );
-                    },
+                items: ['1', '2'].map((i) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                        color: Warna().icon,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Assets.onboarding('gambar$i')),
                   );
                 }).toList(),
               ),

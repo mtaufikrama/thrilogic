@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.thrilogic_shop">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="thrilogic_shop"
+        android:label="ThriLogic"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

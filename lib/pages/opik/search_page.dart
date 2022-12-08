@@ -3,7 +3,6 @@ import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/pages/delvy/produk_page.dart';
-import 'package:thrilogic_shop/services/icon_assets.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 import 'package:wave_transition/wave_transition.dart';
 
@@ -21,7 +20,14 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController search = TextEditingController();
   @override
+  void dispose() {
+    search.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    widget.listProducts.shuffle();
     return Scaffold(
       backgroundColor: Warna().primer,
       appBar: AppBar(
@@ -48,10 +54,6 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
         ),
-        actions: [
-          Assets.appbarIcon('search', width: 25),
-          const SizedBox(width: 15),
-        ],
       ),
       body: search.text.isNotEmpty
           ? FutureBuilder<GetBarang>(
@@ -66,10 +68,9 @@ class _SearchPageState extends State<SearchPage> {
                   List<DataGetBarang> dataBarang = snapshot.data!.data ?? [];
                   return dataBarang.isEmpty
                       ? Center(
-                          child: Text(
-                            "NO DATA",
-                            style:
-                                Font.style(color: Warna().icon, fontSize: 25),
+                          child: lottieAsset(
+                            'error',
+                            width: MediaQuery.of(context).size.width * 0.8,
                           ),
                         )
                       : ListView.builder(
@@ -119,6 +120,7 @@ class _SearchPageState extends State<SearchPage> {
                                           children: [
                                             Text(
                                               barang.name!,
+                                              textAlign: TextAlign.justify,
                                               style: Font.style(
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -149,8 +151,10 @@ class _SearchPageState extends State<SearchPage> {
                   return SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height - 200,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Warna().terang,
+                      ),
                     ),
                   );
                 }
@@ -201,6 +205,7 @@ class _SearchPageState extends State<SearchPage> {
                               children: [
                                 Text(
                                   barang.name!,
+                                  textAlign: TextAlign.justify,
                                   style:
                                       Font.style(fontWeight: FontWeight.bold),
                                 ),

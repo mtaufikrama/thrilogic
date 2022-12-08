@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:thrilogic_shop/API/object_class/auth.dart';
 import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
@@ -14,7 +15,7 @@ class JsonFuture {
   String baseUrl = 'https://api1.sib3.nurulfikri.com';
   String token = Storages.getToken().isNotEmpty
       ? Storages.getToken()
-      : '697|Z6ACYeukGQ24snxrujh0Ymz7YtgwmL5u90xe276Y';
+      : '2865|1bAwu4N9nxhrnpIbZxwW9aFVIrMGoWN4gToiLNPd';
 
   Future<Login> login({
     required String email,
@@ -34,10 +35,12 @@ class JsonFuture {
       ),
     );
     var data = Login.fromJson(jsonDecode(response.body));
-    if (data.code! == '00' && data.data != null) {
-      await Storages().setNoTelp(nomorTelepon: data.data!.user!.handphone!);
+    if (data.code! == '00' && data.data != null && data.data!.user != null) {
+      await Storages()
+          .setNoTelp(nomorTelepon: data.data!.user!.handphone ?? '');
       await Storages().setName(name: data.data!.user!.name ?? '');
-      await Storages().setToken(token: data.data!.token!);
+      await Storages().setToken(token: data.data!.token ?? '');
+      await Storages().setEmail(email: data.data!.user!.email ?? '');
     }
     return data;
   }
@@ -49,24 +52,24 @@ class JsonFuture {
     required String password,
     required String passwordConfirmation,
   }) async {
-    final response = await http.post(
+    final request = await http.MultipartRequest(
+      'POST',
       Uri.parse('$baseUrl/api/register'),
-      body: jsonEncode(
-        <String, dynamic>{
-          'name': name,
-          'email': email,
-          'handphone': handphone,
-          'password': password,
-          'password_confirmation': passwordConfirmation,
-        },
-      ),
     );
-    return Register.fromJson(jsonDecode(response.body));
+    request.fields.addAll({
+      'name': name,
+      'email': email,
+      'handphone': handphone,
+      'password': password,
+      'password_confirmation': passwordConfirmation,
+    });
+    StreamedResponse response = await request.send();
+    Response responsed = await http.Response.fromStream(response);
+    final responseData = jsonDecode(responsed.body);
+    return Register.fromJson(responseData);
   }
 
-  Future<Logout> logout({
-    required String token,
-  }) async {
+  Future<Logout> logout() async {
     final response = await http.post(
       Uri.parse('$baseUrl/api/logout'),
       headers: {
@@ -114,56 +117,56 @@ class JsonFuture {
   Future<CreateBarang> createBarang({
     required String name,
     required String categoryId,
-    required File image,
+    required String image,
     required String stock,
     required String deskripsi,
     required String harga,
   }) async {
-    final response = await http.post(
+    final request = await http.MultipartRequest(
+      'POST',
       Uri.parse('$baseUrl/api/admin/barang'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          'name': name,
-          'category_id': categoryId,
-          'image': image,
-          'stock': stock,
-          'deskripsi': deskripsi,
-          'harga': harga,
-        },
-      ),
     );
-    return CreateBarang.fromJson(jsonDecode(response.body));
+    request.headers.addAll({'Authorization': 'Bearer $token'});
+    request.fields.addAll({
+      'name': name,
+      'category_id': categoryId,
+      'stock': stock,
+      'deskripsi': deskripsi,
+      'harga': harga,
+    });
+    request.files.add(await http.MultipartFile.fromPath('image', image));
+    StreamedResponse response = await request.send();
+    Response responsed = await http.Response.fromStream(response);
+    final responseData = jsonDecode(responsed.body);
+    return CreateBarang.fromJson(responseData);
   }
 
   Future<UpdateBarang> updateBarang({
     required String id,
     required String name,
     required String categoryId,
-    required File image,
+    required String image,
     required String stock,
     required String deskripsi,
     required String harga,
   }) async {
-    final response = await http.post(Uri.parse('$baseUrl/api/admin/barang/$id'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'name': name,
-          'category_id': categoryId,
-          'image': image,
-          'stock': stock,
-          'deskripsi': deskripsi,
-          'harga': harga,
-        }));
-    return UpdateBarang.fromJson(jsonDecode(response.body));
+    final request = await http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl/api/admin/barang/$id'),
+    );
+    request.headers.addAll({'Authorization': 'Bearer $token'});
+    request.fields.addAll({
+      'name': name,
+      'category_id': categoryId,
+      'stock': stock,
+      'deskripsi': deskripsi,
+      'harga': harga,
+    });
+    request.files.add(await http.MultipartFile.fromPath('image', image));
+    StreamedResponse response = await request.send();
+    Response responsed = await http.Response.fromStream(response);
+    final responseData = jsonDecode(responsed.body);
+    return UpdateBarang.fromJson(responseData);
   }
 
   Future<DeleteBarang> deleteBarang({required String id}) async {
@@ -255,22 +258,23 @@ class JsonFuture {
     required String id,
     required String star,
     required String review,
-    required File image,
+    required String image,
   }) async {
-    final response = await http.post(
+    final request = await http.MultipartRequest(
+      'POST',
       Uri.parse('$baseUrl/api/review/$id'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'star': star,
-        'review': review,
-        'image': image,
-      }),
     );
-    return CreateReview.fromJson(jsonDecode(response.body));
+    request.headers.addAll({'Authorization': 'Bearer $token'});
+    request.fields.addAll({
+      'star': star,
+      'review': review,
+    });
+    request.files.add(await http.MultipartFile.fromPath('image', image));
+    StreamedResponse response = await request.send();
+    Response responsed = await http.Response.fromStream(response);
+    final responseData = jsonDecode(responsed.body);
+
+    return CreateReview.fromJson(responseData);
   }
 
   Future<DeleteReview> deleteReview({

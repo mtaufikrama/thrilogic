@@ -17,14 +17,14 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
       children: <Widget>[
         Text(
           login ? "Belum punya akun ? " : "Sudah punya akun ? ",
-          style: Font.style(color: Warna().shadow),
+          style: Font.style(),
         ),
         GestureDetector(
           onTap: press as void Function()?,
           child: Text(
             login ? "Sign Up" : "Sign In",
             style: Font.style(
-              color: Warna().shadow,
+              color: Warna().icon,
               fontWeight: FontWeight.bold,
             ),
           ),

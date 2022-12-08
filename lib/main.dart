@@ -26,14 +26,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'THRILOGIC SHOP',
+      title: 'ThriLogic',
       debugShowCheckedModeBanner: false,
       home: FutureBuilder<bool>(
         future: Storages().ready(),
         builder:
             (BuildContext context, AsyncSnapshot<bool> snapshotLocalStorage) {
           if (snapshotLocalStorage.data == true) {
-            print(Storages.getToken());
             return const SplashScreen();
           } else {
             return Container(

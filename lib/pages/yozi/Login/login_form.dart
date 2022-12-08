@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/auth.dart';
 import 'package:thrilogic_shop/homepage/integrate.dart';
-import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 //import 'package:thrilogic_shop/homepage/homepage.dart';
 import 'package:thrilogic_shop/pages/yozi/register_page.dart';
@@ -25,6 +24,12 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool obscureText = true;
+  @override
+  void dispose() {
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +41,7 @@ class _LoginFormState extends State<LoginForm> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: Warna().font,
+            style: Font.style(),
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -55,6 +61,7 @@ class _LoginFormState extends State<LoginForm> {
               textInputAction: TextInputAction.done,
               obscureText: obscureText,
               cursorColor: Warna().first,
+              style: Font.style(),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -97,23 +104,25 @@ class _LoginFormState extends State<LoginForm> {
                       center: const FractionalOffset(0.5, 0),
                     ),
                   );
-                  print(Storages.getToken());
-                  print(Storages.getName());
-                  print(Storages.getNoTelp());
                 }
               },
               style: ElevatedButton.styleFrom(
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                backgroundColor: Warna().first,
+                backgroundColor: Warna().icon,
                 fixedSize: const Size(500, 50),
               ),
               child: Text(
                 "Masuk".toUpperCase(),
+                style: Font.style(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: defaultPadding),
+          const SizedBox(height: defaultPadding * 2),
           AlreadyHaveAnAccountCheck(
             press: () {
               Navigator.push(

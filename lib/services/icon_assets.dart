@@ -46,6 +46,7 @@ class Assets {
     return Image.asset(
       'assets/onboarding/$image.png',
       height: height,
+      fit: BoxFit.cover,
     );
   }
 }

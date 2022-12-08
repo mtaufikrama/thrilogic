@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:thrilogic_shop/homepage/integrate.dart';
-import 'package:thrilogic_shop/pages/delvy/create_produk_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
@@ -45,10 +43,10 @@ class _SplashScreenState extends State<SplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Assets.logo(),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height / 4,
-                child: Lottie.asset('assets/lottie/loading.json',
-                    controller: _controller, onLoaded: (compos) {
+                child: lottieAsset('loading', controller: _controller,
+                    onLoaded: (compos) {
                   _controller
                     ..duration = const Duration(seconds: 4)
                     ..forward().then((value) {
