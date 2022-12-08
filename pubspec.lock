@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+1"
+  double_back_to_close:
+    dependency: "direct main"
+    description:
+      name: double_back_to_close
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   dropdown_search:
     dependency: "direct main"
     description:
@@ -268,13 +275,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
-  intro_screen_onboarding_flutter:
-    dependency: "direct main"
-    description:
-      name: intro_screen_onboarding_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   js:
     dependency: transitive
     description:
@@ -324,13 +324,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  modal_bottom_sheet:
-    dependency: "direct main"
-    description:
-      name: modal_bottom_sheet
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.2"
   nested:
     dependency: transitive
     description:
@@ -430,7 +423,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"

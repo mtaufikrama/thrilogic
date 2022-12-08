@@ -45,13 +45,15 @@ dependencies:
   carousel_slider: ^4.1.1       # untuk membuat tabbar dengan animasi
   wave_transition: ^0.0.6       # untuk transisi seperti bergelombang
   auto_size_text: ^3.0.0        # untuk menghindari overflow
-  modal_bottom_sheet: ^2.1.2    # untuk menculin layar setengah
   dropdown_search: ^5.0.3       # untuk list produk saat pencarian
   day_night_switcher: ^0.2.0+1  # switch mode night
   image_picker: ^0.8.6          # untuk mengambil gambar, video
-  intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
   flutter_onboarding_slider: ^1.0.8
   lottie: ^2.0.0
+  provider: ^6.0.4
+  double_back_to_close: ^2.0.0
+  # intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
+  # modal_bottom_sheet: ^2.1.2    # untuk menculin layar setengah
   # awesome_dialog: ^3.0.2        # untuk munculin dialog agar keren
   # animated_splash_screen: ^1.3.0
   # pull_to_refresh: ^2.0.0
@@ -73,9 +75,9 @@ flutter_app_name:
   name: "ThriLogic"
 
 flutter_icons:
-  android: "launcher_icon"
+  android: "application_icon"
   ios: true
-  image_path: "assets/logo/logo.png"
+  image_path: "assets/logo/logoaplikasi.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/API/object_class/transaksi.dart';
+import 'package:thrilogic_shop/pages/delvy/keranjang_page.dart';
 import 'package:thrilogic_shop/pages/delvy/list_alamat_page.dart';
 import 'package:thrilogic_shop/services/icon_assets.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
@@ -26,6 +28,7 @@ class PembayaranPage extends StatefulWidget {
 class _PembayaranPageState extends State<PembayaranPage> {
   @override
   Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
     return Scaffold(
       backgroundColor: Warna().primer,
       appBar: AppBar(
@@ -420,6 +423,18 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       CreateTransaksi transaksi = await JsonFuture()
                           .createTransaksi(alamat: Storages.getAlamat());
                       snackBar(context, text: transaksi.info ?? 'GAGAL');
+                      if (transaksi.info != null) {
+                        cart.cart = 0;
+                        // await Storages().setLengthCart(jumlah: 0);
+                        Navigator.pushReplacement(
+                          context,
+                          WaveTransition(
+                            duration: const Duration(milliseconds: 700),
+                            child: Keranjang(),
+                            center: const FractionalOffset(0.5, 0),
+                          ),
+                        );
+                      }
                     } else {
                       snackBar(context, text: "Pilih Alamat");
                     }

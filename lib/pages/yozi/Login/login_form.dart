@@ -47,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
                 borderRadius: BorderRadius.circular(10),
               ),
               hintText: "Masukan email kamu",
-              hintStyle: Font.style(fontSize: 16),
+              hintStyle: Font.style(fontSize: 16, color: Colors.grey),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Assets.registerIcon('sms'),
@@ -67,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: "Masukan password",
-                hintStyle: Font.style(fontSize: 16),
+                hintStyle: Font.style(fontSize: 16, color: Colors.grey),
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {

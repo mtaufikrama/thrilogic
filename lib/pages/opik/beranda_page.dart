@@ -62,7 +62,7 @@ class Beranda extends StatelessWidget {
                   enlargeCenterPage: false,
                   scrollDirection: Axis.horizontal,
                 ),
-                items: ['1', '2'].map((i) {
+                items: ['1', '2', '3', '4', '5'].map((i) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -232,6 +232,7 @@ class Beranda extends StatelessWidget {
                                 children: [
                                   Text(
                                     listProducts[index].name!,
+                                    textAlign: TextAlign.justify,
                                     style: Font.style(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,

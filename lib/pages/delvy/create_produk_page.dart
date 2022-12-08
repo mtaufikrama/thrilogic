@@ -211,21 +211,33 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                                     fontSize: 20),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () async {
-                                XFile? image = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                if (image != null) {
-                                  file = image.path;
-                                  setState(() {});
-                                }
-                              },
-                              child: file == null
-                                  ? Assets.lainnyaIcon('add_image', height: 100)
-                                  : Image.file(
-                                      File(file!),
-                                      height: 100,
-                                    ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  XFile? image = await ImagePicker()
+                                      .pickImage(source: ImageSource.gallery);
+                                  if (image != null) {
+                                    file = image.path;
+                                    setState(() {});
+                                  }
+                                },
+                                child: file == null
+                                    ? Assets.lainnyaIcon('add_image',
+                                        height: 100)
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.file(
+                                            File(file!),
+                                            height: 100,
+                                          ),
+                                        ),
+                                      ),
+                              ),
                             ),
                             const SizedBox(height: 20),
                           ],

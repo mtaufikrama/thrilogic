@@ -110,12 +110,13 @@ class _CreateReviewPageState extends State<CreateReviewPage> {
                     padding: const EdgeInsets.all(10.0),
                     child: TextFormField(
                       controller: pesan,
+                      style: Font.style(),
                       minLines: 2,
                       maxLines: 5,
                       keyboardType: TextInputType.multiline,
                       decoration: InputDecoration(
                           hintText: 'Tuliskan pesan kamu',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: Font.style(color: Colors.grey),
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)))),
@@ -158,9 +159,6 @@ class _CreateReviewPageState extends State<CreateReviewPage> {
               child: TextButton(
                 onPressed: () async {
                   if (pesan.text.isNotEmpty && file != null) {
-                    print(pesan.text);
-                    print(rating);
-                    print(file);
                     rating.toInt();
                     CreateReview createReview = await JsonFuture().createReview(
                       id: widget.id.toString(),

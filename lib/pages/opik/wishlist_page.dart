@@ -36,7 +36,8 @@ class _WishListState extends State<WishList> {
           future: JsonFuture().getWishlist(),
           builder: (context, snapshotGetWishlist) {
             if (snapshotGetWishlist.hasData &&
-                snapshotGetWishlist.connectionState != ConnectionState.waiting &&
+                snapshotGetWishlist.connectionState !=
+                    ConnectionState.waiting &&
                 snapshotGetWishlist.data != null) {
               if (snapshotGetWishlist.data!.data != null) {
                 List<DataGetWishlist> dataWishlist =
@@ -50,7 +51,8 @@ class _WishListState extends State<WishList> {
                             child: Center(
                               child: Text(
                                 "WISHLIST",
-                                style: Font.style(fontSize: 22, fontWeight: FontWeight.w500),
+                                style: Font.style(
+                                    fontSize: 22, fontWeight: FontWeight.w500),
                               ),
                             ),
                           ),
@@ -131,11 +133,13 @@ class _WishListState extends State<WishList> {
                                               ),
                                               child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceEvenly,
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
                                                   Row(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
@@ -155,6 +159,8 @@ class _WishListState extends State<WishList> {
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                           ),
+                                                          textAlign:
+                                                              TextAlign.justify,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 2,
@@ -163,7 +169,8 @@ class _WishListState extends State<WishList> {
                                                       const SizedBox(width: 5),
                                                       GestureDetector(
                                                         onTap: () async {
-                                                          DeleteWishlist delete =
+                                                          DeleteWishlist
+                                                              delete =
                                                               await JsonFuture()
                                                                   .deleteWishlist(
                                                                       id: dataWishlist[
@@ -171,7 +178,8 @@ class _WishListState extends State<WishList> {
                                                                           .id
                                                                           .toString());
                                                           snackBar(context,
-                                                              text: delete.info ??
+                                                              text: delete
+                                                                      .info ??
                                                                   'TERJADI KESALAHAN');
                                                           setState(() {});
                                                         },
@@ -210,7 +218,8 @@ class _WishListState extends State<WishList> {
                                                         List<DataGetReview>
                                                             datareview =
                                                             snapshotGetreview
-                                                                    .data!.data ??
+                                                                    .data!
+                                                                    .data ??
                                                                 [];
                                                         star = datareview
                                                             .map((e) => e.star!
@@ -249,9 +258,10 @@ class _WishListState extends State<WishList> {
                                                                     .spaceBetween,
                                                             children: [
                                                               RatingBarIndicator(
-                                                                rating: star.isNaN
-                                                                    ? 0
-                                                                    : star,
+                                                                rating:
+                                                                    star.isNaN
+                                                                        ? 0
+                                                                        : star,
                                                                 itemSize: 15,
                                                                 unratedColor:
                                                                     Colors.grey,
@@ -270,8 +280,10 @@ class _WishListState extends State<WishList> {
                                                                         .isNotEmpty
                                                                     ? "${datareview.length} terjual"
                                                                     : '',
-                                                                style: Font.style(
-                                                                    fontSize: 12),
+                                                                style:
+                                                                    Font.style(
+                                                                        fontSize:
+                                                                            12),
                                                               ),
                                                             ],
                                                           ),
@@ -280,8 +292,8 @@ class _WishListState extends State<WishList> {
                                                         return Text(
                                                           'err',
                                                           style: Font.style(
-                                                              color:
-                                                                  Warna().shadow),
+                                                              color: Warna()
+                                                                  .shadow),
                                                         );
                                                       }
                                                     },
@@ -292,10 +304,12 @@ class _WishListState extends State<WishList> {
                                                             .spaceBetween,
                                                     children: [
                                                       AutoSizeText(
-                                                        rupiah(dataWishlist[index]
+                                                        rupiah(dataWishlist[
+                                                                        index]
                                                                     .product !=
                                                                 null
-                                                            ? dataWishlist[index]
+                                                            ? dataWishlist[
+                                                                    index]
                                                                 .product!
                                                                 .harga!
                                                             : 0),

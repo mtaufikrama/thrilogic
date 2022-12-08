@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
@@ -29,6 +30,7 @@ class _ProdukPage extends State<ProdukPage> {
   String nama = Storages.getName();
   @override
   Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Warna().primer,
@@ -412,7 +414,7 @@ class _ProdukPage extends State<ProdukPage> {
                                     productId: widget.id.toString(),
                                     qty: "1",
                                   );
-                                  await Storages().setAddCart();
+                                  if (keranjang.code == '00') cart.addcart = 1;
                                   snackBar(
                                     context,
                                     text: keranjang.info ??
@@ -441,7 +443,7 @@ class _ProdukPage extends State<ProdukPage> {
                                 ),
                               ),
                               child: Text(
-                                "Tambahkan Keranjang",
+                                "TAMBAH KE KERANJANG",
                                 style: Font.style(
                                   color: Colors.white,
                                   fontSize: 18,

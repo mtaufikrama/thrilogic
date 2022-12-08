@@ -4,7 +4,7 @@
    <application
         android:label="ThriLogic"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/application_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -49,7 +49,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 borderRadius: BorderRadius.circular(10),
               ),
               hintText: "Masukan nama kamu",
-              hintStyle: Font.style(fontSize: 16),
+              hintStyle: Font.style(fontSize: 16, color: Colors.grey),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Assets.registerIcon('profile'),
@@ -69,7 +69,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: "Masukan email kamu",
-                hintStyle: Font.style(fontSize: 16),
+                hintStyle: Font.style(fontSize: 16, color: Colors.grey),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(defaultPadding),
                   child: Assets.registerIcon('sms'),
@@ -88,7 +88,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 borderRadius: BorderRadius.circular(10),
               ),
               hintText: "Masukkan No.Tlpn kamu",
-              hintStyle: Font.style(fontSize: 16),
+              hintStyle: Font.style(fontSize: 16, color: Colors.grey),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Assets.registerIcon('call'),
@@ -108,7 +108,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: "Masukkan password",
-                hintStyle: Font.style(fontSize: 16),
+                hintStyle: Font.style(fontSize: 16, color: Colors.grey),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(defaultPadding),
                   child: Assets.registerIcon('lock'),
@@ -139,7 +139,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 borderRadius: BorderRadius.circular(10),
               ),
               hintText: "Konfirmasi password",
-              hintStyle: Font.style(fontSize: 16),
+              hintStyle: Font.style(fontSize: 16, color: Colors.grey),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Assets.registerIcon('lock'),

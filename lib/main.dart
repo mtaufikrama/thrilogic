@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/pages/roni/splashscreen.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
@@ -9,9 +10,20 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((_) {
-    runApp(const MyApp());
-  });
+  ]).then(
+    (_) {
+      runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => Cart(),
+            ),
+          ],
+          child: const MyApp(),
+        ),
+      );
+    },
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -30,8 +42,10 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: FutureBuilder<bool>(
         future: Storages().ready(),
-        builder:
-            (BuildContext context, AsyncSnapshot<bool> snapshotLocalStorage) {
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<bool> snapshotLocalStorage,
+        ) {
           if (snapshotLocalStorage.data == true) {
             return const SplashScreen();
           } else {

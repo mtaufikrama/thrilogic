@@ -27,10 +27,6 @@
 //       ? const Color.fromRGBO(166, 87, 55, 1)
 //       : const Color.fromRGBO(255, 110, 42, 1);
 
-//   Color get circular => nightmode != false
-//       ? const Color.fromRGBO(166, 87, 55, 1)
-//       : const Color.fromRGBO(255, 110, 42, 1);
-
 //   Color get shadow => nightmode == false
 //       ? const Color.fromARGB(255, 206, 206, 206)
 //       : Colors.transparent;
@@ -79,6 +75,27 @@
 //       ),
 //     ),
 //   );
+// }
+
+// class Cart with ChangeNotifier {
+//   int _cart = 0;
+
+//   int get cart => _cart;
+
+//   set addcart(int value) {
+//     cart += value;
+//     notifyListeners();
+//   }
+
+//   set removecart(int value) {
+//     cart -= value;
+//     notifyListeners();
+//   }
+
+//   set cart(int value) {
+//     _cart = value;
+//     notifyListeners();
+//   }
 // }
 
 // LottieBuilder lottieAsset(

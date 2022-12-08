@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/pages/opik/splash_login.dart';
@@ -24,6 +25,7 @@ class _KeranjangAddState extends State<KeranjangAdd> {
   String nama = Storages.getName();
   @override
   Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
     return nama.isEmpty
         ? GestureDetector(
             onTap: () {
@@ -60,7 +62,8 @@ class _KeranjangAddState extends State<KeranjangAdd> {
                                   .createKeranjang(
                                       productId: widget.id.toString(),
                                       qty: "1");
-                              await Storages().setAddCart();
+                              cart.addcart = 1;
+                              // await Storages().setAddCart();
                               snackBar(
                                 context,
                                 text: keranjang.info ??

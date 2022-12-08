@@ -28,23 +28,6 @@ class Storages {
     await storages.setItem('nightMode', nightMode);
   }
 
-  Future<void> setLengthCart({required int jumlah}) async {
-    await storages.deleteItem('addCart');
-    await storages.setItem('addCart', jumlah);
-  }
-
-  Future<void> setAddCart() async {
-    int addProduk = Storages.getLengthCart() + 1;
-    await storages.deleteItem('addCart');
-    await storages.setItem('addCart', addProduk);
-  }
-
-  Future<void> setRemoveCart() async {
-    int addProduk = Storages.getLengthCart() - 1;
-    await storages.deleteItem('addCart');
-    await storages.setItem('addCart', addProduk);
-  }
-
   Future<void> setAlamat({required String alamat}) async {
     await storages.deleteItem('alamat');
     await storages.setItem('alamat', alamat);
@@ -89,6 +72,5 @@ class Storages {
   static List<dynamic> getListAlamat() => storages.getItem('listAlamat') ?? [];
   static String getAlamat() => storages.getItem('alamat') ?? '';
   static bool getNightMode() => storages.getItem('nightMode') ?? false;
-  static int getLengthCart() => storages.getItem('addCart') ?? 0;
   static bool getIntroSlider() => storages.getItem('introSlider') ?? false;
 }

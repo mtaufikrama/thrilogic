@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/homepage/homepage.dart';
-import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 import 'package:wave_transition/wave_transition.dart';
 
@@ -29,7 +29,6 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
     '43',
     '44',
     '45',
-    '46',
     '47',
     '48',
     '49',
@@ -40,6 +39,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
 
   @override
   Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
     return Scaffold(
       backgroundColor: Warna().terang,
       body: FutureBuilder<GetKeranjang>(
@@ -50,7 +50,6 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
               snapshotGetKeranjang.data != null &&
               snapshotGetKeranjang.data!.data != null) {
             if (listDataKategori.isEmpty) {
-              print('mantap');
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +62,6 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                               ConnectionState.waiting &&
                           snapshotGetKategoriById.data != null &&
                           snapshotGetKategoriById.data!.data != null) {
-                        print('keren');
                         listDataKategori
                             .add(snapshotGetKategoriById.data!.data!);
                         listProducts.addAll(
@@ -72,9 +70,8 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                           listProducts.shuffle();
                           return GestureDetector(
                             onTap: () async {
-                              await Storages().setLengthCart(
-                                  jumlah:
-                                      snapshotGetKeranjang.data!.data!.length);
+                              cart.cart =
+                                  snapshotGetKeranjang.data!.data!.length;
                               Navigator.pushReplacement(
                                 context,
                                 WaveTransition(
