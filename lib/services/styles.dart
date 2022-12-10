@@ -2,6 +2,7 @@
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:intl/intl.dart';
 // import 'package:lottie/lottie.dart';
+// import 'package:provider/provider.dart';
 // import 'package:thrilogic_shop/services/local_storages.dart';
 
 // class Warna {
@@ -61,10 +62,13 @@
 //     SnackBar(
 //       content: Text(
 //         text,
-//         style: Font.style(color: Colors.white),
+//         style: Font.style(
+//           color: Colors.white,
+//           fontSize: 15,
+//         ),
 //         textAlign: TextAlign.center,
 //       ),
-//       padding: const EdgeInsets.symmetric(vertical: 25),
+//       padding: const EdgeInsets.only(left: 25, right: 25, bottom: 40, top: 10),
 //       backgroundColor: Warna().first,
 //       duration: const Duration(seconds: 3),
 //       elevation: 5,

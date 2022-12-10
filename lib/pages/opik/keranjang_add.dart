@@ -62,7 +62,7 @@ class _KeranjangAddState extends State<KeranjangAdd> {
                                   .createKeranjang(
                                       productId: widget.id.toString(),
                                       qty: "1");
-                              cart.addcart = 1;
+                              if (keranjang.code == '00') cart.addcart = 1;
                               // await Storages().setAddCart();
                               snackBar(
                                 context,

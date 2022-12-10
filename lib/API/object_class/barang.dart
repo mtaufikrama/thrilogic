@@ -1,13 +1,15 @@
 class GetBarang {
   String? code;
   String? info;
+  String? message;
   List<DataGetBarang>? data;
 
-  GetBarang({this.code, this.info, this.data});
+  GetBarang({this.code, this.info, this.data, this.message});
 
   GetBarang.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     info = json['info'];
+    message = json['message'];
     if (json['data'] != null) {
       data = <DataGetBarang>[];
       json['data'].forEach((v) {
@@ -20,6 +22,7 @@ class GetBarang {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
     data['info'] = info;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }

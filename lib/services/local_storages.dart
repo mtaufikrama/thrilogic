@@ -38,6 +38,11 @@ class Storages {
     await storages.setItem('email', email);
   }
 
+  Future<void> setPassword({required String password}) async {
+    await storages.deleteItem('password');
+    await storages.setItem('password', password);
+  }
+
   Future<void> setIntroSlider() async {
     await storages.setItem('introSlider', true);
   }
@@ -61,7 +66,6 @@ class Storages {
     await storages.deleteItem('nomorTelepon');
     await storages.deleteItem('listAlamat');
     await storages.deleteItem('alamat');
-    await storages.deleteItem('email');
     await storages.deleteItem('nightMode');
   }
 
@@ -69,6 +73,7 @@ class Storages {
   static String getNoTelp() => storages.getItem('nomorTelepon') ?? '';
   static String getName() => storages.getItem('name') ?? '';
   static String getEmail() => storages.getItem('email') ?? '';
+  static String getPassword() => storages.getItem('password') ?? '';
   static List<dynamic> getListAlamat() => storages.getItem('listAlamat') ?? [];
   static String getAlamat() => storages.getItem('alamat') ?? '';
   static bool getNightMode() => storages.getItem('nightMode') ?? false;

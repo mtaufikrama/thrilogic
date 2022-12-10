@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/auth.dart';
 import 'package:thrilogic_shop/homepage/integrate.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 //import 'package:thrilogic_shop/homepage/homepage.dart';
 import 'package:thrilogic_shop/pages/yozi/register_page.dart';
@@ -25,6 +26,13 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController password = TextEditingController();
   bool obscureText = true;
   @override
+  void initState() {
+    email.text = Storages.getEmail();
+    password.text = Storages.getPassword();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     email.dispose();
     password.dispose();
@@ -42,6 +50,12 @@ class _LoginFormState extends State<LoginForm> {
             textInputAction: TextInputAction.next,
             cursorColor: Warna().font,
             style: Font.style(),
+            onChanged: (value) async {
+              if (value.isEmpty) {
+                await Storages().setEmail(email: value);
+                await Storages().setPassword(password: value);
+              }
+            },
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -62,6 +76,12 @@ class _LoginFormState extends State<LoginForm> {
               obscureText: obscureText,
               cursorColor: Warna().first,
               style: Font.style(),
+              onChanged: (value) async {
+                if (value.isEmpty) {
+                  await Storages().setEmail(email: value);
+                  await Storages().setPassword(password: value);
+                }
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -95,7 +115,8 @@ class _LoginFormState extends State<LoginForm> {
                 Login login = await JsonFuture()
                     .login(email: email.text, password: password.text);
                 snackBar(context, text: login.info!);
-                if (login.code == '00') {
+                if (login.info == 'Login Berhasil') {
+                  await Storages().setPassword(password: password.text);
                   Navigator.pushReplacement(
                     context,
                     WaveTransition(

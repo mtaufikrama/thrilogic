@@ -161,18 +161,19 @@ class Profile extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () async {
-                            Logout logout = await JsonFuture().logout();
-                            snackBar(context,
-                                text: logout.info ?? 'TERJADI KESALAHAN');
-                            if (logout.info != null)
-                              Navigator.pushReplacement(
+                            await JsonFuture().logout();
+                            snackBar(context, text: 'Logout Berhasil');
+                            if (Storages.getToken().isEmpty) {
+                              Navigator.pop(context);
+                              Navigator.push(
                                 context,
                                 WaveTransition(
                                   duration: const Duration(milliseconds: 700),
-                                  child: const IntegrateAPI(),
+                                  child: const LoginScreen(),
                                   center: const FractionalOffset(0.5, 0.0),
                                 ),
                               );
+                            }
                           },
                           child: Icon(Icons.done, color: Warna().icon),
                           style: ElevatedButton.styleFrom(

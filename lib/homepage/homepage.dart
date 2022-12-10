@@ -38,9 +38,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool nightmode = Storages.getNightMode();
-  String nama = Storages.getName();
   @override
   Widget build(BuildContext context) {
+    String nama = Storages.getName();
     var cart = context.watch<Cart>();
     return DefaultTabController(
       initialIndex: widget.selectedIndex,

@@ -76,8 +76,7 @@ class _WishListState extends State<WishList> {
                                         duration:
                                             const Duration(milliseconds: 700),
                                         child: ProdukPage(
-                                          id: dataWishlist[index].product!.id!,
-                                        ),
+                                            id: dataWishlist[index].productId!),
                                         center: const FractionalOffset(0.5, 0),
                                       ),
                                     );
@@ -322,8 +321,13 @@ class _WishListState extends State<WishList> {
                                                       ),
                                                       KeranjangAdd(
                                                         id: dataWishlist[index]
-                                                            .product!
-                                                            .id!,
+                                                                    .product !=
+                                                                null
+                                                            ? dataWishlist[
+                                                                    index]
+                                                                .product!
+                                                                .id!
+                                                            : 0,
                                                       ),
                                                     ],
                                                   ),

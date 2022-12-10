@@ -1,11 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
+import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/homepage/homepage.dart';
+import 'package:thrilogic_shop/pages/roni/Splashscreen.dart';
+import 'package:thrilogic_shop/pages/yozi/login_page.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 import 'package:wave_transition/wave_transition.dart';
 
@@ -36,6 +40,31 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
   List<DataGetKategoriById> listDataKategori = [];
   List<ProductsGetKategoriById> listProducts = [];
   Future<void>? addcart;
+  int time = 0;
+  Timer? times;
+  // GetBarang? cekmessage;
+
+  @override
+  void dispose() {
+    times!.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    times = Timer.periodic(
+      Duration(seconds: 1),
+      (timer) {
+        time = timer.tick;
+        print(time);
+        if (time == 15) {
+          timer.cancel();
+          setState(() {});
+        }
+      },
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +97,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                             snapshotGetKategoriById.data!.data!.products!);
                         if (listDataKategori.length == listIdKategori.length) {
                           listProducts.shuffle();
+                          times!.cancel();
                           return GestureDetector(
                             onTap: () async {
                               cart.cart =
@@ -131,11 +161,91 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
               );
             }
           } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            );
+            if (time >= 15) {
+              times!.cancel();
+              return Center(
+                child: AlertDialog(
+                  backgroundColor: Warna().primerCard,
+                  content: Text(
+                    'Data Gagal diproses',
+                    style: Font.style(),
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: [
+                    IconButton(
+                      tooltip: 'Instal Ulang Aplikasi',
+                      onPressed: () async {
+                        times!.cancel();
+                        await JsonFuture().logout();
+                        Navigator.pushReplacement(
+                          context,
+                          WaveTransition(
+                            duration: const Duration(milliseconds: 700),
+                            child: const SplashScreen(),
+                            center: const FractionalOffset(0.5, 0.5),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.install_mobile_rounded,
+                        color: Warna().icon,
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: 'Login Kembali',
+                      onPressed: () async {
+                        times!.cancel();
+                        Navigator.pushReplacement(
+                          context,
+                          WaveTransition(
+                            duration: const Duration(milliseconds: 700),
+                            child: const LoginScreen(),
+                            center: const FractionalOffset(0.5, 0.5),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.login_rounded,
+                        color: Warna().icon,
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: 'Restart Aplikasi',
+                      onPressed: () async {
+                        times!.cancel();
+                        await JsonFuture().logout();
+                        Navigator.pushReplacement(
+                          context,
+                          WaveTransition(
+                            duration: const Duration(milliseconds: 700),
+                            child: const IntegrateAPI(),
+                            center: const FractionalOffset(0.5, 0.5),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.restart_alt_rounded,
+                        color: Warna().icon,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Stack(
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  ),
+                  if (time == 10)
+                    Center(
+                      child: Text('Loading is a taking too long'),
+                    )
+                ],
+              );
+            }
           }
         },
       ),

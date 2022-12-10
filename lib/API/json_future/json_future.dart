@@ -15,7 +15,7 @@ class JsonFuture {
   String baseUrl = 'https://api1.sib3.nurulfikri.com';
   String token = Storages.getToken().isNotEmpty
       ? Storages.getToken()
-      : '2865|1bAwu4N9nxhrnpIbZxwW9aFVIrMGoWN4gToiLNPd';
+      : '3092|vK3E8O1r6sv8mQIsVWHx1D4Ba3wByZ8eYdGnhVk7';
 
   Future<Login> login({
     required String email,
@@ -69,17 +69,8 @@ class JsonFuture {
     return Register.fromJson(responseData);
   }
 
-  Future<Logout> logout() async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/api/logout'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
+  Future<void> logout() async {
     await Storages().logout();
-    return Logout.fromJson(jsonDecode(response.body));
   }
 
   Future<GetBarang> getBarang() async {

@@ -105,8 +105,7 @@ class _KeranjangState extends State<Keranjang> {
                                                   milliseconds: 700),
                                               child: ProdukPage(
                                                   id: datakeranjang[index]
-                                                      .product!
-                                                      .id!),
+                                                      .productId!),
                                               center: const FractionalOffset(
                                                   0.5, 0),
                                             ),
@@ -246,7 +245,8 @@ class _KeranjangState extends State<Keranjang> {
                                                 ),
                                                 IconButton(
                                                   icon: const Icon(
-                                                    Icons.delete,
+                                                    Icons
+                                                        .delete_outline_rounded,
                                                     color: Colors.grey,
                                                     size: 25,
                                                   ),
@@ -255,9 +255,9 @@ class _KeranjangState extends State<Keranjang> {
                                                         deleteKeranjang =
                                                         await JsonFuture()
                                                             .deleteKeranjang(
-                                                                id: keranjang
-                                                                    .id!
-                                                                    .toString());
+                                                      id: keranjang.id!
+                                                          .toString(),
+                                                    );
                                                     if (deleteKeranjang.code ==
                                                         '00')
                                                       cart.removecart = 1;
@@ -284,6 +284,7 @@ class _KeranjangState extends State<Keranjang> {
                           ),
                           Container(
                             padding: const EdgeInsets.all(15),
+                            color: Warna().primerCard,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
