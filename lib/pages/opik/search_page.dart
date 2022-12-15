@@ -36,7 +36,7 @@ class _SearchPageState extends State<SearchPage> {
         title: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Warna().putih,
+            color: Colors.white,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: TextField(

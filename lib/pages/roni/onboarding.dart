@@ -36,11 +36,11 @@ class OnBoarding extends StatelessWidget {
         'Lewati',
         style: Font.style(
           fontSize: 16,
-          color: Warna().putih,
+          color: Colors.white,
           fontWeight: FontWeight.w600,
         ),
       ),
-      controllerColor: Warna().putih,
+      controllerColor: Colors.white,
       finishButtonColor: Colors.white54,
       totalPage: 3,
       headerBackgroundColor: Warna().first,
@@ -74,7 +74,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
-                      color: Warna().putih)),
+                      color: Colors.white)),
               const SizedBox(
                 height: 20,
               ),
@@ -84,7 +84,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
-                      color: Warna().putih)),
+                      color: Colors.white)),
               const SizedBox(
                 height: 20,
               )
@@ -103,7 +103,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
-                      color: Warna().putih)),
+                      color: Colors.white)),
               const SizedBox(
                 height: 20,
               ),
@@ -113,7 +113,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
-                      color: Warna().putih)),
+                      color: Colors.white)),
               const SizedBox(
                 height: 20,
               )
@@ -132,7 +132,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
-                      color: Warna().putih)),
+                      color: Colors.white)),
               const SizedBox(
                 height: 20,
               ),
@@ -142,7 +142,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
-                      color: Warna().putih)),
+                      color: Colors.white)),
               const SizedBox(
                 height: 20,
               )

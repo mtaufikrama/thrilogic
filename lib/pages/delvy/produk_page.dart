@@ -449,7 +449,7 @@ class _ProdukPage extends State<ProdukPage> {
                                           ),
                                           foregroundColor:
                                               MaterialStateProperty.all<Color>(
-                                                  Warna().putih),
+                                                  Colors.white),
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
                                                   Warna().icon),
@@ -469,7 +469,7 @@ class _ProdukPage extends State<ProdukPage> {
                                           "PERBARUI",
                                           style: Font.style(
                                               fontSize: 18,
-                                              color: Warna().putih),
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ),
@@ -748,7 +748,7 @@ class _PlusMinusState extends State<PlusMinus> {
               child: Text(
                 "ADD CART",
                 style: Font.style(
-                  color: Warna().putih,
+                  color: Colors.white,
                   fontSize: 18,
                 ),
               ),

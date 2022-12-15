@@ -122,7 +122,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                               child: Center(
                                 child: Text(
                                   'TAP SCREEN',
-                                  style: Font.style(color: Warna().putih),
+                                  style: Font.style(color: Colors.white),
                                 ),
                               ),
                             ),
@@ -153,7 +153,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                   child: Center(
                     child: Text(
                       'DATA GAGAL DI PROSES',
-                      style: Font.style(color: Warna().putih),
+                      style: Font.style(color: Colors.white),
                     ),
                   ),
                 ),
@@ -234,7 +234,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                 children: [
                   Center(
                     child: CircularProgressIndicator(
-                      color: Warna().putih,
+                      color: Colors.white,
                     ),
                   ),
                   if (time == 10)

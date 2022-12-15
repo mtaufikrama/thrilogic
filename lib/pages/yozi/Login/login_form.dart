@@ -141,7 +141,7 @@ class _LoginFormState extends State<LoginForm> {
                 "Masuk".toUpperCase(),
                 style: Font.style(
                   fontSize: 15,
-                  color: Warna().putih,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),

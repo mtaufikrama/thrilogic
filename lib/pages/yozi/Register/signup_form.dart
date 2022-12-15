@@ -198,7 +198,7 @@ class _SignUpFormState extends State<SignUpForm> {
               "Sign Up".toUpperCase(),
               style: Font.style(
                 fontSize: 15,
-                color: Warna().putih,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),

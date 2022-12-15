@@ -46,7 +46,7 @@ class _CreateReviewPageState extends State<CreateReviewPage> {
         title: Text(
           "Review Produk",
           style: Font.style(
-            color: Warna().putih,
+            color: Colors.white,
           ),
         ),
         backgroundColor: Warna().first,
@@ -194,7 +194,7 @@ class _CreateReviewPageState extends State<CreateReviewPage> {
                     EdgeInsets.symmetric(vertical: 15),
                   ),
                   foregroundColor:
-                      MaterialStateProperty.all<Color>(Warna().putih),
+                      MaterialStateProperty.all<Color>(Colors.white),
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Warna().icon),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -207,7 +207,7 @@ class _CreateReviewPageState extends State<CreateReviewPage> {
                   'SIMPAN',
                   style: Font.style(
                     fontSize: 18,
-                    color: Warna().putih,
+                    color: Colors.white,
                   ),
                 ),
               ),

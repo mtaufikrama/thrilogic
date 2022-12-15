@@ -29,12 +29,12 @@ class _KeranjangState extends State<Keranjang> {
         backgroundColor: Warna().primer,
         appBar: AppBar(
           leading: BackButton(
-            color: Warna().putih,
+            color: Colors.white,
           ),
           elevation: 0,
           title: Text(
             "Keranjang",
-            style: Font.style(color: Warna().putih),
+            style: Font.style(color: Colors.white),
           ),
           backgroundColor: Warna().first,
           foregroundColor: Warna().primer,
@@ -370,7 +370,7 @@ class _KeranjangState extends State<Keranjang> {
                                       child: Text(
                                         "Beli Semua",
                                         style: Font.style(
-                                            fontSize: 18, color: Warna().putih),
+                                            fontSize: 18, color: Colors.white),
                                       ),
                                     ),
                                   ),

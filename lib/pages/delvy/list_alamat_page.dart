@@ -60,7 +60,7 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                   },
                   icon: Icon(
                     Icons.add,
-                    color: Warna().putih,
+                    color: Colors.white,
                   ),
                   tooltip: 'Tambah Alamat',
                 )
@@ -95,14 +95,14 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                               "Default",
                               style: Font.style(
                                 fontWeight: FontWeight.bold,
-                                color: Warna().putih,
+                                color: Colors.white,
                                 fontSize: 15,
                               ),
                             ),
                             Text(
                               nama,
                               style: Font.style(
-                                color: Warna().putih,
+                                color: Colors.white,
                                 fontSize: 15,
                               ),
                             ),
@@ -110,15 +110,15 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                             Text(
                               "($notelp)",
                               style: Font.style(
-                                color: Warna().putih,
+                                color: Colors.white,
                                 fontSize: 13,
                               ),
                             ),
                             const SizedBox(height: 5),
                             Text(
                               alamat,
-                              style: Font.style(
-                                  color: Warna().putih, fontSize: 13),
+                              style:
+                                  Font.style(color: Colors.white, fontSize: 13),
                             ),
                           ],
                         ),
@@ -232,7 +232,7 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                       "TAMBAH ALAMAT",
                       style: Font.style(
                         fontSize: 20,
-                        color: Warna().putih,
+                        color: Colors.white,
                       ),
                     ),
                   ),

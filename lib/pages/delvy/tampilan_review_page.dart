@@ -30,7 +30,7 @@ class _TampilanReviewPageState extends State<TampilanReviewPage> {
         elevation: 0,
         title: Text(
           "Review",
-          style: Font.style(color: Warna().putih),
+          style: Font.style(color: Colors.white),
         ),
         backgroundColor: Warna().first,
         centerTitle: false,
@@ -77,7 +77,7 @@ class _TampilanReviewPageState extends State<TampilanReviewPage> {
                                           .substring(0, 1)
                                           .toUpperCase(),
                                       style: Font.style(
-                                        color: Warna().putih,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),

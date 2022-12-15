@@ -89,7 +89,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
         elevation: 0,
         title: Text(
           "Tambah Produk",
-          style: Font.style(color: Warna().putih),
+          style: Font.style(color: Colors.white),
         ),
         backgroundColor: Warna().first,
       ),
@@ -360,8 +360,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.all(15)),
-                foregroundColor:
-                    MaterialStateProperty.all<Color>(Warna().putih),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 backgroundColor: MaterialStateProperty.all<Color>(Warna().icon),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -377,7 +376,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                         widget.stock != null
                     ? 'UPDATE PRODUK'
                     : 'TAMBAH PRODUK',
-                style: Font.style(fontSize: 18, color: Warna().putih),
+                style: Font.style(fontSize: 18, color: Colors.white),
               ),
             ),
           ),
@@ -561,7 +560,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
       //               EdgeInsets.symmetric(vertical: 15),
       //             ),
       //             foregroundColor:
-      //                 MaterialStateProperty.all<Color>(Warna().putih),
+      //                 MaterialStateProperty.all<Color>(Colors.white),
       //             backgroundColor:
       //                 MaterialStateProperty.all<Color>(Warna().icon),
       //             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -574,7 +573,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
       //             'TAMBAH PRODUK',
       //             style: Font.style(
       //               fontSize: 18,
-      //               color: Warna().putih,
+      //               color: Colors.white,
       //             ),
       //           ),
       //         ),

@@ -27,7 +27,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
         elevation: 0,
         title: Text(
           "Pembayaran",
-          style: Font.style(color: Warna().putih),
+          style: Font.style(color: Colors.white),
         ),
         backgroundColor: Warna().first,
         centerTitle: false,
@@ -170,7 +170,7 @@ class _SelesaiPembayaranPageState extends State<SelesaiPembayaranPage> {
                                   child: Text(
                                     "REVIEW",
                                     style: Font.style(
-                                        color: Warna().putih, fontSize: 10),
+                                        color: Colors.white, fontSize: 10),
                                   ),
                                 ),
                               ),
