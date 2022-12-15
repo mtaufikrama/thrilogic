@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/auth.dart';
+import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:wave_transition/wave_transition.dart';
 import '../../../services/already_have_an_account_acheck.dart';
 import 'package:thrilogic_shop/services/styles.dart';
@@ -87,7 +88,7 @@ class _SignUpFormState extends State<SignUpForm> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Masukkan No.Tlpn kamu",
+              hintText: "Masukan No.Tlpn kamu",
               hintStyle: Font.style(fontSize: 16, color: Colors.grey),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
@@ -100,14 +101,14 @@ class _SignUpFormState extends State<SignUpForm> {
             child: TextFormField(
               style: Font.style(),
               controller: password,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               obscureText: boolpassword,
               cursorColor: Warna().font,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: "Masukkan password",
+                hintText: "Masukan password",
                 hintStyle: Font.style(fontSize: 16, color: Colors.grey),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(defaultPadding),
@@ -131,7 +132,7 @@ class _SignUpFormState extends State<SignUpForm> {
           TextFormField(
             style: Font.style(),
             controller: konfirmasi,
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.next,
             obscureText: boolkonfirmasi,
             cursorColor: Warna().font,
             decoration: InputDecoration(
@@ -170,6 +171,8 @@ class _SignUpFormState extends State<SignUpForm> {
               );
               snackBar(context, text: register.info!);
               if (register.code == '00') {
+                await Storages().setEmail(email: email.text);
+                await Storages().setPassword(password: password.text);
                 await Notifikasi.notif(
                   title: 'Daftar Akun',
                   body:
@@ -195,7 +198,7 @@ class _SignUpFormState extends State<SignUpForm> {
               "Sign Up".toUpperCase(),
               style: Font.style(
                 fontSize: 15,
-                color: Colors.white,
+                color: Warna().putih,
                 fontWeight: FontWeight.bold,
               ),
             ),

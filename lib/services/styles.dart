@@ -10,7 +10,7 @@ class Warna {
   Color get terang => const Color.fromRGBO(255, 110, 42, 1);
   Color get first => const Color.fromRGBO(166, 87, 55, 1);
   Color get second => const Color.fromARGB(255, 147, 128, 128);
-  Color get third => const Color.fromARGB(255, 203, 191, 191);
+  Color get putih => const Color.fromARGB(255, 180, 180, 180);
 
   Color get primer => nightmode == false
       ? const Color.fromARGB(255, 255, 255, 255)
@@ -63,7 +63,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar(
       content: Text(
         text,
         style: Font.style(
-          color: Colors.white,
+          color: Warna().putih,
           fontSize: 15,
         ),
         textAlign: TextAlign.center,

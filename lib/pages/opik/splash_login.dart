@@ -49,7 +49,8 @@ class SplashLogin extends StatelessWidget {
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.symmetric(horizontal: 113, vertical: 15)),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(Warna().putih),
                 backgroundColor: MaterialStateProperty.all<Color>(Warna().icon),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -59,7 +60,7 @@ class SplashLogin extends StatelessWidget {
               ),
               child: Text(
                 'LOGIN',
-                style: Font.style(fontSize: 18, color: Colors.white),
+                style: Font.style(fontSize: 18, color: Warna().putih),
               ),
             ),
           ],

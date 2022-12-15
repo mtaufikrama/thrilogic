@@ -28,13 +28,13 @@ class _KeranjangState extends State<Keranjang> {
     return Scaffold(
         backgroundColor: Warna().primer,
         appBar: AppBar(
-          leading: const BackButton(
-            color: Colors.white,
+          leading: BackButton(
+            color: Warna().putih,
           ),
           elevation: 0,
           title: Text(
             "Keranjang",
-            style: Font.style(color: Colors.white),
+            style: Font.style(color: Warna().putih),
           ),
           backgroundColor: Warna().first,
           foregroundColor: Warna().primer,
@@ -370,7 +370,7 @@ class _KeranjangState extends State<Keranjang> {
                                       child: Text(
                                         "Beli Semua",
                                         style: Font.style(
-                                            fontSize: 18, color: Colors.white),
+                                            fontSize: 18, color: Warna().putih),
                                       ),
                                     ),
                                   ),

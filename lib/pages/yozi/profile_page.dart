@@ -42,7 +42,7 @@ class Profile extends StatelessWidget {
                           Storages.getName().substring(0, 1).toUpperCase(),
                           style: Font.style(
                             fontSize: 35,
-                            color: Colors.white,
+                            color: Warna().putih,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -150,7 +150,7 @@ class Profile extends StatelessWidget {
                           },
                           child: Icon(
                             Icons.clear_rounded,
-                            color: Colors.white,
+                            color: Warna().putih,
                           ),
                           style: ElevatedButton.styleFrom(
                             shape: CircleBorder(),

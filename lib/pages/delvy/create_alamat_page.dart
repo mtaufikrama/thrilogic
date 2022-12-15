@@ -44,7 +44,7 @@ class _CreateAlamatState extends State<CreateAlamat> {
         elevation: 0,
         title: Text(
           "Tambah Alamat",
-          style: Font.style(color: Colors.white),
+          style: Font.style(color: Warna().putih),
         ),
         backgroundColor: Warna().first,
         centerTitle: false,
@@ -165,7 +165,7 @@ class _CreateAlamatState extends State<CreateAlamat> {
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Text(
                   "SIMPAN",
-                  style: Font.style(fontSize: 20, color: Colors.white),
+                  style: Font.style(fontSize: 20, color: Warna().putih),
                 ),
               ),
             ),

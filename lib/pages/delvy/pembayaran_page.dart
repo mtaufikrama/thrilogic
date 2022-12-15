@@ -35,7 +35,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
         elevation: 0,
         title: Text(
           "Pembayaran",
-          style: Font.style(color: Colors.white),
+          style: Font.style(color: Warna().putih),
         ),
         backgroundColor: Warna().first,
         centerTitle: false,
@@ -457,7 +457,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Text(
                       "BAYAR",
-                      style: Font.style(fontSize: 20, color: Colors.white),
+                      style: Font.style(fontSize: 20, color: Warna().putih),
                     ),
                   ),
                 ),

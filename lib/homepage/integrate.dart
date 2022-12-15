@@ -122,7 +122,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                               child: Center(
                                 child: Text(
                                   'TAP SCREEN',
-                                  style: Font.style(color: Colors.white),
+                                  style: Font.style(color: Warna().putih),
                                 ),
                               ),
                             ),
@@ -153,7 +153,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                   child: Center(
                     child: Text(
                       'DATA GAGAL DI PROSES',
-                      style: Font.style(color: Colors.white),
+                      style: Font.style(color: Warna().putih),
                     ),
                   ),
                 ),
@@ -212,7 +212,6 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                       tooltip: 'Restart Aplikasi',
                       onPressed: () async {
                         times!.cancel();
-                        await JsonFuture().logout();
                         Navigator.pushReplacement(
                           context,
                           WaveTransition(
@@ -235,7 +234,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                 children: [
                   Center(
                     child: CircularProgressIndicator(
-                      color: Colors.white,
+                      color: Warna().putih,
                     ),
                   ),
                   if (time == 10)

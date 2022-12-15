@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
-import 'package:lottie/lottie.dart';
 import 'package:thrilogic_shop/homepage/integrate.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
@@ -37,11 +36,11 @@ class OnBoarding extends StatelessWidget {
         'Lewati',
         style: Font.style(
           fontSize: 16,
-          color: Colors.white,
+          color: Warna().putih,
           fontWeight: FontWeight.w600,
         ),
       ),
-      controllerColor: Colors.white,
+      controllerColor: Warna().putih,
       finishButtonColor: Colors.white54,
       totalPage: 3,
       headerBackgroundColor: Warna().first,
@@ -75,7 +74,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
-                      color: Colors.white)),
+                      color: Warna().putih)),
               const SizedBox(
                 height: 20,
               ),
@@ -85,7 +84,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
-                      color: Colors.white)),
+                      color: Warna().putih)),
               const SizedBox(
                 height: 20,
               )
@@ -104,7 +103,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
-                      color: Colors.white)),
+                      color: Warna().putih)),
               const SizedBox(
                 height: 20,
               ),
@@ -114,7 +113,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
-                      color: Colors.white)),
+                      color: Warna().putih)),
               const SizedBox(
                 height: 20,
               )
@@ -133,7 +132,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
-                      color: Colors.white)),
+                      color: Warna().putih)),
               const SizedBox(
                 height: 20,
               ),
@@ -143,7 +142,7 @@ class OnBoarding extends StatelessWidget {
                   style: Font.style(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
-                      color: Colors.white)),
+                      color: Warna().putih)),
               const SizedBox(
                 height: 20,
               )
