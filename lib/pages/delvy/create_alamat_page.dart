@@ -124,7 +124,8 @@ class _CreateAlamatState extends State<CreateAlamat> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            color: Warna().primerCard,
+            padding: const EdgeInsets.all(15),
             child: TextButton(
               onPressed: () async {
                 if (jalan.text.isNotEmpty &&
@@ -136,6 +137,7 @@ class _CreateAlamatState extends State<CreateAlamat> {
                     provinsi: provinsi.text,
                     detailLainnya: detailLainnya.text,
                   );
+                  snackBar(context, text: 'Alamat Berhasil Ditambahkan');
                   Navigator.pushReplacement(
                     context,
                     WaveTransition(

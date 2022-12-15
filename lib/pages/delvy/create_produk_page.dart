@@ -115,7 +115,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                   controller: nama,
                   decoration: InputDecoration(
                     hintText: "Masukkan nama produk",
-                    hintStyle: Font.style(),
+                    hintStyle: Font.style(color: Colors.grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(11)),
                   ),
@@ -141,10 +141,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                   popupProps: const PopupProps.menu(),
                   selectedItem: listkategori[0],
                   dropdownDecoratorProps: DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                      hintText: "Pilih Kategori",
-                      hintStyle: Font.style(),
-                    ),
+                    baseStyle: Font.style(),
                   ),
                   dropdownButtonProps: DropdownButtonProps(color: Warna().font),
                 ),
@@ -161,7 +158,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                   controller: stok,
                   decoration: InputDecoration(
                     hintText: "Masukkan Jumlah Stok",
-                    hintStyle: Font.style(),
+                    hintStyle: Font.style(color: Colors.grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(11)),
                   ),
@@ -182,7 +179,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                   controller: deskripsi,
                   decoration: InputDecoration(
                     hintText: "Masukkan Deskripsi Produk",
-                    hintStyle: Font.style(),
+                    hintStyle: Font.style(color: Colors.grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(11)),
                   ),
@@ -202,7 +199,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                   controller: harga,
                   decoration: InputDecoration(
                     hintText: "Masukkan Harga Produk",
-                    hintStyle: Font.style(),
+                    hintStyle: Font.style(color: Colors.grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(11)),
                   ),
@@ -228,61 +225,58 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                         setState(() {});
                       }
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: SizedBox(
-                        height: 100,
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: file == null
-                              ? widget.image != null
-                                  ? Stack(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 1,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.network(
-                                              widget.image!,
-                                              fit: BoxFit.cover,
-                                            ),
+                    child: SizedBox(
+                      height: 100,
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: file == null
+                            ? widget.image != null
+                                ? Stack(
+                                    children: [
+                                      AspectRatio(
+                                        aspectRatio: 1,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                            widget.image!,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                        Center(
-                                          child: Icon(
-                                            Icons.refresh_rounded,
-                                            color: Warna().terang,
-                                            size: 30,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  : Assets.lainnyaIcon(
-                                      'add_image',
-                                    )
-                              : Stack(
-                                  children: [
-                                    AspectRatio(
-                                      aspectRatio: 1,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(
-                                          File(file!),
-                                          fit: BoxFit.cover,
+                                      ),
+                                      Center(
+                                        child: Icon(
+                                          Icons.refresh_rounded,
+                                          color: Warna().terang,
+                                          size: 30,
                                         ),
+                                      )
+                                    ],
+                                  )
+                                : Assets.lainnyaIcon(
+                                    'add_image',
+                                  )
+                            : Stack(
+                                children: [
+                                  AspectRatio(
+                                    aspectRatio: 1,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.file(
+                                        File(file!),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    Center(
-                                      child: Icon(
-                                        Icons.refresh_rounded,
-                                        color: Warna().terang,
-                                        size: 30,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                        ),
+                                  ),
+                                  Center(
+                                    child: Icon(
+                                      Icons.refresh_rounded,
+                                      color: Warna().terang,
+                                      size: 30,
+                                    ),
+                                  )
+                                ],
+                              ),
                       ),
                     ),
                   ),
@@ -291,8 +285,10 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
               ],
             ),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width - 20,
+          Container(
+            color: Warna().primerCard,
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(15),
             child: TextButton(
               onPressed: () async {
                 if (widget.category_id != null &&
@@ -300,14 +296,6 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                     widget.harga != null &&
                     widget.name != null &&
                     widget.stock != null) {
-                  // print('update barang');
-                  // print(widget.id);
-                  // print(nama.text);
-                  // print(categoryId);
-                  // print(file);
-                  // print(stok.text);
-                  // print(deskripsi.text);
-                  // print(harga.text);
                   if (file != null) {
                     UpdateBarang updateBarang = await JsonFuture().updateBarang(
                       id: widget.id.toString(),
@@ -320,11 +308,13 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                     );
                     snackBar(context,
                         text: updateBarang.info ?? 'TERJADI KESALAHAN');
-                    print(widget.id);
-                    print(updateBarang.data!.id);
                     if (updateBarang.code == '00' &&
                         updateBarang.data != null &&
-                        updateBarang.data!.id != null)
+                        updateBarang.data!.id != null) {
+                      await Notifikasi.notif(
+                          title: 'Update Produk',
+                          body:
+                              "${updateBarang.data!.name!} Berhasil Diperbaharui");
                       Navigator.pushReplacement(
                         context,
                         WaveTransition(
@@ -333,6 +323,7 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                           center: const FractionalOffset(0.5, 0),
                         ),
                       );
+                    }
                   } else {
                     snackBar(context, text: 'Image is Required');
                   }
@@ -350,7 +341,11 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                       text: createBarang.info ?? 'TERJADI KESALAHAN');
                   if (createBarang.code == '00' &&
                       createBarang.data != null &&
-                      createBarang.data!.id != null)
+                      createBarang.data!.id != null) {
+                    await Notifikasi.notif(
+                        title: 'Tambah Produk',
+                        body:
+                            "${createBarang.data!.name!} Berhasil ditambahkan");
                     Navigator.pushReplacement(
                       context,
                       WaveTransition(
@@ -359,11 +354,12 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                         center: const FractionalOffset(0.5, 0),
                       ),
                     );
+                  }
                 }
               },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.symmetric(vertical: 15)),
+                    const EdgeInsets.all(15)),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 backgroundColor: MaterialStateProperty.all<Color>(Warna().icon),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -384,9 +380,6 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          )
         ],
       ),
       // Column(

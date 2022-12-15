@@ -170,6 +170,11 @@ class _SignUpFormState extends State<SignUpForm> {
               );
               snackBar(context, text: register.info!);
               if (register.code == '00') {
+                await Notifikasi.notif(
+                  title: 'Daftar Akun',
+                  body:
+                      'Daftar dengan Email ${register.data!.user!.email} Berhasil',
+                );
                 Navigator.pushReplacement(
                   context,
                   WaveTransition(

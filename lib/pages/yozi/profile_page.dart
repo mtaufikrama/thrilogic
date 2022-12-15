@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
-import 'package:thrilogic_shop/API/object_class/auth.dart';
-import 'package:thrilogic_shop/homepage/integrate.dart';
 import 'package:thrilogic_shop/pages/delvy/create_produk_page.dart';
 import 'package:thrilogic_shop/pages/delvy/list_alamat_page.dart';
 import 'package:thrilogic_shop/pages/yozi/login_page.dart';
@@ -161,6 +159,11 @@ class Profile extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () async {
+                            await Notifikasi.notif(
+                              title: 'Logout Akun',
+                              body:
+                                  'Logout dari Akun ${Storages.getEmail()} Berhasil',
+                            );
                             await JsonFuture().logout();
                             snackBar(context, text: 'Logout Berhasil');
                             if (Storages.getToken().isEmpty) {

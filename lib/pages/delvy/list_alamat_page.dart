@@ -232,7 +232,7 @@ class _ListAlamatPageState extends State<ListAlamatPage> {
                       "TAMBAH ALAMAT",
                       style: Font.style(
                         fontSize: 20,
-                        color: Warna().primer,
+                        color: Colors.white,
                       ),
                     ),
                   ),

@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
-import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
 import 'package:thrilogic_shop/homepage/homepage.dart';

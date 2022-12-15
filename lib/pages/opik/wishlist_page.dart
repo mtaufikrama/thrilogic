@@ -158,8 +158,6 @@ class _WishListState extends State<WishList> {
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                           ),
-                                                          textAlign:
-                                                              TextAlign.justify,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 2,

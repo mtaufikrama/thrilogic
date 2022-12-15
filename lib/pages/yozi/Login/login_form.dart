@@ -116,6 +116,10 @@ class _LoginFormState extends State<LoginForm> {
                     .login(email: email.text, password: password.text);
                 snackBar(context, text: login.info!);
                 if (login.info == 'Login Berhasil') {
+                  await Notifikasi.notif(
+                    title: 'Login Akun',
+                    body: 'Login ke Akun ${login.data!.user!.email!} Berhasil',
+                  );
                   await Storages().setPassword(password: password.text);
                   Navigator.pushReplacement(
                     context,

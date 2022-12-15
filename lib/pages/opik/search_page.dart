@@ -50,186 +50,198 @@ class _SearchPageState extends State<SearchPage> {
             },
             decoration: InputDecoration(
               hintText: "Cari Nama Produk",
-              hintStyle: Font.style(fontSize: 16),
+              hintStyle: Font.style(fontSize: 16, fontStyle: FontStyle.italic),
             ),
           ),
         ),
       ),
-      body: search.text.isNotEmpty
-          ? FutureBuilder<GetBarang>(
-              future: JsonFuture().searchBarang(
-                search: search.text,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState != ConnectionState.waiting &&
-                    snapshot.data != null &&
-                    snapshot.data!.data != null) {
-                  List<DataGetBarang> dataBarang = snapshot.data!.data ?? [];
-                  return dataBarang.isEmpty
-                      ? Center(
-                          child: lottieAsset(
-                            'error',
-                            width: MediaQuery.of(context).size.width * 0.8,
-                          ),
-                        )
-                      : ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: dataBarang.length,
-                          itemBuilder: (context, index) {
-                            DataGetBarang barang = dataBarang[index];
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  WaveTransition(
-                                    duration: const Duration(milliseconds: 700),
-                                    child: ProdukPage(id: barang.id!),
-                                    center: const FractionalOffset(0.5, 0),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: search.text.isNotEmpty
+              ? FutureBuilder<GetBarang>(
+                  future: JsonFuture().searchBarang(
+                    search: search.text,
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData &&
+                        snapshot.connectionState != ConnectionState.waiting &&
+                        snapshot.data != null) {
+                      List<DataGetBarang> dataBarang =
+                          snapshot.data!.data ?? [];
+                      dataBarang.sort(
+                        (a, b) => a.name!.compareTo(b.name!),
+                      );
+                      return dataBarang.isEmpty || snapshot.data!.data == null
+                          ? Center(
+                              child: lottieAsset(
+                                'error',
+                                width: MediaQuery.of(context).size.width * 0.8,
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: dataBarang.length,
+                              itemBuilder: (context, index) {
+                                DataGetBarang barang = dataBarang[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      WaveTransition(
+                                        duration:
+                                            const Duration(milliseconds: 700),
+                                        child: ProdukPage(id: barang.id!),
+                                        center: const FractionalOffset(0.5, 0),
+                                      ),
+                                    );
+                                  },
+                                  child: Card(
+                                    color: Warna().primerCard,
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.network(
+                                              barang.image!,
+                                              fit: BoxFit.cover,
+                                              width: 70,
+                                              height: 70,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  barang.name!,
+                                                  style: Font.style(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  barang.category != null
+                                                      ? barang.category!.name!
+                                                      : 'null',
+                                                  style: Font.style(),
+                                                ),
+                                                Text(
+                                                  rupiah(barang.harga!),
+                                                  style: Font.style(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 );
                               },
-                              child: Card(
-                                color: Warna().primerCard,
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.network(
-                                          barang.image!,
-                                          fit: BoxFit.cover,
-                                          width: 70,
-                                          height: 70,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              barang.name!,
-                                              textAlign: TextAlign.justify,
-                                              style: Font.style(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            Text(
-                                              barang.category != null
-                                                  ? barang.category!.name!
-                                                  : 'null',
-                                              style: Font.style(),
-                                            ),
-                                            Text(
-                                              rupiah(barang.harga!),
-                                              style: Font.style(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                            );
+                    } else {
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height - 200,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Warna().terang,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: widget.listProducts.length,
+                  itemBuilder: (context, index) {
+                    List<ProductsGetKategoriById> listproducts =
+                        widget.listProducts;
+                    listproducts.sort((a, b) => a.name!.compareTo(b.name!));
+                    ProductsGetKategoriById barang = listproducts[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          WaveTransition(
+                            duration: const Duration(milliseconds: 700),
+                            child: ProdukPage(id: barang.id!),
+                            center: const FractionalOffset(0.5, 0),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        color: Warna().primerCard,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.network(
+                                  barang.image!,
+                                  fit: BoxFit.cover,
+                                  width: 60,
                                 ),
                               ),
-                            );
-                          },
-                        );
-                } else {
-                  return SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 200,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: Warna().terang,
-                      ),
-                    ),
-                  );
-                }
-              },
-            )
-          : ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: widget.listProducts.length,
-              itemBuilder: (context, index) {
-                ProductsGetKategoriById barang = widget.listProducts[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      WaveTransition(
-                        duration: const Duration(milliseconds: 700),
-                        child: ProdukPage(id: barang.id!),
-                        center: const FractionalOffset(0.5, 0),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      barang.name!,
+                                      style: Font.style(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      barang.deskripsi!,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Font.style(fontSize: 12),
+                                    ),
+                                    Text(
+                                      rupiah(barang.harga!),
+                                      style: Font.style(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     );
                   },
-                  child: Card(
-                    color: Warna().primerCard,
-                    elevation: 5,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.network(
-                              barang.image!,
-                              fit: BoxFit.cover,
-                              width: 60,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  barang.name!,
-                                  textAlign: TextAlign.justify,
-                                  style:
-                                      Font.style(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  barang.deskripsi!,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Font.style(fontSize: 12),
-                                ),
-                                Text(
-                                  rupiah(barang.harga!),
-                                  style:
-                                      Font.style(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                ),
+        ),
+      ),
     );
   }
 }

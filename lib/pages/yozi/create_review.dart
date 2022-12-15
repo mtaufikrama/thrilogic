@@ -162,7 +162,7 @@ class _CreateReviewPageState extends State<CreateReviewPage> {
                     rating.toInt();
                     CreateReview createReview = await JsonFuture().createReview(
                       id: widget.id.toString(),
-                      star: rating.toString(),
+                      star: rating.toInt().toString(),
                       review: pesan.text,
                       image: file!,
                     );
@@ -171,6 +171,10 @@ class _CreateReviewPageState extends State<CreateReviewPage> {
                             createReview.message ??
                             'TERJADI KESALAHAN');
                     if (createReview.code == '00') {
+                      await Notifikasi.notif(
+                          title: 'Review produk',
+                          body:
+                              "Terimakasih sudah Memberikan ${createReview.data!.star!} Star dengan review ${createReview.data!.review!}");
                       Navigator.pushReplacement(
                         context,
                         WaveTransition(

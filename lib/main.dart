@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/pages/roni/splashscreen.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 import 'package:thrilogic_shop/services/styles.dart';
 
 void main() async {
-  double a = 10.5;
-  print(a.floor());
   WidgetsFlutterBinding.ensureInitialized();
+  await Notifikasi.flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(Notifikasi.channel);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

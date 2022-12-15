@@ -423,7 +423,12 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       CreateTransaksi transaksi = await JsonFuture()
                           .createTransaksi(alamat: Storages.getAlamat());
                       snackBar(context, text: transaksi.info ?? 'GAGAL');
-                      if (transaksi.info != null) {
+                      if (transaksi.info != null && transaksi.code == '00') {
+                        await Notifikasi.notif(
+                          title: 'Transaksi',
+                          body:
+                              "${transaksi.data!.products!.first.name!} ${transaksi.data!.products!.length == 1 ? '' : 'dan lainnya'} Berhasil Diperoleh",
+                        );
                         cart.cart = 0;
                         // await Storages().setLengthCart(jumlah: 0);
                         Navigator.pushReplacement(

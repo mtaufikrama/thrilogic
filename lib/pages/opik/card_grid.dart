@@ -88,7 +88,6 @@ class CardGrid extends StatelessWidget {
                           Expanded(
                             child: Text(
                               listProducts[index].name!,
-                              textAlign: TextAlign.justify,
                               style: Font.style(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
