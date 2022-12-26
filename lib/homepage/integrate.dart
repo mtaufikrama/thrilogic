@@ -20,22 +20,6 @@ class IntegrateAPI extends StatefulWidget {
 }
 
 class _IntegrateAPIState extends State<IntegrateAPI> {
-  List<String> listIdKategori = [
-    '34',
-    '36',
-    '37',
-    '38',
-    '39',
-    '40',
-    '41',
-    '42',
-    '43',
-    '44',
-    '45',
-    '47',
-    '48',
-    '49',
-  ];
   List<DataGetKategoriById> listDataKategori = [];
   List<ProductsGetKategoriById> listProducts = [];
   Future<void>? addcart;
@@ -81,9 +65,9 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: listIdKategori.map((e) {
+                children: listkategori.map((e) {
                   return FutureBuilder<GetKategoriById>(
-                    future: JsonFuture().getKategoriById(id: e),
+                    future: JsonFuture().getKategoriById(id: e['id']),
                     builder: (context, snapshotGetKategoriById) {
                       if (snapshotGetKategoriById.hasData &&
                           snapshotGetKategoriById.connectionState !=
@@ -94,7 +78,7 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                             .add(snapshotGetKategoriById.data!.data!);
                         listProducts.addAll(
                             snapshotGetKategoriById.data!.data!.products!);
-                        if (listDataKategori.length == listIdKategori.length) {
+                        if (listDataKategori.length == listkategori.length) {
                           listProducts.shuffle();
                           times!.cancel();
                           return GestureDetector(

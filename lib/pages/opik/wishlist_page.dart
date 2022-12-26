@@ -106,19 +106,35 @@ class _WishListState extends State<WishList> {
                                       ),
                                       child: Column(
                                         children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: AspectRatio(
-                                              aspectRatio: 1,
-                                              child: Image.network(
-                                                dataWishlist[index].product !=
-                                                        null
-                                                    ? dataWishlist[index]
-                                                        .product!
-                                                        .image!
-                                                    : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
-                                                fit: BoxFit.cover,
+                                          GestureDetector(
+                                            onLongPress: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: Image.network(
+                                                      dataWishlist[index]
+                                                          .product!
+                                                          .image!,
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: AspectRatio(
+                                                aspectRatio: 1,
+                                                child: Image.network(
+                                                  dataWishlist[index].product !=
+                                                          null
+                                                      ? dataWishlist[index]
+                                                          .product!
+                                                          .image!
+                                                      : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -144,23 +160,31 @@ class _WishListState extends State<WishList> {
                                                             .spaceBetween,
                                                     children: [
                                                       Expanded(
-                                                        child: Text(
-                                                          dataWishlist[index]
-                                                                      .product !=
-                                                                  null
-                                                              ? dataWishlist[
-                                                                      index]
-                                                                  .product!
-                                                                  .name!
-                                                              : 'null',
-                                                          style: Font.style(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.w500,
+                                                        child: Tooltip(
+                                                          message: dataWishlist[
+                                                                  index]
+                                                              .product!
+                                                              .name!,
+                                                          child: Text(
+                                                            dataWishlist[index]
+                                                                        .product !=
+                                                                    null
+                                                                ? dataWishlist[
+                                                                        index]
+                                                                    .product!
+                                                                    .name!
+                                                                : 'null',
+                                                            style: Font.style(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxLines: 2,
                                                           ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 2,
                                                         ),
                                                       ),
                                                       const SizedBox(width: 5),
@@ -180,16 +204,21 @@ class _WishListState extends State<WishList> {
                                                                   'TERJADI KESALAHAN');
                                                           setState(() {});
                                                         },
-                                                        child: dataWishlist
-                                                                .isNotEmpty
-                                                            ? Assets.navbarIcon(
-                                                                'hearton')
-                                                            : Text(
-                                                                'err',
-                                                                style: Font.style(
-                                                                    color: Warna()
-                                                                        .shadow),
-                                                              ),
+                                                        child: Tooltip(
+                                                          message:
+                                                              "Tambah Ke Wishlist",
+                                                          child: dataWishlist
+                                                                  .isNotEmpty
+                                                              ? Assets
+                                                                  .navbarIcon(
+                                                                      'hearton')
+                                                              : Text(
+                                                                  'err',
+                                                                  style: Font.style(
+                                                                      color: Warna()
+                                                                          .shadow),
+                                                                ),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -254,43 +283,57 @@ class _WishListState extends State<WishList> {
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
-                                                              RatingBarIndicator(
-                                                                rating:
-                                                                    star.isNaN
-                                                                        ? 0
-                                                                        : star,
-                                                                itemSize: 15,
-                                                                unratedColor:
-                                                                    Colors.grey,
-                                                                itemBuilder:
-                                                                    (context,
-                                                                        index) {
-                                                                  return const Icon(
-                                                                    Icons.star,
-                                                                    color: Colors
-                                                                        .amber,
-                                                                  );
-                                                                },
+                                                              Tooltip(
+                                                                message:
+                                                                    "Rating Produk",
+                                                                child:
+                                                                    RatingBarIndicator(
+                                                                  rating: star
+                                                                          .isNaN
+                                                                      ? 0
+                                                                      : star,
+                                                                  itemSize: 15,
+                                                                  unratedColor:
+                                                                      Colors
+                                                                          .grey,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    return const Icon(
+                                                                      Icons
+                                                                          .star,
+                                                                      color: Colors
+                                                                          .amber,
+                                                                    );
+                                                                  },
+                                                                ),
                                                               ),
-                                                              AutoSizeText(
-                                                                datareview
-                                                                        .isNotEmpty
-                                                                    ? "${datareview.length} terjual"
-                                                                    : '',
-                                                                style:
-                                                                    Font.style(
-                                                                        fontSize:
-                                                                            12),
+                                                              Tooltip(
+                                                                message:
+                                                                    'Banyak Terjual',
+                                                                child:
+                                                                    AutoSizeText(
+                                                                  datareview
+                                                                          .isNotEmpty
+                                                                      ? "${datareview.length} terjual"
+                                                                      : '',
+                                                                  style: Font.style(
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
                                                               ),
                                                             ],
                                                           ),
                                                         );
                                                       } else {
-                                                        return Text(
-                                                          'err',
-                                                          style: Font.style(
-                                                              color: Warna()
-                                                                  .shadow),
+                                                        return Tooltip(
+                                                          message: 'Error',
+                                                          child: Text(
+                                                            'err',
+                                                            style: Font.style(
+                                                                color: Warna()
+                                                                    .shadow),
+                                                          ),
                                                         );
                                                       }
                                                     },
@@ -300,32 +343,48 @@ class _WishListState extends State<WishList> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      AutoSizeText(
-                                                        rupiah(dataWishlist[
+                                                      Tooltip(
+                                                        message: rupiah(
+                                                            dataWishlist[index]
+                                                                        .product !=
+                                                                    null
+                                                                ? dataWishlist[
                                                                         index]
-                                                                    .product !=
-                                                                null
-                                                            ? dataWishlist[
-                                                                    index]
-                                                                .product!
-                                                                .harga!
-                                                            : 0),
-                                                        style: Font.style(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                                    .product!
+                                                                    .harga!
+                                                                : 0),
+                                                        child: AutoSizeText(
+                                                          rupiah(dataWishlist[
+                                                                          index]
+                                                                      .product !=
+                                                                  null
+                                                              ? dataWishlist[
+                                                                      index]
+                                                                  .product!
+                                                                  .harga!
+                                                              : 0),
+                                                          style: Font.style(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                          maxLines: 1,
                                                         ),
-                                                        maxLines: 1,
                                                       ),
-                                                      KeranjangAdd(
-                                                        id: dataWishlist[index]
-                                                                    .product !=
-                                                                null
-                                                            ? dataWishlist[
-                                                                    index]
-                                                                .product!
-                                                                .id!
-                                                            : 0,
+                                                      Tooltip(
+                                                        message:
+                                                            'Tambah Ke Keranjang',
+                                                        child: KeranjangAdd(
+                                                          id: dataWishlist[
+                                                                          index]
+                                                                      .product !=
+                                                                  null
+                                                              ? dataWishlist[
+                                                                      index]
+                                                                  .product!
+                                                                  .id!
+                                                              : 0,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),

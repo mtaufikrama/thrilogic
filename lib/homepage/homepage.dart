@@ -54,7 +54,8 @@ class _HomePageState extends State<HomePage> {
                 toolbarHeight: 70,
                 elevation: 0,
                 backgroundColor: Warna().first,
-                title: Assets.logo(width: 130),
+                title: Tooltip(
+                    message: 'Logo ThriLogic', child: Assets.logo(width: 130)),
                 actions: [
                   GestureDetector(
                     onTap: () {
@@ -69,7 +70,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    child: Assets.appbarIcon('search', width: 25),
+                    child: Tooltip(
+                        message: 'Cari Produk',
+                        child: Assets.appbarIcon('search', width: 25)),
                   ),
                   const SizedBox(
                     width: 17,
@@ -97,7 +100,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               );
                             },
-                            child: Assets.appbarIcon('cart'),
+                            child: Tooltip(
+                                message: 'Keranjang',
+                                child: Assets.appbarIcon('cart')),
                           ),
                         )
                       : GestureDetector(
@@ -113,33 +118,38 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           },
-                          child: Assets.appbarIcon('cart', width: 25),
+                          child: Tooltip(
+                              message: 'Keranjang',
+                              child: Assets.appbarIcon('cart', width: 25)),
                         ),
                   const SizedBox(
                     width: 10,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: DayNightSwitcherIcon(
-                      isDarkModeEnabled: nightmode,
-                      onStateChanged: (isDarkModeEnabled) async {
-                        await Storages().setNightMode(
-                          nightMode: nightmode == false ? true : false,
-                        );
-                        Navigator.pushReplacement(
-                          context,
-                          WaveTransition(
-                            duration: const Duration(milliseconds: 500),
-                            child: HomePage(
-                              listProducts: widget.listProducts,
-                              listDataKategori: widget.listDataKategori,
-                              getkeranjang: widget.getkeranjang,
-                              selectedIndex: widget.selectedIndex,
+                  Tooltip(
+                    message: "Night Mode / Light Mode",
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: DayNightSwitcherIcon(
+                        isDarkModeEnabled: nightmode,
+                        onStateChanged: (isDarkModeEnabled) async {
+                          await Storages().setNightMode(
+                            nightMode: nightmode == false ? true : false,
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            WaveTransition(
+                              duration: const Duration(milliseconds: 500),
+                              child: HomePage(
+                                listProducts: widget.listProducts,
+                                listDataKategori: widget.listDataKategori,
+                                getkeranjang: widget.getkeranjang,
+                                selectedIndex: widget.selectedIndex,
+                              ),
+                              center: const FractionalOffset(0.9, 0.0),
                             ),
-                            center: const FractionalOffset(0.9, 0.0),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],

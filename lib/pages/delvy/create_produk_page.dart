@@ -44,23 +44,6 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
   String? file;
   String categoryId = "34";
   GetBarang? cekmessage;
-  List<List<String>> listkategori = [
-    ["Kemeja Wanita", "34"],
-    ["Blouse Wanita", "36"],
-    ["Henley Top Wanita", "37"],
-    ["Cropped Top Wanita", "38"],
-    ["Kaos Wanita", "39"],
-    ["Hoodie Wanita", "40"],
-    ["Joger Pants Wanita", "41"],
-    ["Kulot Wanita", "42"],
-    ["Hoodie Pria", "43"],
-    ["Kemeja Pria", "44"],
-    ["Kaos Pria", "45"],
-    ["Henley Top Pria", "46"],
-    ["Jeans Pria", "47"],
-    ["Joger Pants Pria", "48"],
-    ["Sweater Pria", "49"],
-  ];
 
   @override
   void initState() {
@@ -133,16 +116,33 @@ class _CreateUpdateProdukPageState extends State<CreateUpdateProdukPage> {
                 DropdownSearch(
                   items: listkategori,
                   onChanged: (value) {
-                    categoryId = value[1];
+                    categoryId = value['id'];
+                    print(categoryId);
                   },
                   itemAsString: (item) {
-                    return item[0];
+                    return item['name'];
                   },
-                  popupProps: const PopupProps.menu(),
-                  selectedItem: listkategori[0],
-                  dropdownDecoratorProps: DropDownDecoratorProps(
-                    baseStyle: Font.style(),
+                  popupProps: PopupProps.menu(
+                    listViewProps: ListViewProps(),
+                    itemBuilder: (context, dynamic item, isSelected) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(vertical: 0.5),
+                        padding: EdgeInsets.all(20),
+                        color: Warna().primerCard,
+                        child: Text(
+                          item['name'],
+                          style: Font.style(),
+                        ),
+                      );
+                    },
                   ),
+                  selectedItem: listkategori[0],
+                  dropdownBuilder: (context, selectedItem) {
+                    return Text(
+                      selectedItem['name'],
+                      style: Font.style(),
+                    );
+                  },
                   dropdownButtonProps: DropdownButtonProps(color: Warna().font),
                 ),
                 const SizedBox(height: 15),

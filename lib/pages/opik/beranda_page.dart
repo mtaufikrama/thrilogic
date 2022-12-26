@@ -63,15 +63,26 @@ class Beranda extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                 ),
                 items: ['1', '2', '3', '4', '5'].map((i) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: BoxDecoration(
-                        color: Warna().icon,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Assets.onboarding('gambar$i')),
+                  return GestureDetector(
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                              title: Assets.onboarding('gambar$i'));
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                          color: Warna().icon,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Assets.onboarding('gambar$i')),
+                    ),
                   );
                 }).toList(),
               ),
@@ -112,35 +123,40 @@ class Beranda extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: SizedBox(
-                                  height: 90,
-                                  width: 70,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor: Warna().primer,
-                                        backgroundImage: NetworkImage(
-                                          kategori.products!.isNotEmpty
-                                              ? kategori.products!.first.image!
-                                              : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                              child: Tooltip(
+                                message: kategori.name!,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: SizedBox(
+                                    height: 90,
+                                    width: 70,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 25,
+                                          backgroundColor: Warna().primer,
+                                          backgroundImage: NetworkImage(
+                                            kategori.products!.isNotEmpty
+                                                ? kategori
+                                                    .products!.first.image!
+                                                : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        kategori.name!,
-                                        textAlign: TextAlign.center,
-                                        style: Font.style(fontSize: 10),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ],
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          kategori.name!,
+                                          textAlign: TextAlign.center,
+                                          style: Font.style(fontSize: 10),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -208,13 +224,27 @@ class Beranda extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Image.network(
-                                listProducts[index].image!,
-                                fit: BoxFit.cover,
+                          GestureDetector(
+                            onLongPress: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Image.network(
+                                      listProducts[index].image!,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: Image.network(
+                                  listProducts[index].image!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
@@ -230,22 +260,31 @@ class Beranda extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    listProducts[index].name!,
-                                    style: Font.style(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
+                                  Expanded(
+                                    child: Tooltip(
+                                      message: listProducts[index].name!,
+                                      child: Text(
+                                        listProducts[index].name!,
+                                        style: Font.style(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
                                   ),
-                                  AutoSizeText(
-                                    rupiah(listProducts[index].harga!),
-                                    style: Font.style(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                  Tooltip(
+                                    message: rupiah(listProducts[index].harga!),
+                                    child: AutoSizeText(
+                                      rupiah(listProducts[index].harga!),
+                                      style: Font.style(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 1,
                                     ),
-                                    maxLines: 1,
                                   ),
                                 ],
                               ),

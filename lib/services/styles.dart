@@ -148,3 +148,62 @@ class Notifikasi {
 }
 
 const double defaultPadding = 16.0;
+
+const List<Map<String, dynamic>> listkategori = [
+  {
+    'id': '5',
+    'name': 'Kemeja Wanita',
+  },
+  {
+    'id': '6',
+    'name': 'Blouse Wanita',
+  },
+  {
+    'id': '7',
+    'name': 'Henley Top Wanita',
+  },
+  {
+    'id': '8',
+    'name': 'Cropped Top Wanita',
+  },
+  {
+    'id': '9',
+    'name': 'Kaos Wanita',
+  },
+  {
+    'id': '10',
+    'name': 'Hoodie Wanita',
+  },
+  {
+    'id': '11',
+    'name': 'Joger Wanita',
+  },
+  {
+    'id': '12',
+    'name': 'Kulot Wanita',
+  },
+  {
+    'id': '13',
+    'name': 'Kemeja Pria',
+  },
+  {
+    'id': '14',
+    'name': 'Kaos Pria',
+  },
+  {
+    'id': '15',
+    'name': 'Hoodie Pria',
+  },
+  {
+    'id': '16',
+    'name': 'Sweater Pria',
+  },
+  {
+    'id': '17',
+    'name': 'Jeans Pria',
+  },
+  {
+    'id': '18',
+    'name': 'Joger Pria',
+  },
+];

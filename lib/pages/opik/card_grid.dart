@@ -60,13 +60,27 @@ class CardGrid extends StatelessWidget {
           ),
           child: Column(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.network(
-                    listProducts[index].image!,
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onLongPress: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Image.network(
+                          listProducts[index].image!,
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.network(
+                      listProducts[index].image!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -86,38 +100,55 @@ class CardGrid extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Text(
-                              listProducts[index].name!,
-                              style: Font.style(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
+                            child: Tooltip(
+                              message: listProducts[index].name!,
+                              child: Text(
+                                listProducts[index].name!,
+                                style: Font.style(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
                             ),
                           ),
                           const SizedBox(width: 5),
-                          WishlistAdd(
-                            id: listProducts[index].id!,
+                          Tooltip(
+                            message: "Tambah Ke Wishlist",
+                            child: WishlistAdd(
+                              id: listProducts[index].id!,
+                            ),
                           ),
                         ],
                       ),
-                      ReviewStar(
-                        id: listProducts[index].id!,
+                      Tooltip(
+                        message: 'Rating Produk',
+                        child: ReviewStar(
+                          id: listProducts[index].id!,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AutoSizeText(
-                            rupiah(listProducts[index].harga!),
-                            style: Font.style(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: Tooltip(
+                              message: listProducts[index].harga!.toString(),
+                              child: AutoSizeText(
+                                rupiah(listProducts[index].harga!),
+                                style: Font.style(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                              ),
                             ),
-                            maxLines: 1,
                           ),
-                          KeranjangAdd(
-                            id: listProducts[index].id!,
+                          Tooltip(
+                            message: 'Tambah Ke Keranjang',
+                            child: KeranjangAdd(
+                              id: listProducts[index].id!,
+                            ),
                           ),
                         ],
                       ),

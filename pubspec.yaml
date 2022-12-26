@@ -53,6 +53,7 @@ dependencies:
   provider: ^6.0.4
   flutter_local_notifications: ^12.0.4
   double_back_to_close: ^2.0.0
+  translator: ^0.1.7
   # intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
   # modal_bottom_sheet: ^2.1.2    # untuk menculin layar setengah
   # awesome_dialog: ^3.0.2        # untuk munculin dialog agar keren
@@ -76,9 +77,9 @@ flutter_app_name:
   name: "ThriLogic"
 
 flutter_icons:
-  android: "application_icon"
+  android: "icon_app"
   ios: true
-  image_path: "assets/logo/logoaplikasi.png"
+  image_path: "assets/logo/logo_update.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

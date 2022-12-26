@@ -71,7 +71,7 @@ class Profile extends StatelessWidget {
               ],
             ),
             SizedBox(height: 25),
-            Storages.getName() != 'admin'
+            Storages.getName() != 'Admin 2'
                 ? GestureDetector(
                     onTap: () {
                       Navigator.push(

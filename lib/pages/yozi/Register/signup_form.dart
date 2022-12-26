@@ -60,39 +60,39 @@ class _SignUpFormState extends State<SignUpForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
-              controller: email,
+              controller: notelp,
               style: Font.style(),
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               cursorColor: Warna().font,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: "Masukan email kamu",
+                hintText: "Masukan No.Tlpn kamu",
                 hintStyle: Font.style(fontSize: 16, color: Colors.grey),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(defaultPadding),
-                  child: Assets.registerIcon('sms'),
+                  child: Assets.registerIcon('call'),
                 ),
               ),
             ),
           ),
           TextFormField(
-            controller: notelp,
+            controller: email,
             style: Font.style(),
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: Warna().font,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Masukan No.Tlpn kamu",
+              hintText: "Masukan email kamu",
               hintStyle: Font.style(fontSize: 16, color: Colors.grey),
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
-                child: Assets.registerIcon('call'),
+                child: Assets.registerIcon('sms'),
               ),
             ),
           ),

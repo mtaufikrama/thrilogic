@@ -11,10 +11,10 @@ import 'package:thrilogic_shop/API/object_class/wishlist.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 
 class JsonFuture {
-  String baseUrl = 'https://api1.sib3.nurulfikri.com';
+  String baseUrl = 'https://aki.nurulfikri.com';
   String token = Storages.getToken().isNotEmpty
       ? Storages.getToken()
-      : '3092|vK3E8O1r6sv8mQIsVWHx1D4Ba3wByZ8eYdGnhVk7';
+      : '16|pQHoV9LRN2SPWFBYTwGkixSVINWGkmiaetIXbid3';
 
   Future<Login> login({
     required String email,

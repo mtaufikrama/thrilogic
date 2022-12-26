@@ -409,7 +409,7 @@ class _ProdukPage extends State<ProdukPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
-                          child: nama == 'admin'
+                          child: nama == 'Admin 2'
                               ? Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
