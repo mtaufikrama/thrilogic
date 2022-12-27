@@ -49,13 +49,12 @@ class Storages {
 
   Future<void> setListAlamat({
     required String jalan,
-    required String kelurahan,
-    required String provinsi,
+    required String danlainlain,
     required String detailLainnya,
   }) async {
     List<dynamic> alamat = Storages.getListAlamat();
     alamat.add(
-        '$jalan \n$kelurahan, $provinsi${detailLainnya.isNotEmpty ? ", (Catatan : $detailLainnya)" : ''}');
+        '$jalan \n$danlainlain ${detailLainnya.isNotEmpty ? "(Catatan : $detailLainnya)" : ''}');
     await storages.deleteItem('listAlamat');
     await storages.setItem('listAlamat', alamat);
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:thrilogic_shop/API/object_class/alamat.dart';
 import 'package:thrilogic_shop/API/object_class/auth.dart';
 import 'package:thrilogic_shop/API/object_class/barang.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
@@ -102,6 +103,13 @@ class JsonFuture {
       'Authorization': 'Bearer $token',
     });
     return GetBarangById.fromJson(jsonDecode(response.body));
+  }
+
+  Future<Alamat> getAlamat(String search) async {
+    final response = await http.get(
+      Uri.parse('https://kodepos.vercel.app/search/?q=$search'),
+    );
+    return Alamat.fromJson(jsonDecode(response.body));
   }
 
   Future<CreateBarang> createBarang({
