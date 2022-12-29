@@ -3,6 +3,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:teledart/teledart.dart';
+import 'package:teledart/telegram.dart';
 import 'package:thrilogic_shop/services/local_storages.dart';
 
 class Warna {
@@ -113,6 +115,14 @@ LottieBuilder lottieAsset(
     width: width,
     onLoaded: onLoaded,
   );
+}
+
+void teleThrilo(String text) async {
+  String botToken = '5843234489:AAEbX-vvGACwZjiRyuJ65euhHYmXcT5SxEs';
+  String? username = (await Telegram(botToken).getMe()).username;
+  TeleDart teledart = TeleDart(botToken, Event(username!));
+  teledart.start();
+  await teledart.sendMessage(1304468509, text);
 }
 
 class Notifikasi {

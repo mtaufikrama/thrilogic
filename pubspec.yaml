@@ -51,10 +51,13 @@ dependencies:
   flutter_onboarding_slider: ^1.0.8
   lottie: ^2.0.0
   provider: ^6.0.4
+  device_info_plus: ^4.0.0
   flutter_local_notifications: ^12.0.4
   double_back_to_close: ^2.0.0
   translator: ^0.1.7
   search_page: ^2.2.0
+  teledart: ^0.3.4
+  # device_info_plus: 
   # intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
   # modal_bottom_sheet: ^2.1.2    # untuk menculin layar setengah
   # awesome_dialog: ^3.0.2        # untuk munculin dialog agar keren

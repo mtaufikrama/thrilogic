@@ -38,6 +38,12 @@ class Storages {
     await storages.setItem('email', email);
   }
 
+  Future<void> setCounterApp() async {
+    int getCounter = Storages.getCounterApp();
+    await storages.deleteItem('counterApp');
+    await storages.setItem('counterApp', getCounter + 1);
+  }
+
   Future<void> setPassword({required String password}) async {
     await storages.deleteItem('password');
     await storages.setItem('password', password);
@@ -77,4 +83,5 @@ class Storages {
   static String getAlamat() => storages.getItem('alamat') ?? '';
   static bool getNightMode() => storages.getItem('nightMode') ?? false;
   static bool getIntroSlider() => storages.getItem('introSlider') ?? false;
+  static int getCounterApp() => storages.getItem('counterApp') ?? 0;
 }

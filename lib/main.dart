@@ -1,4 +1,5 @@
-import 'package:double_back_to_close/double_back_to_close.dart';
+import 'dart:async';
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,20 +17,21 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then(
-    (_) {
-      runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => Cart(),
-            ),
-          ],
-          child: const MyApp(),
-        ),
-      );
-    },
-  );
+  ]);
+  runZonedGuarded(() {
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => Cart(),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    );
+  }, (dynamic error, dynamic stack) {
+    developer.log("Something went wrong!", error: error, stackTrace: stack);
+  });
 }
 
 class MyApp extends StatefulWidget {
