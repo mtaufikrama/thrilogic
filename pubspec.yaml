@@ -57,6 +57,7 @@ dependencies:
   translator: ^0.1.7
   search_page: ^2.2.0
   teledart: ^0.3.4
+  animated_size_and_fade: ^3.0.0
   # device_info_plus: 
   # intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
   # modal_bottom_sheet: ^2.1.2    # untuk menculin layar setengah

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
@@ -180,18 +181,22 @@ class _GambarReviewState extends State<GambarReview> {
           tampilgambar = !tampilgambar;
         });
       },
-      child: tampilgambar
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(widget.image),
-            )
-          : AspectRatio(
-              aspectRatio: 3 / 1,
-              child: Image.network(
-                widget.image,
-                fit: BoxFit.cover,
+      child: AnimatedSizeAndFade(
+        sizeCurve: Curves.fastOutSlowIn,
+        fadeDuration: Duration(),
+        child: tampilgambar
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(widget.image),
+              )
+            : AspectRatio(
+                aspectRatio: 3 / 1,
+                child: Image.network(
+                  widget.image,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
+      ),
     );
   }
 }
