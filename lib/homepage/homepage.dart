@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as b;
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +27,9 @@ class HomePage extends StatefulWidget {
     required this.getkeranjang,
     required this.selectedIndex,
   });
-  List<ProductsGetKategoriById> listProducts;
-  List<DataGetKategoriById> listDataKategori;
-  GetKeranjang getkeranjang;
+  final List<ProductsGetKategoriById> listProducts;
+  final List<DataGetKategoriById> listDataKategori;
+  final GetKeranjang getkeranjang;
   int selectedIndex;
 
   @override
@@ -78,9 +78,9 @@ class _HomePageState extends State<HomePage> {
                     width: 17,
                   ),
                   nama.isNotEmpty && cart.cart != 0
-                      ? Badge(
+                      ? b.Badge(
                           badgeColor: Warna().font,
-                          position: BadgePosition.topEnd(
+                          position: b.BadgePosition.topEnd(
                             top: 5,
                             end: -5,
                           ),

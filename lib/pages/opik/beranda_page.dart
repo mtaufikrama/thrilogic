@@ -25,6 +25,56 @@ class Beranda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> listKategori = listDataKategori.map(
+      (kategori) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              WaveTransition(
+                duration: const Duration(milliseconds: 700),
+                child: KategoriPage(id: kategori.id.toString()),
+                center: const FractionalOffset(0.5, 0),
+              ),
+            );
+          },
+          child: Tooltip(
+            message: kategori.name!,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: SizedBox(
+                height: 90,
+                width: 70,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Warna().primer,
+                      backgroundImage: NetworkImage(
+                        kategori.products!.isNotEmpty
+                            ? kategori.products!.first.image!
+                            : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      kategori.name!,
+                      textAlign: TextAlign.center,
+                      style: Font.style(fontSize: 10),
+                      maxLines: 2,
+                      overflow: TextOverflow.clip,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ).toList();
     return RefreshIndicator(
       onRefresh: () {
         return Future.delayed(
@@ -52,9 +102,6 @@ class Beranda extends StatelessWidget {
                 options: CarouselOptions(
                   viewportFraction: 0.9,
                   aspectRatio: 3,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
                   autoPlay: true,
                   autoPlayInterval: const Duration(seconds: 5),
                   autoPlayAnimationDuration: const Duration(seconds: 1),
@@ -109,60 +156,7 @@ class Beranda extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
-                        children: listDataKategori.map(
-                          (kategori) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  WaveTransition(
-                                    duration: const Duration(milliseconds: 700),
-                                    child: KategoriPage(
-                                        id: kategori.id.toString()),
-                                    center: const FractionalOffset(0.5, 0),
-                                  ),
-                                );
-                              },
-                              child: Tooltip(
-                                message: kategori.name!,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: SizedBox(
-                                    height: 90,
-                                    width: 70,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 25,
-                                          backgroundColor: Warna().primer,
-                                          backgroundImage: NetworkImage(
-                                            kategori.products!.isNotEmpty
-                                                ? kategori
-                                                    .products!.first.image!
-                                                : "https://media.istockphoto.com/id/1152715842/vector/letter-tt-t-t-icon-logo-vector.jpg?b=1&s=612x612&w=0&k=20&c=OoBteZJSVPC9iaV-hVimZ_kw0J2vKqGJThu8f8LZ8NY=",
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          kategori.name!,
-                                          textAlign: TextAlign.center,
-                                          style: Font.style(fontSize: 10),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.clip,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ).toList(),
+                        children: listKategori,
                       ),
                     ),
                   ),

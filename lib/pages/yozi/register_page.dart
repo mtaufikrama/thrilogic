@@ -14,7 +14,8 @@ class SignUpScreen extends StatelessWidget {
         backgroundColor: Warna().primer,
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Responsive(
+          child: responsive(
+            context,
             mobile: const MobileSignupScreen(),
             desktop: Row(
               children: [

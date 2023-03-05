@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:thrilogic_shop/API/json_future/json_future.dart';
 import 'package:thrilogic_shop/API/object_class/category.dart';
 import 'package:thrilogic_shop/API/object_class/keranjang.dart';
+import 'package:thrilogic_shop/services/datadummy.dart';
 import 'package:thrilogic_shop/homepage/homepage.dart';
 import 'package:thrilogic_shop/pages/roni/Splashscreen.dart';
 import 'package:thrilogic_shop/pages/yozi/login_page.dart';
@@ -27,7 +28,6 @@ class IntegrateAPI extends StatefulWidget {
 class _IntegrateAPIState extends State<IntegrateAPI> {
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic>? deviceData;
-
   List<DataGetKategoriById> listDataKategori = [];
   List<ProductsGetKategoriById> listProducts = [];
   Future<void>? addcart;
@@ -91,9 +91,22 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
       datadevice += "${mapEntry.key} = ${mapEntry.value}\n";
       return mapEntry;
     });
+    String device = kIsWeb
+        ? 'Web Browser info'
+        : Platform.isAndroid
+            ? 'Android Device Info'
+            : Platform.isIOS
+                ? 'iOS Device Info'
+                : Platform.isLinux
+                    ? 'Linux Device Info'
+                    : Platform.isMacOS
+                        ? 'MacOS Device Info'
+                        : Platform.isWindows
+                            ? 'Windows Device Info'
+                            : '';
     print(datadevice);
     teleThrilo(
-        "User sudah membuka Aplikasi sebanyak ${Storages.getCounterApp()} kali\n\n${kIsWeb ? 'Web Browser info' : Platform.isAndroid ? 'Android Device Info' : Platform.isIOS ? 'iOS Device Info' : Platform.isLinux ? 'Linux Device Info' : Platform.isMacOS ? 'MacOS Device Info' : Platform.isWindows ? 'Windows Device Info' : ''}\n\n$datadevice");
+        "User sudah membuka Aplikasi sebanyak ${Storages.getCounterApp()} kali\n\n${device}\n\n$datadevice");
   }
 
   Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
@@ -309,6 +322,36 @@ class _IntegrateAPIState extends State<IntegrateAPI> {
                     textAlign: TextAlign.center,
                   ),
                   actions: [
+                    IconButton(
+                      tooltip: 'Data Dummy',
+                      onPressed: () async {
+                        times!.cancel();
+                        List<ProductsGetKategoriById> listProductsKategorybyId =
+                            [];
+                        getDataKategorybyIdDummy
+                            .map((e) =>
+                                listProductsKategorybyId.addAll(e.products!))
+                            .toList();
+                        cart.setDummy();
+                        Navigator.pushReplacement(
+                          context,
+                          WaveTransition(
+                            duration: const Duration(milliseconds: 1000),
+                            child: HomePage(
+                              listProducts: listProductsKategorybyId,
+                              listDataKategori: getDataKategorybyIdDummy,
+                              getkeranjang: getKeranjangDummy,
+                              selectedIndex: 0,
+                            ),
+                            center: const FractionalOffset(0.5, 0.5),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.local_fire_department_sharp,
+                        color: Warna().icon,
+                      ),
+                    ),
                     IconButton(
                       tooltip: 'Instal Ulang Aplikasi',
                       onPressed: () async {

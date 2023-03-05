@@ -84,8 +84,15 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar(
 
 class Cart with ChangeNotifier {
   int _cart = 0;
+  bool _dummy = false;
 
   int get cart => _cart;
+  bool get dummy => _dummy;
+
+  void setDummy() {
+    _dummy = true;
+    notifyListeners();
+  }
 
   set addcart(int value) {
     cart += value;

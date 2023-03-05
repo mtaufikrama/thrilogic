@@ -29,54 +29,39 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  animated_size_and_fade: ^3.0.0
+  auto_size_text: ^3.0.0
+  badges: ^2.0.3
+  carousel_slider: ^4.1.1
+  cupertino_icons: ^1.0.2
+  day_night_switcher: ^0.2.0+1
+  device_info_plus: ^4.0.0
+  double_back_to_close: ^2.0.0
+  dropdown_search: ^5.0.3
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  google_fonts: ^3.0.1          # untuk font
-  badges: ^2.0.3                # untuk membuat notifikasi pada icon
-  intl: ^0.17.0                 # untuk angka currency atau pun jam
-  flutter_rating_bar: ^4.0.1    # untuk membuat rating
-  localstorage: ^4.0.0+1        # untuk menyimpan data ke local
-  http: ^0.13.5                 # untuk mengkoneksi API
-  carousel_slider: ^4.1.1       # untuk membuat tabbar dengan animasi
-  wave_transition: ^0.0.6       # untuk transisi seperti bergelombang
-  auto_size_text: ^3.0.0        # untuk menghindari overflow
-  dropdown_search: ^5.0.3       # untuk list produk saat pencarian
-  day_night_switcher: ^0.2.0+1  # switch mode night
-  image_picker: ^0.8.6          # untuk mengambil gambar, video
+  flutter_local_notifications: ^12.0.4
   flutter_onboarding_slider: ^1.0.8
+  flutter_rating_bar: ^4.0.1
+  google_fonts: ^3.0.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  http: ^0.13.5
+  image_picker: ^0.8.6
+  intl: ^0.17.0
+  localstorage: ^4.0.0+1
   lottie: ^2.0.0
   provider: ^6.0.4
-  device_info_plus: ^4.0.0
-  flutter_local_notifications: ^12.0.4
-  double_back_to_close: ^2.0.0
-  translator: ^0.1.7
   search_page: ^2.2.0
   teledart: ^0.3.4
-  animated_size_and_fade: ^3.0.0
-  # device_info_plus: 
-  # intro_screen_onboarding_flutter: ^1.0.0 # untuk intro slider
-  # modal_bottom_sheet: ^2.1.2    # untuk menculin layar setengah
-  # awesome_dialog: ^3.0.2        # untuk munculin dialog agar keren
-  # animated_splash_screen: ^1.3.0
-  # pull_to_refresh: ^2.0.0
-  # animated_flip_counter: ^0.2.5 # untuk menggerakkan angka
-  # add_to_cart_animation: ^1.0.1 # untuk membuat animasi pada cart
-  # readmore: ^2.2.0              # untuk membuat readmore ataupun baca selengkapnya
-  # page_transition: ^2.0.9       # untuk transisi halaman
-  # intro_slider: ^4.2.0          # on boarding
-  # shimmer: ^2.0.0               # tampilan loading
-
+  translator: ^0.1.7
+  wave_transition: ^0.0.6
 
 dev_dependencies:
+  flutter_app_name: ^0.1.0
+  flutter_launcher_icons: "^0.11.0"
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.11.0"
-  flutter_app_name: ^0.1.0
 
 flutter_app_name:
   name: "ThriLogic"
@@ -95,7 +80,6 @@ flutter_icons:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -115,13 +99,10 @@ flutter:
     - assets/lottie/
     - assets/img/
   #   - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
